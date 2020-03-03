@@ -1,0 +1,22 @@
+<nz-row>
+  <nz-col nzSpan="8">
+    <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
+  </nz-col>
+</nz-row>
+<nz-row>
+  <nz-col nzSpan="8">
+    <ng-container *ngIf="buttonTemplate else defaultButtonTemplate">
+      <ng-container *nzStringTemplateOutlet="buttonTemplate">{{buttonTemplate}}</ng-container>
+    </ng-container>
+    <ng-template #defaultButtonTemplate>
+      <button>
+        Add
+      </button>
+    </ng-template>
+  </nz-col>
+</nz-row>
+<nz-row>
+  <nz-col nzSpan="8">
+    <ng-container *ngTemplateOutlet="bodyTemplate"></ng-container>
+  </nz-col>
+</nz-row>

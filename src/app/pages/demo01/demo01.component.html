@@ -1,0 +1,18 @@
+<ng-template #body>
+  <form [formGroup]="formGroup">
+    name: <input type=" text" formControlName="name">
+  </form>
+</ng-template>
+<ng-template #header>
+  <div>
+    <a [routerLink]="['']">got to /</a>
+  </div>
+</ng-template>
+
+<app-list-layout [headerTemplate]="header" [bodyTemplate]="body" [buttonTemplate]="button">
+
+</app-list-layout>
+
+<ng-template #button>
+  <a>button </a>
+</ng-template>
