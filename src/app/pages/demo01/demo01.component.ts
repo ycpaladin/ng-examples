@@ -33,6 +33,7 @@ export class Demo01Component implements OnInit {
 
   data$: Observable<number>;
 
+  data;
   t = true;
   constructor(private fb: FormBuilder, private service: CommonService1Service) {
     this.formGroup = this.fb.group({
@@ -45,6 +46,9 @@ export class Demo01Component implements OnInit {
     this.status.subscribe(console.log);
 
     this.data$ = this.service.getData();
+    // if (1 == 1) {
+
+    // }
   }
 
   asyncValidator = (control: AbstractControl) => {
