@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { Service1Service } from './services/service1.service';
 import { CommonsModule } from 'src/app/modules/common/common.module';
+import { NzInputModule } from 'ng-zorro-antd/input';
 
 const routes: Routes = [
   {
@@ -20,7 +21,8 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     ReactiveFormsModule,
-    CommonsModule
+    CommonsModule,
+    NzInputModule
   ],
   // providers: [
   //   Service1Service

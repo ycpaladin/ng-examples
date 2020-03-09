@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/welcome' },
@@ -8,11 +8,17 @@ const routes: Routes = [
   { path: 'demo02', loadChildren: () => import('./pages/demo02/demo02.module').then(m => m.Demo02Module) },
   { path: 'demo03', loadChildren: () => import('./pages/demo03/demo03.module').then(m => m.Demo03Module) },
   { path: 'demo04', loadChildren: () => import('./pages/demo04/demo04.module').then(m => m.Demo04Module) },
+  {
+    path: 'demo05',
+    loadChildren: () => import('./pages/demo05/demo05.module').then(m => m.Demo05Module),
+
+  },
 
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
+  // imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

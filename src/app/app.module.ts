@@ -14,9 +14,6 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NZ_I18N, zh_CN } from 'ng-zorro-antd/i18n';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { Demo02Module } from './pages/demo02/demo02.module';
-import { Demo04Module } from './pages/demo04/demo04.module';
-
 registerLocaleData(zh);
 
 @NgModule({
@@ -36,8 +33,6 @@ registerLocaleData(zh);
     NzMenuModule,
     FormsModule,
     BrowserAnimationsModule,
-    Demo02Module,
-    Demo04Module // .forRoot()
   ],
   providers: [{ provide: NZ_I18N, useValue: zh_CN }],
   bootstrap: [AppComponent]

@@ -1,0 +1,10 @@
+<app-table #table>
+  <tr class="thead">
+    <th nzShowSort nzSortKey="id">ID</th>
+    <th nzShowSort nzSortKey="name">name</th>
+  </tr>
+  <tr class="tbody" *ngFor="let item of table.data as data">
+    <td>{{item.id}}</td>
+    <td>{{item.name}}</td>
+  </tr>
+</app-table>
