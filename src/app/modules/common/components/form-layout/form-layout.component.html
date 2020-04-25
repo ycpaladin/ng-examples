@@ -1,0 +1,67 @@
+
+<ng-template #item1>
+  <ng-content select="nz-form-item.item1"></ng-content>
+</ng-template>
+<ng-template #item2>
+  <ng-content select="nz-form-item.item2"></ng-content>
+</ng-template>
+<ng-template #item3>
+  <ng-content select="nz-form-item.item3"></ng-content>
+</ng-template>
+<ng-container *ngIf="type === 111">
+  <div nz-row nzGutter="8">
+    <div nz-col [nzXl]="0" [nzXXl]="3">
+    </div>
+    <div nz-col [nzXl]="8" [nzXXl]="6">
+      <ng-container *ngTemplateOutlet="item1"></ng-container>
+    </div>
+    <div nz-col [nzXl]="8" [nzXXl]="6">
+      <ng-container *ngTemplateOutlet="item2"></ng-container>
+    </div>
+    <div nz-col [nzXl]="8" [nzXXl]="6">
+      <ng-container *ngTemplateOutlet="item3"></ng-container>
+    </div>
+    <div nz-col [nzXl]="0" [nzXXl]="3">
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="type === 12">
+  <div nz-row nzGutter="8">
+    <div nz-col [nzXl]="0" [nzXXl]="3">
+    </div>
+    <div nz-col [nzXl]="8" [nzXXl]="6">
+      <ng-container *ngTemplateOutlet="item1"></ng-container>
+    </div>
+    <div nz-col [nzXl]="16" [nzXXl]="12">
+      <ng-container *ngTemplateOutlet="item2"></ng-container>
+    </div>
+    <div nz-col [nzXl]="0" [nzXXl]="3">
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="type === 21">
+  <div nz-row nzGutter="8">
+    <div nz-col [nzXl]="0" [nzXXl]="3">
+    </div>
+    <div nz-col [nzXl]="16" [nzXXl]="12">
+      <ng-container *ngTemplateOutlet="item1"></ng-container>
+    </div>
+    <div nz-col [nzXl]="8" [nzXXl]="6">
+      <ng-container *ngTemplateOutlet="item2"></ng-container>
+    </div>
+    <div nz-col [nzXl]="0" [nzXXl]="3">
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="type === 1">
+  <div nz-row nzGutter="8">
+    <div nz-col [nzXl]="0" [nzXXl]="3">
+    </div>
+    <div nz-col nzXl="24" [nzXXl]="18">
+      <ng-container *ngTemplateOutlet="item1"></ng-container>
+    </div>
+    <div nz-col [nzXl]="0" [nzXXl]="3">
+    </div>
+  </div>
+</ng-container>
