@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { NzTableComponent } from 'ng-zorro-antd';
-import { tap, delay, map } from 'rxjs/operators';
+import { tap, delay, map, takeUntil } from 'rxjs/operators';
 import { withDestory } from '../../models';
 import { FormGroup } from '@angular/forms';
 
@@ -35,7 +35,8 @@ export class TableComponent extends withDestory(A) implements OnInit {
         { id: 3, name: 'kevin2' },
         { id: 4, name: 'kevin3' },
       ]),
-      tap(() => this.fetching = false)
+      tap(() => this.fetching = false),
+      takeUntil(this.destory$)
     ).subscribe(data => {
       this.data = data;
     });
