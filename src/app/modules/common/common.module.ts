@@ -4,8 +4,10 @@ import { ListLayoutComponent } from './components/list-layout/list-layout.compon
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { CommonModule } from '@angular/common';
-import { NzAddOnModule } from 'ng-zorro-antd/core';
+// import { NzAddOnModule } from 'ng-zorro-antd/core';
 import { FormLayoutComponent } from './components/form-layout/form-layout.component';
+// import { FormItemLayoutComponent } from './components/form-item-layout/form-item-layout.component';
+import { NzFormModule } from 'ng-zorro-antd';
 
 
 
@@ -15,7 +17,8 @@ import { FormLayoutComponent } from './components/form-layout/form-layout.compon
     CommonModule,
     NzGridModule,
     NzCardModule,
-    NzAddOnModule
+    // NzAddOnModule,
+    NzFormModule
   ],
   exports: [ListLayoutComponent, FormLayoutComponent],
   providers: [CommonService1Service]
