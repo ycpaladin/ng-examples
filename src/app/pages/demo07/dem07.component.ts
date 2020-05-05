@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-dem07',
@@ -7,7 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Dem07Component implements OnInit {
 
-  constructor() { }
+  form: FormGroup;
+
+  constructor(
+    private fb: FormBuilder
+  ) {
+    this.form = this.fb.group({
+      name: ['', [Validators.required]]
+    });
+  }
 
   ngOnInit(): void {
   }

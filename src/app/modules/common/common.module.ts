@@ -8,11 +8,12 @@ import { CommonModule } from '@angular/common';
 import { FormLayoutComponent } from './components/form-layout/form-layout.component';
 // import { FormItemLayoutComponent } from './components/form-item-layout/form-item-layout.component';
 import { NzFormModule } from 'ng-zorro-antd';
+import { FormItemComponent } from './components/form-item/form-item.component';
 
 
 
 @NgModule({
-  declarations: [ListLayoutComponent, FormLayoutComponent],
+  declarations: [ListLayoutComponent, FormLayoutComponent, FormItemComponent],
   imports: [
     CommonModule,
     NzGridModule,
@@ -20,7 +21,7 @@ import { NzFormModule } from 'ng-zorro-antd';
     // NzAddOnModule,
     NzFormModule
   ],
-  exports: [ListLayoutComponent, FormLayoutComponent],
+  exports: [ListLayoutComponent, FormLayoutComponent, FormItemComponent],
   providers: [CommonService1Service]
 })
 export class CommonsModule {

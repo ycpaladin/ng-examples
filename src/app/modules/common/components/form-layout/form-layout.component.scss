@@ -1,0 +1,7 @@
+:host {
+  ::ng-deep app-form-item:nth-child(1) {
+   * {
+     color: red;
+   }
+  }
+}

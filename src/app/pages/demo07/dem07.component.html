@@ -1,1 +1,50 @@
-<p>dem07 works!</p>
+<form [formGroup]="form">
+
+  <app-form-layout [type]="12">
+    <app-form-item title="1111" class="item1">
+      <input nz-input formControlName="name">
+      <ng-template #name let-control>
+        <ng-container *ngIf="control.hasError('required')">
+          name is required.
+        </ng-container>
+      </ng-template>
+    </app-form-item>
+
+    <!-- <app-form-item title="1222" class="item2">
+      <input nz-input formControlName="name">
+    </app-form-item> -->
+    <!-- <nz-form-item nzFlex class="item1">
+      <nz-form-label nzFor="" nzSpan="4" nzRequired>111</nz-form-label>
+      <nz-form-control nzSpan="16">
+        <input nz-input>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item nzFlex class="item2">
+      <nz-form-label nzFor="" nzSpan="4" nzRequired>1222</nz-form-label>
+      <nz-form-control nzSpan="16">
+        <input nz-input>
+      </nz-form-control>
+    </nz-form-item> -->
+  </app-form-layout>
+
+  <!-- <app-form-layout [type]="12">
+    <nz-form-item nzFlex class="item1">
+      <nz-form-label nzFor="" nzSpan="4" nzRequired>211</nz-form-label>
+      <nz-form-control nzSpan="16">
+        <input nz-input>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item nzFlex class="item2">
+      <nz-form-label nzFor="" nzSpan="4" nzRequired>222</nz-form-label>
+      <nz-form-control nzSpan="16">
+        <input nz-input>
+      </nz-form-control>
+    </nz-form-item>
+  </app-form-layout> -->
+
+
+
+
+</form>
