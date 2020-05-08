@@ -1,0 +1,10 @@
+
+<ul>
+  <li *ngFor="let item of data$ | async">
+    {{item}}
+  </li>
+</ul>
+
+<button (click)="close()">
+  close
+</button>
