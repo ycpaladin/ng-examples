@@ -24,7 +24,7 @@ import { NzFormModule } from 'ng-zorro-antd';
   providers: [CommonService1Service]
 })
 export class CommonsModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<CommonsModule> {
     return {
       ngModule: CommonsModule,
       providers: [CommonService1Service]
