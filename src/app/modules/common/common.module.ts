@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 // import { NzAddOnModule } from 'ng-zorro-antd/core';
 import { FormLayoutComponent } from './components/form-layout/form-layout.component';
 // import { FormItemLayoutComponent } from './components/form-item-layout/form-item-layout.component';
-import { NzFormModule } from 'ng-zorro-antd';
+import { NzFormModule } from 'ng-zorro-antd/form';
 
 
 

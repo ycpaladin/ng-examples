@@ -1,0 +1,4 @@
+<nz-select [(ngModel)]="value" (ngModelChange)="onNgModelChange($event)">
+  <nz-option *ngFor="let item of item.options|options|async" [nzValue]="item.value" [nzLabel]="item.label">
+  </nz-option>
+</nz-select>

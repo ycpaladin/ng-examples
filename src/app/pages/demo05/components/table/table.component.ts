@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { NzTableComponent } from 'ng-zorro-antd';
+import { NzTableComponent } from 'ng-zorro-antd/table';
 import { tap, delay, map } from 'rxjs/operators';
 import { withDestory } from '../../models';
 import { FormGroup } from '@angular/forms';
@@ -18,7 +18,7 @@ class A {
 export class TableComponent extends withDestory(A) implements OnInit {
 
   fetching = false;
-  @ViewChild(NzTableComponent) nzTable: NzTableComponent;
+  @ViewChild(NzTableComponent) nzTable: NzTableComponent<any>;
   // data$: Observable<{ id: number, name: string }[]>;
   data: { id: number, name: string }[];
   constructor() {

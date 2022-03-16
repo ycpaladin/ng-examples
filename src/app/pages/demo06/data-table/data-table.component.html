@@ -1,0 +1,21 @@
+<app-search-group [config]="config.searchConfig"></app-search-group>
+
+<nz-table #nzTable [nzData]="$any(data$|async)" [nzPageSize]="$any(pageSize$|async)" nzFrontPagination="false"
+  [nzPageIndex]="$any(pageIndex$|async)" [nzLoading]="isFetching$|async" [nzTotal]="$any(total$|async)"
+  [nzShowSizeChanger]="true" (nzPageIndexChange)="onPageIndexChange($event)"
+  (nzPageSizeChange)="onPageSizeChange($event)">
+  <thead>
+    <tr>
+      <th>SN</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let i of nzTable.data">
+      <td>{{i.unit_sn}}</td>
+      <td>
+
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
