@@ -148,10 +148,12 @@
   dependencies:
     tslib "^2.0.0"
 
-"@angular/cdk@^9.0.0":
-  version "9.2.2"
-  resolved "https://registry.npm.taobao.org/@angular/cdk/download/@angular/cdk-9.2.2.tgz#776be85aa55146f00dcd4909b81c67da47286c75"
-  integrity sha1-d2voWqVRRvANzUkJuBxn2kcobHU=
+"@angular/cdk@^10.2.4":
+  version "10.2.7"
+  resolved "https://registry.npmmirror.com/@angular/cdk/-/cdk-10.2.7.tgz#0ff82eb91b2653ea26909c57a460d4593b44f186"
+  integrity sha512-ZQjDfTRTn7JuAKsf3jiIdU2XBaxxGBi/ZWYv5Pb3HCl6B4PISsIE5VWRhkoUogoAB0MiFHpjnWeIqknJEm11YQ==
+  dependencies:
+    tslib "^2.0.0"
   optionalDependencies:
     parse5 "^5.0.0"
 
@@ -254,19 +256,20 @@
   dependencies:
     tslib "^2.0.0"
 
-"@ant-design/colors@^3.1.0":
-  version "3.2.2"
-  resolved "https://registry.npm.taobao.org/@ant-design/colors/download/@ant-design/colors-3.2.2.tgz#5ad43d619e911f3488ebac303d606e66a8423903"
-  integrity sha1-WtQ9YZ6RHzSI66wwPWBuZqhCOQM=
+"@ant-design/colors@^5.0.0":
+  version "5.1.1"
+  resolved "https://registry.npmmirror.com/@ant-design/colors/-/colors-5.1.1.tgz#800b2186b1e27e66432e67d03ed96af3e21d8940"
+  integrity sha512-Txy4KpHrp3q4XZdfgOBqLl+lkQIc3tEvHXOimRN1giX1AEC7mGtyrO9p8iRGJ3FLuVMGa2gNEzQyghVymLttKQ==
   dependencies:
-    tinycolor2 "^1.4.1"
+    "@ctrl/tinycolor" "^3.3.1"
 
-"@ant-design/icons-angular@^9.0.0":
-  version "9.0.1"
-  resolved "https://registry.npm.taobao.org/@ant-design/icons-angular/download/@ant-design/icons-angular-9.0.1.tgz?cache=0&sync_timestamp=1586316149004&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40ant-design%2Ficons-angular%2Fdownload%2F%40ant-design%2Ficons-angular-9.0.1.tgz#5ac8bec5bc34d23120820c93f8511b59aa117bc5"
-  integrity sha1-Wsi+xbw00jEgggyT+FEbWaoRe8U=
+"@ant-design/icons-angular@^10.0.0":
+  version "10.2.0"
+  resolved "https://registry.npmmirror.com/@ant-design/icons-angular/-/icons-angular-10.2.0.tgz#cf13a6a33b1415934b7331b58cc38fa0653fa374"
+  integrity sha512-c5g31hD9otf0DAmHMlvijyOcq1sXpdqKbMFZHxXAUG2sTi+cgixqI8LNePCc9MxBy0N48gAmp0CfhGiByxZJnQ==
   dependencies:
-    "@ant-design/colors" "^3.1.0"
+    "@ant-design/colors" "^5.0.0"
+    tslib "^2.0.0"
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.8.3":
   version "7.8.3"
@@ -1310,6 +1313,11 @@
     esutils "^2.0.2"
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
+
+"@ctrl/tinycolor@^3.3.1":
+  version "3.4.0"
+  resolved "https://registry.npmmirror.com/@ctrl/tinycolor/-/tinycolor-3.4.0.tgz#c3c5ae543c897caa9c2a68630bed355be5f9990f"
+  integrity sha512-JZButFdZ1+/xAfpguQHoabIXkcqRRKpMrWKBkpEZZyxfY9C1DpADFB8PEqGSTeFr135SaTRfKqGKx5xSCLI7ZQ==
 
 "@gar/promisify@^1.0.1":
   version "1.1.3"
@@ -6553,15 +6561,16 @@ ng-lint-staged@^0.1.6:
   resolved "https://registry.npm.taobao.org/ng-lint-staged/download/ng-lint-staged-0.1.6.tgz#6a7e2c32108e62bfb4d4183ae29dbe7b367a8e4f"
   integrity sha1-an4sMhCOYr+01Bg64p2+ezZ6jk8=
 
-ng-zorro-antd@^9.1.0:
-  version "9.1.0"
-  resolved "https://registry.npm.taobao.org/ng-zorro-antd/download/ng-zorro-antd-9.1.0.tgz?cache=0&sync_timestamp=1587901656531&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fng-zorro-antd%2Fdownload%2Fng-zorro-antd-9.1.0.tgz#83afda582f73b75f71836e9ad3f2a7444e205daa"
-  integrity sha1-g6/aWC9zt19xg26a0/KnRE4gXao=
+ng-zorro-antd@^10.2.2:
+  version "10.2.2"
+  resolved "https://registry.npmmirror.com/ng-zorro-antd/-/ng-zorro-antd-10.2.2.tgz#5951f1fd5d1e405e7fe983756dca1eb942b255de"
+  integrity sha512-4Q2G6DtRJnEQXFcIEUyqgFi6JXcEF9bN0zOPNBV7LTNgjOf31QiE+3Pu2ifz8esGVwv7vmG8if8V2/Ha/Ol8Dw==
   dependencies:
-    "@angular/cdk" "^9.0.0"
-    "@ant-design/icons-angular" "^9.0.0"
+    "@angular/cdk" "^10.2.4"
+    "@ant-design/icons-angular" "^10.0.0"
     date-fns "^2.10.0"
     resize-observer-polyfill "^1.5.1"
+    tslib "^2.0.0"
 
 nice-try@^1.0.4:
   version "1.0.5"
@@ -9486,11 +9495,6 @@ timsort@^0.3.0:
   version "0.3.0"
   resolved "https://registry.npm.taobao.org/timsort/download/timsort-0.3.0.tgz#405411a8e7e6339fe64db9a234de11dc31e02bd4"
   integrity sha1-QFQRqOfmM5/mTbmiNN4R3DHgK9Q=
-
-tinycolor2@^1.4.1:
-  version "1.4.1"
-  resolved "https://registry.npm.taobao.org/tinycolor2/download/tinycolor2-1.4.1.tgz#f4fad333447bc0b07d4dc8e9209d8f39a8ac77e8"
-  integrity sha1-9PrTM0R7wLB9TcjpIJ2POaisd+g=
 
 tmp@0.0.30:
   version "0.0.30"
