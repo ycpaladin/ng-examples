@@ -9,6 +9,12 @@
     "experimentalDecorators": true,
     "module": "es2020",
     "moduleResolution": "node",
+    "paths": {
+      "ngrx-wheel": [
+        "dist/ngrx-wheel/ngrx-wheel",
+        "dist/ngrx-wheel"
+      ]
+    },
     "importHelpers": true,
     "target": "es2015",
     "typeRoots": [

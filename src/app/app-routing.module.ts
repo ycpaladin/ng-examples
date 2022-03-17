@@ -14,6 +14,7 @@ const routes: Routes = [
 
   },
   { path: 'demo06', loadChildren: () => import('./pages/demo06/demo06.module').then(m => m.Demo06Module) },
+  { path: 'ngrx-test', loadChildren: () => import('./pages/ngrx-test/ngrx-test.module').then(m => m.NgrxTestModule) },
 
 ];
 

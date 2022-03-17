@@ -128,6 +128,37 @@
           }
         }
       }
+    },
+    "ngrx-wheel": {
+      "projectType": "library",
+      "root": "projects/ngrx-wheel",
+      "sourceRoot": "projects/ngrx-wheel/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/ngrx-wheel/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngrx-wheel/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ngrx-wheel/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngrx-wheel/src/test.ts",
+            "tsConfig": "projects/ngrx-wheel/tsconfig.spec.json",
+            "karmaConfig": "projects/ngrx-wheel/karma.conf.js"
+          }
+        }
+      }
     }
   },
   "defaultProject": "demo03"
