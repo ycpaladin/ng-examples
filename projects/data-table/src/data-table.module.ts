@@ -5,7 +5,8 @@ import { DataTableComponent } from './data-table.component';
 import { PageDataProvider } from './services';
 import { MODULE_CONFIG, PAGED_DATA_SERVICE } from './consts';
 import { DataTableModuleConfig } from './interfaces';
-import { SearchGroupModule } from '../search-group';
+import { SearchGroupModule } from 'projects/search-group/src/search-group.module';
+// import { SearchGroupModule } from 'search-group';
 
 
 

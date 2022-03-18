@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Optional } from '@angular/core';
-import { QueryParams } from '../data-table';
+import { QueryParams } from 'projects/data-table/src/services';
 import { ControlBase } from './base';
 import { ControlText } from './interfaces';
 

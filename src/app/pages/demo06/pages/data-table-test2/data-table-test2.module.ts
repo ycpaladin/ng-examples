@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { DataTableTest2RoutingModule } from './data-table-test2-routing.module';
 import { DataTableTest2Component } from './data-table-test2.component';
-import { DataTableModule } from '../../data-table';
+import { DataTableModule } from 'projects/data-table/src/data-table.module';
 
 
 @NgModule({

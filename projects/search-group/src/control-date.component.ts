@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { format } from 'date-fns';
-import { QueryParams } from '../data-table';
+import { QueryParams } from 'projects/data-table/src/services';
 import { ControlBase } from './base';
 import { ControlDate } from './interfaces';
 

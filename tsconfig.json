@@ -10,9 +10,20 @@
     "module": "es2020",
     "moduleResolution": "node",
     "paths": {
+      "data-table": [
+        "dist/data-table/data-table",
+        "dist/data-table",
+        "projects/data-table/src/public-api.ts"
+      ],
       "ngrx-wheel": [
         "dist/ngrx-wheel/ngrx-wheel",
-        "dist/ngrx-wheel"
+        "dist/ngrx-wheel",
+        "projects/ngrx-wheel/src/public-api.ts"
+      ],
+      "search-group": [
+        "dist/search-group/search-group",
+        "dist/search-group",
+        "projects/search-group/src/public-api.ts"
       ]
     },
     "importHelpers": true,

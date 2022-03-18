@@ -1,4 +1,4 @@
-import { SearchGroupConfig } from './../search-group/interfaces';
+import { SearchGroupConfig } from "projects/search-group/src/interfaces";
 import { Observable } from "rxjs";
 
 export interface IDataItem {

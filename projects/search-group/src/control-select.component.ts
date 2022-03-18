@@ -1,4 +1,4 @@
-import { QueryParams } from './../data-table/services';
+import { QueryParams } from 'projects/data-table/src/services';
 import { Component, OnInit, ChangeDetectionStrategy, Optional } from '@angular/core';
 import { ControlBase } from './base';
 import { ControlSelect } from './interfaces';

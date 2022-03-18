@@ -1,9 +1,9 @@
-import { DataTableModule } from '../../data-table/data-table.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { DataTableTestRoutingModule } from './data-table-test-routing.module';
 import { DataTableTestComponent } from './data-table-test.component';
+import { DataTableModule } from 'projects/data-table/src/data-table.module';
 
 
 @NgModule({
