@@ -52,3 +52,6 @@ export interface IQueryParamsChange extends IRestoreData {
   queryParamsChange(queryParams: { [K: string]: any }): void;
   getValue(): { [K: string]: any };
 }
+
+
+export type OrderByType = 'asc' | 'desc';

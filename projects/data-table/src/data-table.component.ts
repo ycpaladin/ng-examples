@@ -1,9 +1,9 @@
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Component, OnInit, ChangeDetectionStrategy, Inject, Optional } from '@angular/core';
-import { DataTableModuleConfig, IDataItem } from './interfaces';
-import { PagedService, PageIndex, PageIndexChange, PageSize, PageSizeChange, QueryParams, QueryParamsChange } from './services';
 import { map, shareReplay } from 'rxjs/operators';
-import { MODULE_CONFIG } from './consts';
+
+import { IDataItem } from './interfaces';
+import { OrderBy, OrderByChange, PagedService, PageIndex, PageIndexChange, PageSize, PageSizeChange, QueryParams, QueryParamsChange } from './services';
 
 @Component({
   selector: 'app-data-table',
@@ -15,9 +15,11 @@ import { MODULE_CONFIG } from './consts';
     PageIndex,
     PageSize,
     QueryParams,
+    OrderBy,
     { provide: PageIndexChange, useExisting: PageIndex },
     { provide: PageSizeChange, useExisting: PageSize },
     { provide: QueryParamsChange, useExisting: QueryParams },
+    { provide: OrderByChange, useExisting: OrderBy },
     PagedService
   ]
 })
@@ -38,10 +40,10 @@ export class DataTableComponent implements OnInit {
   }
 
   constructor(
-    @Inject(MODULE_CONFIG) @Optional() public config: DataTableModuleConfig,
-    public page: PageIndexChange,
-    public results: PageSizeChange,
-    public service: PagedService<IDataItem>,
+    private page: PageIndexChange,
+    private results: PageSizeChange,
+    private orderBy: OrderByChange,
+    service: PagedService<IDataItem>,
   ) {
     const data$ = service.getData().pipe(shareReplay());
     this.pageIndex$ = data$.pipe(map(data => data.info.page));

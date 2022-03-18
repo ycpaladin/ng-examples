@@ -3,7 +3,7 @@ import { Inject, Injectable, OnDestroy, Optional } from "@angular/core";
 import { BehaviorSubject, combineLatest, Observable, of } from "rxjs";
 import { catchError, debounceTime, mergeMap, tap } from 'rxjs/operators';
 import { MODULE_CONFIG, PAGED_DATA_SERVICE } from "./consts";
-import { DataTableModuleConfig, IDataItem, IPageDataProvider, IPageIndexChange, IPageService, IPageSizeChange, IQueryParamsChange, Params, ResponsePagedData } from "./interfaces";
+import { DataTableModuleConfig, IDataItem, IPageDataProvider, IPageIndexChange, IPageService, IPageSizeChange, IQueryParamsChange, OrderByType, Params, ResponsePagedData } from "./interfaces";
 
 
 export abstract class PageIndexChange extends Observable<number> implements IPageIndexChange {
@@ -58,9 +58,9 @@ export class PageSize extends BehaviorSubject<number> implements PageSizeChange,
   }
 }
 
-export abstract class QueryParamsChange extends Observable<{ [K: string]: any; }> implements IQueryParamsChange {
-  abstract getValue(): { [K: string]: any; };
-  abstract queryParamsChange(queryParams: { [K: string]: any; }): void;
+export abstract class QueryParamsChange extends Observable<Params> implements IQueryParamsChange {
+  abstract getValue(): Params;
+  abstract queryParamsChange(queryParams: Params): void;
   abstract restore(): void;
 }
 
@@ -89,6 +89,27 @@ export class QueryParams extends BehaviorSubject<Params> implements QueryParamsC
 
   ngOnDestroy(): void {
     this.complete();
+  }
+}
+
+export abstract class OrderByChange {
+  abstract orderByFieldName: string;
+  abstract orderByTypeName: string;
+  abstract orderByChange(fieldName: string, orderByType: OrderByType): void;
+}
+
+@Injectable()
+export class OrderBy implements OrderByChange {
+  constructor(private service: QueryParams) {
+  }
+  // TODO 可以从全局config中获取初始值
+  orderByFieldName: string = 'order_context';
+  orderByTypeName: string = 'order_sequence';
+  orderByChange(fieldName: string, orderByType: OrderByType): void {
+    this.service.next({
+      [this.orderByFieldName]: fieldName,
+      [this.orderByTypeName]: orderByType,
+    });
   }
 }
 
