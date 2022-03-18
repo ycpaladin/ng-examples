@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Demo06Component implements OnInit {
 
-  constructor() { }
+  constructor(public http: HttpClient) { }
 
   ngOnInit(): void {
+    this.http.post('/lms/api/v1/login', {
+      username: 'admin',
+      password: 'password'
+    }).subscribe();
   }
 
 }

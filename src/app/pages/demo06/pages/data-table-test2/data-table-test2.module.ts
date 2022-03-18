@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { DataTableTest2RoutingModule } from './data-table-test2-routing.module';
 import { DataTableTest2Component } from './data-table-test2.component';
 import { DataTableModule } from 'projects/data-table/src/data-table.module';
+import { PAGED_DATA_SERVICE } from 'projects/data-table/src/consts';
+import { PageDataProvider } from './data-provider.service';
 
 
 @NgModule({
@@ -18,6 +20,9 @@ import { DataTableModule } from 'projects/data-table/src/data-table.module';
       searchConfig: []
     }),
     DataTableTest2RoutingModule
+  ],
+  providers: [
+    { provide: PAGED_DATA_SERVICE, useClass: PageDataProvider },
   ]
 })
 export class DataTableTest2Module { }

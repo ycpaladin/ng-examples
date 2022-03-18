@@ -1,6 +1,6 @@
-import { BehaviorSubject } from 'rxjs';
-import { Control, SearchControl } from './interfaces';
+import { Control } from './interfaces';
 import { Directive, Input, Optional } from "@angular/core";
+import { QueryParamsChange } from 'projects/data-table/src/services';
 
 @Directive()
 export abstract class ControlBase<T = Control, V = any> {
@@ -8,13 +8,11 @@ export abstract class ControlBase<T = Control, V = any> {
 
   value!: V;
 
-  constructor(@Optional() public queryParams: BehaviorSubject<any>) {
+  constructor(@Optional() public queryParams: QueryParamsChange) {
   }
 
   onNgModelChange(next: V): void {
-    const { value } = this.queryParams;
-    this.queryParams.next({
-      ...value,
+    this.queryParams.queryParamsChange({
       [(this.item as any).fieldName]: next
     })
   }

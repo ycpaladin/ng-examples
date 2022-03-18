@@ -1,0 +1,11 @@
+{
+  "/lms": {
+      "target": "http://10.6.3.17:8003/",
+      "secure": false,
+      "changeOrigin": true,
+      "logLevel": "debug",
+      "cookieDomainRewrite": {
+          "*": "localhost:4200"
+      }
+  }
+}

@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { Component, OnInit, ChangeDetectionStrategy, Inject, Optional } from '@angular/core';
-import { DataTableModuleConfig, IDataItem, ResponsePagedData } from './interfaces';
-import { PagedService, PageIndex, PageSize, QueryParams } from './services';
+import { DataTableModuleConfig, IDataItem } from './interfaces';
+import { PagedService, PageIndex, PageIndexChange, PageSize, PageSizeChange, QueryParams, QueryParamsChange } from './services';
 import { map, shareReplay } from 'rxjs/operators';
 import { MODULE_CONFIG } from './consts';
 
@@ -10,7 +10,16 @@ import { MODULE_CONFIG } from './consts';
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [PageIndex, PageSize, QueryParams, PagedService]
+  providers: [
+    // 配置在此处，不会缓存查询条件
+    PageIndex,
+    PageSize,
+    QueryParams,
+    { provide: PageIndexChange, useExisting: PageIndex },
+    { provide: PageSizeChange, useExisting: PageSize },
+    { provide: QueryParamsChange, useExisting: QueryParams },
+    PagedService
+  ]
 })
 export class DataTableComponent implements OnInit {
 
@@ -21,18 +30,17 @@ export class DataTableComponent implements OnInit {
   isFetching$!: Observable<boolean>;
 
   onPageIndexChange(pageIndex: number): void {
-    this.page.next(pageIndex);
+    this.page.pageIndexChange(pageIndex);
   }
 
   onPageSizeChange(pageSize: number): void {
-    this.results.next(pageSize);
-    this.page.next(1);
+    this.results.pageSizeChange(pageSize);
   }
 
   constructor(
     @Inject(MODULE_CONFIG) @Optional() public config: DataTableModuleConfig,
-    public page: PageIndex,
-    public results: PageSize,
+    public page: PageIndexChange,
+    public results: PageSizeChange,
     public service: PagedService<IDataItem>,
   ) {
     const data$ = service.getData().pipe(shareReplay());

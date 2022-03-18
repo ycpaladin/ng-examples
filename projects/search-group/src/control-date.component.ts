@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { format } from 'date-fns';
-import { QueryParams } from 'projects/data-table/src/services';
+import { QueryParamsChange } from 'projects/data-table/src/services';
 import { ControlBase } from './base';
 import { ControlDate } from './interfaces';
 
@@ -19,7 +19,7 @@ export class ControlDateComponent extends ControlBase<ControlDate, Date> impleme
     super.onNgModelChange(value as any);
   }
 
-  constructor(public queryParams: QueryParams) {
+  constructor(public queryParams: QueryParamsChange) {
     super(queryParams);
   }
 

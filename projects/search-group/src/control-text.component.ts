@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Optional } from '@angular/core';
-import { QueryParams } from 'projects/data-table/src/services';
+import { QueryParamsChange } from 'projects/data-table/src/services';
 import { ControlBase } from './base';
 import { ControlText } from './interfaces';
 
@@ -11,7 +11,7 @@ import { ControlText } from './interfaces';
 })
 export class ControlTextComponent extends ControlBase<ControlText, string> implements OnInit {
 
-  constructor(public queryParams: QueryParams) {
+  constructor(public queryParams: QueryParamsChange) {
     super(queryParams);
   }
 

@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { DataTableTestRoutingModule } from './data-table-test-routing.module';
 import { DataTableTestComponent } from './data-table-test.component';
 import { DataTableModule } from 'projects/data-table/src/data-table.module';
+import { PAGED_DATA_SERVICE } from 'projects/data-table/src/consts';
+import { PageDataProvider } from './data-provider.service';
 
 
 @NgModule({
@@ -13,7 +15,7 @@ import { DataTableModule } from 'projects/data-table/src/data-table.module';
   imports: [
     CommonModule,
     DataTableModule.forConfig({
-      url: '/lms/api/v1/test_task/tr_track/current_cp_tests?test_status=1&assume_user=admin&bitmap=1111111111',
+      url: '',
       moduleName: '',
       searchConfig: [
         { label: 'SN', type: 'text', fieldName: 'test_schedule_id__unit_sn__icontains' },
@@ -23,6 +25,9 @@ import { DataTableModule } from 'projects/data-table/src/data-table.module';
       ]
     }),
     DataTableTestRoutingModule
+  ],
+  providers: [
+    { provide: PAGED_DATA_SERVICE, useClass: PageDataProvider },
   ]
 })
 export class DataTableTestModule { }

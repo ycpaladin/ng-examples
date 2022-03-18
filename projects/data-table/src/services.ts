@@ -1,29 +1,94 @@
 import { HttpClient } from "@angular/common/http";
-import { Inject, Injectable, Optional } from "@angular/core";
+import { Inject, Injectable, OnDestroy, Optional } from "@angular/core";
 import { BehaviorSubject, combineLatest, Observable, of } from "rxjs";
 import { catchError, debounceTime, mergeMap, tap } from 'rxjs/operators';
 import { MODULE_CONFIG, PAGED_DATA_SERVICE } from "./consts";
-import { DataTableModuleConfig, IDataItem, IPageDataProvider, IPageService, Params, ResponsePagedData } from "./interfaces";
+import { DataTableModuleConfig, IDataItem, IPageDataProvider, IPageIndexChange, IPageService, IPageSizeChange, IQueryParamsChange, Params, ResponsePagedData } from "./interfaces";
 
+
+export abstract class PageIndexChange extends Observable<number> implements IPageIndexChange {
+  abstract pageIndexChange(pageIndex: number): void;
+  abstract restore(): void;
+}
 
 @Injectable()
-export class PageIndex extends BehaviorSubject<number> {
+export class PageIndex extends BehaviorSubject<number> implements PageIndexChange, OnDestroy {
+  // TODO 可以从全局配置中获取默认值
   constructor() {
     super(1)
   }
+  pageIndexChange(pageIndex: number): void {
+    this.next(pageIndex);
+  }
+  restore(): void {
+    this.next(1);
+  }
+
+  ngOnDestroy(): void {
+    this.complete();
+  }
+
+}
+
+
+export abstract class PageSizeChange extends Observable<number> implements IPageSizeChange {
+  abstract pageSizeChange(pageIndex: number): void;
+  abstract restore(): void;
 }
 
 @Injectable()
-export class PageSize extends BehaviorSubject<number> {
-  constructor() {
+export class PageSize extends BehaviorSubject<number> implements PageSizeChange, OnDestroy {
+  // TODO 可以从全局配置中获取默认值
+  constructor(private pageIndex: PageIndexChange) {
     super(10)
+  }
+
+  pageSizeChange(pageSize: number): void {
+    this.pageIndex.restore();
+    this.next(pageSize);
+  }
+
+  restore(): void {
+    this.pageIndex.restore();
+    this.next(10);
+  }
+
+  ngOnDestroy(): void {
+    this.complete();
   }
 }
 
+export abstract class QueryParamsChange extends Observable<{ [K: string]: any; }> implements IQueryParamsChange {
+  abstract getValue(): { [K: string]: any; };
+  abstract queryParamsChange(queryParams: { [K: string]: any; }): void;
+  abstract restore(): void;
+}
+
 @Injectable()
-export class QueryParams extends BehaviorSubject<Params> {
-  constructor() {
+export class QueryParams extends BehaviorSubject<Params> implements QueryParamsChange, OnDestroy {
+  constructor(private pageIndex: PageIndexChange) {
     super({})
+  }
+
+  getValue() {
+    return this.value;
+  }
+
+  queryParamsChange(queryParams: { [K: string]: any; }): void {
+    this.pageIndex.restore();
+    this.next({
+      ...this.value,
+      ...queryParams
+    });
+  }
+
+  restore(): void {
+    this.pageIndex.restore();
+    this.next({})
+  }
+
+  ngOnDestroy(): void {
+    this.complete();
   }
 }
 
@@ -33,12 +98,11 @@ export class PagedService<T extends IDataItem> implements IPageService<T>{
   isFetching$ = new BehaviorSubject<boolean>(false);
 
   constructor(
-    @Inject(PAGED_DATA_SERVICE) public service: IPageDataProvider<T>,
-    public page: PageIndex,
-    public results: PageSize,
-    public queryParams: QueryParams
+    @Inject(PAGED_DATA_SERVICE) public pageDataService: IPageDataProvider<T>,
+    public page: PageIndexChange,
+    public results: PageSizeChange,
+    public queryParams: QueryParamsChange
   ) {
-
   }
 
   getData(): Observable<ResponsePagedData<T>> {
@@ -48,7 +112,7 @@ export class PagedService<T extends IDataItem> implements IPageService<T>{
         this.isFetching$.next(true)
       }),
       mergeMap(
-        ([page, results, queryParams]) => this.service.getData(page, results, queryParams).pipe(
+        ([page, results, queryParams]) => this.pageDataService.getData(page, results, queryParams).pipe(
           catchError(
             () => of({ info: { page: 1, results: 10, total: 9 }, data: [] })
           ),
@@ -59,25 +123,4 @@ export class PagedService<T extends IDataItem> implements IPageService<T>{
   }
 }
 
-@Injectable()
-export class PageDataProvider<T extends IDataItem> implements IPageDataProvider<T> {
-
-  constructor(
-    @Inject(MODULE_CONFIG) @Optional() public config: DataTableModuleConfig,
-    public http: HttpClient,
-  ) {
-  }
-
-  getData(page: number, results: number, queryParams: Params): Observable<ResponsePagedData<T>> {
-    return this.http.get<ResponsePagedData<T>>(this.config.url, {
-      params: {
-        page,
-        results,
-        ...queryParams
-      }
-    })
-  }
-
-
-}
 

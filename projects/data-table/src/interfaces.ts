@@ -34,3 +34,21 @@ export interface DataTableModuleConfig {
   moduleName: string;
   searchConfig: SearchGroupConfig;
 }
+
+
+export interface IRestoreData {
+  restore(): void;
+}
+
+export interface IPageIndexChange extends IRestoreData {
+  pageIndexChange(pageIndex: number): void;
+}
+
+export interface IPageSizeChange extends IRestoreData {
+  pageSizeChange(pageSize: number): void;
+}
+
+export interface IQueryParamsChange extends IRestoreData {
+  queryParamsChange(queryParams: { [K: string]: any }): void;
+  getValue(): { [K: string]: any };
+}
