@@ -44,13 +44,13 @@ export class PageSize extends BehaviorSubject<number> implements PageSizeChange,
   }
 
   pageSizeChange(pageSize: number): void {
-    this.pageIndex.restore();
     this.next(pageSize);
+    this.pageIndex.restore();
   }
 
   restore(): void {
-    this.pageIndex.restore();
     this.next(10);
+    this.pageIndex.restore();
   }
 
   ngOnDestroy(): void {
@@ -114,8 +114,7 @@ export class OrderBy implements OrderByChange {
 }
 
 @Injectable()
-export class PagedService<T extends IDataItem> implements IPageService<T>{
-
+export class PagedData<T extends IDataItem> extends Observable<ResponsePagedData<T>>{
   isFetching$ = new BehaviorSubject<boolean>(false);
 
   constructor(
@@ -124,12 +123,15 @@ export class PagedService<T extends IDataItem> implements IPageService<T>{
     public results: PageSizeChange,
     public queryParams: QueryParamsChange
   ) {
+    super();
+    this.source = this.getData();
   }
 
-  getData(): Observable<ResponsePagedData<T>> {
+
+  private getData(): Observable<ResponsePagedData<T>> {
     return combineLatest([this.page, this.results, this.queryParams]).pipe(
       debounceTime(0),
-      tap((d) => {
+      tap(() => {
         this.isFetching$.next(true)
       }),
       mergeMap(
@@ -143,5 +145,3 @@ export class PagedService<T extends IDataItem> implements IPageService<T>{
     )
   }
 }
-
-
