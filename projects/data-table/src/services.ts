@@ -113,6 +113,10 @@ export class OrderBy implements OrderByChange {
   }
 }
 
+/**
+ * 表格数据提供者
+ * 这里可以拆成 `远程数据提供者`，`本地数据提供者`
+ */
 @Injectable()
 export class PagedData<T extends IDataItem> extends Observable<ResponsePagedData<T>>{
   isFetching$ = new BehaviorSubject<boolean>(false);
