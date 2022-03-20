@@ -1,9 +1,8 @@
-import { HttpClient } from "@angular/common/http";
-import { Inject, Injectable, OnDestroy, Optional } from "@angular/core";
+import { Inject, Injectable, OnDestroy } from "@angular/core";
 import { BehaviorSubject, combineLatest, Observable, of } from "rxjs";
 import { catchError, debounceTime, mergeMap, tap } from 'rxjs/operators';
-import { MODULE_CONFIG, PAGED_DATA_SERVICE } from "./consts";
-import { DataTableModuleConfig, IDataItem, IPageDataProvider, IPageIndexChange, IPageService, IPageSizeChange, IQueryParamsChange, OrderByType, Params, ResponsePagedData } from "./interfaces";
+import { PAGED_DATA_SERVICE } from "./consts";
+import { IDataItem, ITableDataProvider, IPageIndexChange, IPageSizeChange, IQueryParamsChange, OrderByType, Params, ResponsePagedData } from "./interfaces";
 
 
 export abstract class PageIndexChange extends Observable<number> implements IPageIndexChange {
@@ -122,7 +121,7 @@ export class PagedData<T extends IDataItem> extends Observable<ResponsePagedData
   isFetching$ = new BehaviorSubject<boolean>(false);
 
   constructor(
-    @Inject(PAGED_DATA_SERVICE) public pageDataService: IPageDataProvider<T>,
+    @Inject(PAGED_DATA_SERVICE) public pageDataService: ITableDataProvider<T>,
     public page: PageIndexChange,
     public results: PageSizeChange,
     public queryParams: QueryParamsChange

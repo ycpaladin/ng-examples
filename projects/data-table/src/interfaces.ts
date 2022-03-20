@@ -19,12 +19,10 @@ export type Params = { [K: string]: any };
 
 export type ResponsePagedData<T extends IDataItem> = ResponseData<T[]> & { info: PagedInfo };
 
-
-export interface IPageService<T extends IDataItem> {
-  getData(): Observable<ResponsePagedData<T>>;
-}
-
-export interface IPageDataProvider<T extends IDataItem> {
+/**
+ * Table数据提供者
+ */
+export interface ITableDataProvider<T extends IDataItem> {
   getData(page: number, result: number, queryParams: Params): Observable<ResponsePagedData<T>>;
 }
 
