@@ -15,6 +15,10 @@
         "dist/data-table",
         "projects/data-table/src/public-api.ts"
       ],
+      "data-tree": [
+        "dist/data-tree/data-tree",
+        "dist/data-tree"
+      ],
       "ngrx-wheel": [
         "dist/ngrx-wheel/ngrx-wheel",
         "dist/ngrx-wheel",
