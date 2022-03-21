@@ -133,6 +133,7 @@ export class SearchCategory extends Observable<SelectOption[]>  {
       super(subscribe => {
         subscribe.next(options);
         return () => {
+          subscribe.complete();
         }
       })
     }
