@@ -1,10 +1,10 @@
-<div nz-row>
-  <div nz-col nzSpan="8">
-    <nz-select nzAllowClear>
-
-    </nz-select>
-  </div>
-  <div nz-col nzSpan="16">
-    <input nz-input>
-  </div>
-</div>
+<ng-template #nzAddOnBefore>
+  <nz-select [(ngModel)]="data.category" nzAllowClear (ngModelChange)="onSelectedOptionChange($event)"
+    [style.width.px]="100">
+    <nz-option [nzValue]="item.value" [nzLabel]="item.label" *ngFor="let item of options$|async; let index=index">
+    </nz-option>
+  </nz-select>
+</ng-template>
+<nz-input-group [nzAddOnBefore]="nzAddOnBefore">
+  <input nz-input [(ngModel)]="data.keywords" (ngModelChange)="onSearchTextChange($event)">
+</nz-input-group>

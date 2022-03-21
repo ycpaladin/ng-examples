@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit, forwardRef } from '@angular/core';
 import { NzTreeNode } from 'ng-zorro-antd/tree';
 import { ITree } from './interfaces';
-import { TreeData, TreeSearchKeywords, TreeSearchKeywordsObservable } from './services';
+import { TreeData } from './services';
 import { TREE_TOKEN } from './token';
 
 
-type ViewType = 'tree' | 'list';
+// type ViewType = 'tree' | 'list';
 
 
 @Component({
@@ -14,9 +14,6 @@ type ViewType = 'tree' | 'list';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     { provide: TREE_TOKEN, useExisting: forwardRef(() => DataTreeComponent) },
-    TreeData,
-    TreeSearchKeywords,
-    { provide: TreeSearchKeywordsObservable, useExisting: TreeSearchKeywords }
   ]
 })
 export class DataTreeComponent implements OnInit, ITree {

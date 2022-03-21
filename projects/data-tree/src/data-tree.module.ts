@@ -1,4 +1,5 @@
-import { TreeDataProvider, TreeDataProviderInner } from './services';
+import { isObservable } from 'rxjs';
+import { ListDataProvider, TreeDataProvider, TreeDataProviderInner, ListDataProviderInner } from './services';
 import { NgModule, ModuleWithProviders, Provider } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -17,8 +18,9 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { DataTreeComponent } from './data-tree.component';
 import { DataTreeLayoutComponent } from './data-tree-layout.component';
 import { DataTreeSearchComponent } from './data-tree-search.component';
-import { TreeModuleConfig } from './interfaces';
-import { TREE_CONFIG } from './token';
+import { DataListComponent } from './data-list.component';
+import { SearchSelectOptionProvider, TreeModuleConfig } from './interfaces';
+import { SEARCH_CATEGORY, TREE_CONFIG } from './token';
 
 
 
@@ -26,7 +28,8 @@ import { TREE_CONFIG } from './token';
   declarations: [
     DataTreeComponent,
     DataTreeLayoutComponent,
-    DataTreeSearchComponent
+    DataTreeSearchComponent,
+    DataListComponent
   ],
   imports: [
     CommonModule,
@@ -51,12 +54,39 @@ import { TREE_CONFIG } from './token';
 export class DataTreeModule {
   static forConfig(config?: TreeModuleConfig): ModuleWithProviders<DataTreeModule> {
     const _providers = [] as Provider[];
-    if (config && config.dataProvideApi) {
+    const { treeDataProvideApi, listDataProviderApi, searchSelectOptions } = config || {};
+    if (treeDataProvideApi) {
       _providers.push(
         TreeDataProviderInner,
         { provide: TreeDataProvider, useExisting: TreeDataProviderInner }
-      )
+      );
     }
+
+    if (listDataProviderApi) {
+      _providers.push(
+        ListDataProviderInner,
+        { provide: ListDataProvider, useExisting: ListDataProviderInner }
+      );
+    }
+
+    if (searchSelectOptions) {
+      if (Array.isArray(searchSelectOptions) || isObservable(searchSelectOptions)) {
+        _providers.push(
+          { provide: SEARCH_CATEGORY, useValue: config.searchSelectOptions }
+        );
+      } else {
+        _providers.push(
+          searchSelectOptions,
+          {
+            provide: SEARCH_CATEGORY,
+            useFactory(source: SearchSelectOptionProvider) {
+              return source.getOptions();
+            }, deps: [searchSelectOptions]
+          }
+        )
+      }
+    }
+
     return {
       ngModule: DataTreeModule,
       providers: [

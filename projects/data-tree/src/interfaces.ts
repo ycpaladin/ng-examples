@@ -1,8 +1,18 @@
+import { Observable } from 'rxjs';
 import { NzTreeNode } from "ng-zorro-antd/tree";
+import { Type } from '@angular/core';
+
+
+
+export interface SelectOptionValue {
+  api: string;
+  searchKey: string;
+}
 
 export interface SelectOption {
   label: string;
-  value: string
+  value: SelectOptionValue;
+  placehlder?: string;
 }
 
 export interface ITreeSearch {
@@ -26,8 +36,18 @@ export interface TreeNodeData {
 }
 
 
+export interface SearchSelectOptionProvider {
+  getOptions(): Observable<SelectOption[]>;
+}
+
 export interface TreeModuleConfig {
-  dataProvideApi?: string;
+  treeDataProvideApi?: string;
+  listDataProviderApi?: string;
   moduleName?: string;
-  searchSelectOptions?: SelectOption[];
+  searchSelectOptions?: SelectOption[] | Observable<SelectOption[]> | Type<SearchSelectOptionProvider>;
+}
+
+export interface TreeSearchData {
+  keywords?: string;
+  category?: SelectOptionValue;
 }

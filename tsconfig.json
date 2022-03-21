@@ -17,7 +17,8 @@
       ],
       "data-tree": [
         "dist/data-tree/data-tree",
-        "dist/data-tree"
+        "dist/data-tree",
+        "projects/data-tree/src/public-api.ts"
       ],
       "ngrx-wheel": [
         "dist/ngrx-wheel/ngrx-wheel",

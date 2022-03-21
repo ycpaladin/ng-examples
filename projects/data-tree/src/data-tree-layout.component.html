@@ -5,12 +5,18 @@
         <lib-data-tree-search></lib-data-tree-search>
       </div>
       <div nz-col nzSpan="24">
-        <lib-data-tree></lib-data-tree>
+        {{viewType$ | async}}
+        <ng-container *ngIf="viewType$ | async as viewType">
+          <lib-data-list *ngIf="viewType === 'list' else treeView"></lib-data-list>
+          <ng-template #treeView>
+            <lib-data-tree></lib-data-tree>
+          </ng-template>
+        </ng-container>
       </div>
     </div>
   </div>
   <div nz-col nzSpan="18">
-    <nz-card [nzTitle]="nzTitle" [nzExtra]="button">
+    <nz-card [nzTitle]="nzTitle" [nzExtra]="button" nzSize="small">
       <ng-template #nzTitle>
         <nz-breadcrumb>
           <nz-breadcrumb-item><a routerLink="/">面包屑</a></nz-breadcrumb-item>
