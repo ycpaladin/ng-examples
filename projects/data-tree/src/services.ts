@@ -117,12 +117,7 @@ export class ListDataProviderInner implements ListDataProvider {
 
 
 @Injectable()
-export abstract class SearchCategoryData extends Observable<SelectOption[]> {
-
-}
-
-@Injectable()
-export class SearchCategory extends Observable<SelectOption[]>  {
+export class SearchCategoryData extends Observable<SelectOption[]>  {
   constructor(
     @Inject(SEARCH_CATEGORY) @Optional() options: SelectOption[] | Observable<SelectOption[]>
   ) {
@@ -131,7 +126,7 @@ export class SearchCategory extends Observable<SelectOption[]>  {
       this.source = options;
     } else {
       super(subscribe => {
-        subscribe.next(options);
+        subscribe.next(options || []);
         return () => {
           subscribe.complete();
         }

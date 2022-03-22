@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { NzTreeNode } from "ng-zorro-antd/tree";
-import { Type } from '@angular/core';
+import { EventEmitter, Type } from '@angular/core';
 
 
 
@@ -17,12 +17,13 @@ export interface SelectOption {
 
 export interface ITreeSearch {
   onSearchTextChange(keywords: string): void;
-  onSelectedOptionChange(option: SelectOption): void;
+  onSelectedOptionChange(option: SelectOptionValue): void;
 }
 
 
 export interface ITree {
-  onTreeNodeSelect(node: NzTreeNode): void;
+  // onTreeNodeSelect(node: NzTreeNode): void;
+  onTreeNodeSelect: EventEmitter<NzTreeNode>;
 }
 
 

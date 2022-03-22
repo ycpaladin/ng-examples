@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit, forwardRef } from '@angular/core';
-import { NzTreeNode } from 'ng-zorro-antd/tree';
+import { ChangeDetectionStrategy, Component, OnInit, forwardRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { NzFormatEmitEvent, NzTreeComponent, NzTreeNode } from 'ng-zorro-antd/tree';
 import { ITree } from './interfaces';
 import { TreeData } from './services';
 import { TREE_TOKEN } from './token';
@@ -18,10 +18,18 @@ import { TREE_TOKEN } from './token';
 })
 export class DataTreeComponent implements OnInit, ITree {
 
-  constructor(public data: TreeData) { }
+  @ViewChild('tree', { static: true}) treeComponent: NzTreeComponent;
 
-  onTreeNodeSelect(node: NzTreeNode): void {
+  @Output() onTreeNodeSelect = new EventEmitter<NzTreeNode>();
+
+  // 1. 点击节点自动展开下一级节点
+  onNodeClick(e: NzFormatEmitEvent): void {
+    console.log(e, e.node.isExpanded);
+    e.node.setExpanded(true); // ?????
+    // this.treeComponent.nzTreeService.setExpandedNodeList(e.node);
   }
+
+  constructor(public data: TreeData) { }
 
   ngOnInit(): void {
   }

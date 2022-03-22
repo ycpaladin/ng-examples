@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs';
-import { ITreeSearch, SelectOption, TreeSearchData } from './interfaces';
+import { ITreeSearch, SelectOption, SelectOptionValue, TreeSearchData } from './interfaces';
 import { Component, OnInit, ChangeDetectionStrategy, forwardRef } from '@angular/core';
 import { SEARCH_TOKEN } from './token';
-import { SearchCategory, TreeSearchKeywords } from './services';
+import { SearchCategoryData, TreeSearchKeywords } from './services';
 
 @Component({
   selector: 'lib-data-tree-search',
@@ -10,7 +10,7 @@ import { SearchCategory, TreeSearchKeywords } from './services';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     { provide: SEARCH_TOKEN, useExisting: forwardRef(() => DataTreeSearchComponent) },
-    SearchCategory
+    SearchCategoryData
   ]
 })
 export class DataTreeSearchComponent implements OnInit, ITreeSearch {
@@ -20,18 +20,18 @@ export class DataTreeSearchComponent implements OnInit, ITreeSearch {
   options$: Observable<SelectOption[]>;
 
   constructor(
-    public optionProvder: SearchCategory,
+    optionProvder: SearchCategoryData,
     private service: TreeSearchKeywords
   ) {
     this.data = service.value;
-    this.options$ = optionProvder.pipe();
+    this.options$ = optionProvder; // .pipe();
   }
 
   onSearchTextChange(keywords: string): void {
     this.service.onSearchKeywordsChange(keywords);
   }
-  onSelectedOptionChange(option: SelectOption): void {
-    // this.service.onSelectChange()
+  onSelectedOptionChange(option: SelectOptionValue): void {
+    this.service.onSelectChange(option)
   }
 
   ngOnInit(): void {
