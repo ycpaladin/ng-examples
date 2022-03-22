@@ -1,13 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit, forwardRef, EventEmitter, Output, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, forwardRef, EventEmitter, Output, ViewChild, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { NzFormatEmitEvent, NzTreeComponent, NzTreeNode, NzTreeNodeOptions } from 'ng-zorro-antd/tree';
-import { map } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 import { ITree, TreeNodeData } from './interfaces';
 import { SelectdTreeNode, TreeData } from './services';
 import { TREE_TOKEN } from './token';
-
-
-// type ViewType = 'tree' | 'list';
-
 
 @Component({
   selector: 'lib-data-tree',
@@ -17,32 +14,33 @@ import { TREE_TOKEN } from './token';
     { provide: TREE_TOKEN, useExisting: forwardRef(() => DataTreeComponent) },
   ]
 })
-export class DataTreeComponent implements OnInit, ITree {
+export class DataTreeComponent implements OnInit, OnDestroy, ITree {
+
+  // 1. 默认选中的节点
 
   @ViewChild('tree', { static: true }) treeComponent: NzTreeComponent;
 
   @Output() onTreeNodeSelect = new EventEmitter<NzTreeNode>();
 
+  // 默认展开的节点
   nzExpandedKeys: string[] = [];
+  destory$ = new Subject<void>();
 
   // 1. 点击节点自动展开下一级节点
   onNodeClick(e: NzFormatEmitEvent): void {
-    console.log(e, e.node.isExpanded);
-    // e.node.setExpanded(true); // ?????
-
     const selectedTreeNodeData = [Object.assign(e.node.origin, { level: e.node.level })] as (TreeNodeData | NzTreeNodeOptions)[];
     let parent = e.node.parentNode;
     while (parent) {
       selectedTreeNodeData.unshift(Object.assign(parent.origin, { level: parent.level }));
       parent = parent.parentNode;
     }
-    // this.nzExpandedKeys = nzExpandedKeys;
     this.selectedTreeNode.next(selectedTreeNodeData)
   }
 
   constructor(private cdr: ChangeDetectorRef, public data: TreeData, public selectedTreeNode: SelectdTreeNode) {
     selectedTreeNode.pipe(
-      map(array => array.map(item => item.key))
+      map(array => array.map(item => item.key)),
+      takeUntil(this.destory$)
     ).subscribe(nzExpandedKeys => {
       this.nzExpandedKeys = nzExpandedKeys;
       this.cdr.markForCheck();
@@ -52,4 +50,8 @@ export class DataTreeComponent implements OnInit, ITree {
   ngOnInit(): void {
   }
 
+  ngOnDestroy(): void {
+    this.destory$.next();
+    this.destory$.complete();
+  }
 }

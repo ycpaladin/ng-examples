@@ -1,14 +1,13 @@
-import { combineLatest } from 'rxjs';
 import { Inject, Injectable, Optional, OnDestroy } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject, isObservable, Subscription } from 'rxjs';
-import { map, mergeMap, shareReplay, debounceTime } from 'rxjs/operators';
+import { combineLatest, Subject, Observable, BehaviorSubject, isObservable } from 'rxjs';
+import { map, mergeMap, shareReplay, debounceTime, filter, takeUntil, withLatestFrom } from 'rxjs/operators';
 
 import { SEARCH_CATEGORY, TREE_CONFIG } from './token';
 import { IDataItem, ResponseData } from 'data-table';
 import { SelectOption, SelectOptionValue, TreeModuleConfig, TreeNodeData, TreeSearchData } from './interfaces';
-import { NzTreeNode, NzTreeNodeOptions } from 'ng-zorro-antd/tree';
-import { ActivatedRoute } from '@angular/router';
+import { NzTreeNodeOptions } from 'ng-zorro-antd/tree';
 
 export abstract class TreeSearchKeywordsObservable extends Observable<TreeSearchData>  {
   abstract onSearchKeywordsChange(keywords: string): void;
@@ -140,15 +139,17 @@ export class SearchCategoryData extends Observable<SelectOption[]>  {
 
 
 @Injectable()
-export class SelectdTreeNode extends BehaviorSubject<(TreeNodeData | NzTreeNodeOptions)[]> {
+export class SelectdTreeNode extends BehaviorSubject<(TreeNodeData | NzTreeNodeOptions)[]> implements OnDestroy {
+
+  destory$ = new Subject<void>();
+
   constructor(
     @Inject(TREE_CONFIG) public config: TreeModuleConfig,
     data: TreeData,
-    activatedRoute: ActivatedRoute
+    activatedRoute: ActivatedRoute,
+    router: Router,
   ) {
     super([]);
-    // const level = activatedRoute.snapshot.url;
-    // const { url } = activatedRoute.snapshot
     const { href } = window.location;
     const key = Object.keys(config.expandKeyRoute).find(key => href.indexOf(key) !== -1);
     if (key) {
@@ -169,33 +170,42 @@ export class SelectdTreeNode extends BehaviorSubject<(TreeNodeData | NzTreeNodeO
             }
           })
         }, array);
-        // return array;
       }
 
-      const targetActivatedRoute = (function findTargetActivatedRoute(ar: ActivatedRoute): ActivatedRoute {
-        return ar.children.length === 0 ? ar : findTargetActivatedRoute(ar.children[0]);
-      })(activatedRoute);
+      const sources = (function getParams(ar: ActivatedRoute, array: Observable<Params>[] = []): Observable<Params>[] {
+        return ar.children.reduce((prev, curr) => {
+          prev.push(curr.params);
+          return getParams(curr, prev);
+        }, array);
+      })(activatedRoute)
 
-
-      combineLatest([data, targetActivatedRoute.params]).pipe(
-        map(([d, { id }]) => {
-          return find(d, parseInt(id, 10), []);
+      const params$ = combineLatest(sources).pipe(
+        map(params => {
+          // console.log('==>', params)
+          return params.find(p => Object.keys(p).length > 0);
         })
+      )
+
+      // 路由发生变化后，重新监听路由参数变化
+      const paramsSource$ = router.events.pipe(
+        filter(e => e instanceof NavigationEnd),
+        withLatestFrom(params$),
+        map(([, params]) => params)
+      )
+
+      // 只要路由参数发生变化，从数据中查找
+      combineLatest([data, paramsSource$]).pipe(
+        map(([d, { id }]) => find(d, parseInt(id, 10), [])),
+        takeUntil(this.destory$)
       ).subscribe(result => {
-        console.log(result);
         this.next(result);
       })
     }
-    // const f = () => {
+  }
 
-    // }
-
-    // data.subscribe(d => {
-
-    // })
-
-
-    // console.log(activatedRoute)
-
+  ngOnDestroy(): void {
+    this.destory$.next();
+    this.destory$.complete();
+    this.complete();
   }
 }
