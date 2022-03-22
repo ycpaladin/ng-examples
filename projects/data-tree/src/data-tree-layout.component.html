@@ -19,7 +19,11 @@
     <nz-card [nzTitle]="nzTitle" [nzExtra]="button" nzSize="small">
       <ng-template #nzTitle>
         <nz-breadcrumb>
-          <nz-breadcrumb-item><a routerLink="/">面包屑</a></nz-breadcrumb-item>
+          <nz-breadcrumb-item *ngFor="let item of selectedTreeNode$|async">
+            <a [routerLink]="item|breadcrumbUrl">
+              {{item.title}}
+            </a>
+          </nz-breadcrumb-item>
         </nz-breadcrumb>
       </ng-template>
       <ng-template #button>

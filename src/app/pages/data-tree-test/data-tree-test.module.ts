@@ -17,7 +17,12 @@ import { TreeSelectOptionService } from './tree-select-option.service';
       {
         treeDataProvideApi: '/lms/api/v1/organization-management/tree',
         listDataProviderApi: '/lms/api/v1/organization-management/list',
-        searchSelectOptions: TreeSelectOptionService
+        searchSelectOptions: TreeSelectOptionService,
+        expandKeyRoute: {
+          // company: [1],
+          "org-mgmt": [1],
+          "dept-mgmt": [2, 3, 4]
+        }
         //  [
         //   { label: '部门', value: { api: '/lms/api/v1/department-management/list', searchKey: 'search_global__icontains' } },
         //   { label: '组织', value: { api: '/lms/api/v1/organization-management/list', searchKey: 'search_global__icontains' } },

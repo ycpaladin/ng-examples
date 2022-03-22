@@ -21,6 +21,8 @@ import { DataTreeSearchComponent } from './data-tree-search.component';
 import { DataListComponent } from './data-list.component';
 import { SearchSelectOptionProvider, TreeModuleConfig } from './interfaces';
 import { SEARCH_CATEGORY, TREE_CONFIG } from './token';
+import { BreadcrumbUrlPipe } from './breadcrumb-url.pipe';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -29,11 +31,13 @@ import { SEARCH_CATEGORY, TREE_CONFIG } from './token';
     DataTreeComponent,
     DataTreeLayoutComponent,
     DataTreeSearchComponent,
-    DataListComponent
+    DataListComponent,
+    BreadcrumbUrlPipe
   ],
   imports: [
     CommonModule,
     FormsModule,
+    RouterModule,
     NzBreadCrumbModule,
     NzTreeModule,
     NzInputModule,

@@ -31,6 +31,7 @@ export interface TreeNodeData {
   id: number;
   key: string;
   title: string;
+  level?: number;
   // label: string;
   // value: string;
   children: TreeNodeData[]
@@ -46,6 +47,11 @@ export interface TreeModuleConfig {
   listDataProviderApi?: string;
   moduleName?: string;
   searchSelectOptions?: SelectOption[] | Observable<SelectOption[]> | Type<SearchSelectOptionProvider>;
+  expandKeyRoute: ExpandKeyRouteConifg;
+}
+
+export interface ExpandKeyRouteConifg {
+  [K: string]: number[];
 }
 
 export interface TreeSearchData {

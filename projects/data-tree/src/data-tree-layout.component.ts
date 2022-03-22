@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, AfterViewInit } from '@angular/core';
 import { ITree, ITreeSearch, TreeSearchData } from './interfaces';
-import { ListData, TreeData, TreeSearchKeywords, TreeSearchKeywordsObservable } from './services';
+import { ListData, SelectdTreeNode, TreeData, TreeSearchKeywords, TreeSearchKeywordsObservable } from './services';
 import { SEARCH_TOKEN, TREE_TOKEN } from './token';
 import { map, tap } from 'rxjs/operators';
 
@@ -15,6 +15,7 @@ type ViewType = 'tree' | 'list';
     TreeData,
     ListData,
     TreeSearchKeywords,
+    SelectdTreeNode,
     { provide: TreeSearchKeywordsObservable, useExisting: TreeSearchKeywords }
   ]
 })
@@ -25,10 +26,18 @@ export class DataTreeLayoutComponent implements OnInit, AfterViewInit {
 
   viewType$!: Observable<ViewType>;
 
-  constructor(keywords: TreeSearchKeywordsObservable) {
+  breadcrumb$: Observable<string[]>;
+  constructor(
+    keywords: TreeSearchKeywordsObservable,
+    public selectedTreeNode$: SelectdTreeNode
+  ) {
     this.viewType$ = keywords.pipe(
       map((kw: TreeSearchData) => !!kw.keywords ? 'list' : 'tree')
     );
+
+    // this.breadcrumb$ = selectedTreeNode.pipe(
+    //   map(array => array.map(item => item.title))
+    // )
   }
 
 
