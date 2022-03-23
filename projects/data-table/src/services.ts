@@ -1,6 +1,6 @@
 import { Inject, Injectable, OnDestroy } from "@angular/core";
 import { BehaviorSubject, combineLatest, Observable, of } from "rxjs";
-import { catchError, debounceTime, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, debounceTime, map, mergeMap, tap, shareReplay } from 'rxjs/operators';
 import { PAGED_DATA_SERVICE } from "./token";
 import { IDataItem, ITableDataProvider, IPageIndexChange, IPageSizeChange, IQueryParamsChange, OrderByType, Params, ResponsePagedData } from "./interfaces";
 
@@ -131,7 +131,7 @@ export class PagedData<T extends IDataItem> extends Observable<ResponsePagedData
     public queryParams: QueryParamsChange
   ) {
     super();
-    this.source = this.getData();
+    this.source = this.getData().pipe(shareReplay(1));
   }
 
 
