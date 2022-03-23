@@ -1,7 +1,7 @@
 import { Inject, Injectable, OnDestroy } from "@angular/core";
 import { BehaviorSubject, combineLatest, Observable, of } from "rxjs";
-import { catchError, debounceTime, mergeMap, tap } from 'rxjs/operators';
-import { PAGED_DATA_SERVICE } from "./consts";
+import { catchError, debounceTime, map, mergeMap, tap } from 'rxjs/operators';
+import { PAGED_DATA_SERVICE } from "./token";
 import { IDataItem, ITableDataProvider, IPageIndexChange, IPageSizeChange, IQueryParamsChange, OrderByType, Params, ResponsePagedData } from "./interfaces";
 
 
@@ -119,6 +119,10 @@ export class OrderBy implements OrderByChange {
 @Injectable()
 export class PagedData<T extends IDataItem> extends Observable<ResponsePagedData<T>>{
   isFetching$ = new BehaviorSubject<boolean>(false);
+  pageIndex$ = this.pipe(map(data => data.info.page));
+  pageSize$ = this.pipe(map(data => data.info.results));
+  total$ = this.pipe(map(data => data.info.total));
+  data$ = this.pipe(map(data => data.data));
 
   constructor(
     @Inject(PAGED_DATA_SERVICE) public pageDataService: ITableDataProvider<T>,

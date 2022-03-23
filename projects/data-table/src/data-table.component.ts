@@ -1,9 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ContentChildren, QueryList } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
-import { IDataItem } from './interfaces';
+import { IDataItem, ITableColumn } from './interfaces';
 import { OrderBy, OrderByChange, PagedData, PageIndex, PageIndexChange, PageSize, PageSizeChange, QueryParams, QueryParamsChange } from './services';
+import { TABLE_COLUMN } from './token';
 
 @Component({
   selector: 'app-data-table',
@@ -32,6 +33,8 @@ export class DataTableComponent implements OnInit {
   data$!: Observable<IDataItem[]>;
   isFetching$!: Observable<boolean>;
 
+  @ContentChildren(TABLE_COLUMN) listOfColumns!: QueryList<ITableColumn>;
+
   onPageIndexChange(pageIndex: number): void {
     this.page.pageIndexChange(pageIndex);
   }
@@ -44,15 +47,13 @@ export class DataTableComponent implements OnInit {
     private page: PageIndexChange,
     private results: PageSizeChange,
     private orderBy: OrderByChange,
-    data$: PagedData<IDataItem>,
+    pageData: PagedData<IDataItem>,
   ) {
-    // const data$ = service.getData().pipe(shareReplay());
-
-    this.pageIndex$ = data$.pipe(map(data => data.info.page));
-    this.pageSize$ = data$.pipe(map(data => data.info.results));
-    this.total$ = data$.pipe(map(data => data.info.total));
-    this.data$ = data$.pipe(map(data => data.data));
-    this.isFetching$ = data$.isFetching$;
+    this.pageIndex$ = pageData.pageIndex$;
+    this.pageSize$ = pageData.pageSize$;
+    this.total$ = pageData.total$;
+    this.data$ = pageData.data$;
+    this.isFetching$ = pageData.isFetching$;
   }
 
   ngOnInit(): void {

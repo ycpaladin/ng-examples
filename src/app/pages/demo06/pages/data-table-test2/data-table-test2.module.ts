@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { DataTableTest2RoutingModule } from './data-table-test2-routing.module';
 import { DataTableTest2Component } from './data-table-test2.component';
 import { DataTableModule } from 'projects/data-table/src/data-table.module';
-import { PAGED_DATA_SERVICE } from 'projects/data-table/src/consts';
+import { PAGED_DATA_SERVICE } from 'data-table';
 import { PageDataProvider } from './data-provider.service';
 
 

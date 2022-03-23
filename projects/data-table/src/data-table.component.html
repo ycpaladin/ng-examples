@@ -6,15 +6,22 @@
   (nzPageSizeChange)="onPageSizeChange($event)">
   <thead>
     <tr>
-      <th>SN</th>
-      <th></th>
+      <th *ngFor="let col of listOfColumns">
+        <ng-container *nzStringTemplateOutlet="col.nzTitle">
+          {{col.nzTitle}}
+        </ng-container>
+      </th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let i of nzTable.data">
-      <td>{{i.unit_sn}}</td>
-      <td>
-
+    <tr *ngFor="let item of nzTable.data">
+      <td *ngFor="let col of listOfColumns">
+        <ng-container *ngIf="col.contentFromContentChild else tdView">
+          <ng-container *nzStringTemplateOutlet="col.contentFromContentChild"></ng-container>
+        </ng-container>
+        <ng-template #tdView>
+          {{item[col.dataKey]}}
+        </ng-template>
       </td>
     </tr>
   </tbody>

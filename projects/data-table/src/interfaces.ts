@@ -1,3 +1,4 @@
+import { TemplateRef } from '@angular/core';
 import { SearchGroupConfig } from "projects/search-group/src/interfaces";
 import { Observable } from "rxjs";
 
@@ -51,5 +52,20 @@ export interface IQueryParamsChange extends IRestoreData {
   getValue(): { [K: string]: any };
 }
 
+export interface ITableColumn {
+  nzTitle: string | TemplateRef<void>;
+  dataKey: string;
+  sortKey?: string;
+  searchKey?: string;
+  contentFromContentChild: TemplateRef<void>;
+}
+
+export interface ITableColumnContent {
+  templateRef: TemplateRef<ITableColumnContentData>
+}
+
+export interface ITableColumnContentData {
+
+}
 
 export type OrderByType = 'asc' | 'desc';

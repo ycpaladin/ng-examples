@@ -1,25 +1,32 @@
-import { NzTableModule } from 'ng-zorro-antd/table';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzOutletModule } from 'ng-zorro-antd/core/outlet'
+import { SearchGroupModule } from 'search-group';
+
 import { DataTableComponent } from './data-table.component';
-// import { PageDataProvider } from './services';
-import { MODULE_CONFIG, PAGED_DATA_SERVICE } from './consts';
+import { MODULE_CONFIG } from './token';
 import { DataTableModuleConfig } from './interfaces';
-import { SearchGroupModule } from 'projects/search-group/src/search-group.module';
+import { DataTableColumnDirective, DataTableColumnContentDirective } from './data-table-column.directive';
 
 
 
 @NgModule({
   declarations: [
-    DataTableComponent
+    DataTableComponent,
+    DataTableColumnDirective,
+    DataTableColumnContentDirective
   ],
   imports: [
     CommonModule,
     NzTableModule,
+    NzOutletModule,
     SearchGroupModule
   ],
   exports: [
-    DataTableComponent
+    DataTableComponent,
+    DataTableColumnDirective,
+    DataTableColumnContentDirective
   ]
 })
 export class DataTableModule {
