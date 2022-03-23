@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit, forwardRef, EventEmitter, Output, ViewChild, ChangeDetectorRef, OnDestroy, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NzFormatEmitEvent, NzTreeComponent, NzTreeNode, NzTreeNodeOptions } from 'ng-zorro-antd/tree';
+import { NzFormatEmitEvent, NzTreeComponent, NzTreeNode } from 'ng-zorro-antd/tree';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { ITree, TreeModuleConfig, TreeNodeData } from './interfaces';
+import { ITree, TreeModuleConfig } from './interfaces';
 import { SelectdTreeNode, TreeData } from './services';
 import { TREE_CONFIG, TREE_TOKEN } from './token';
 
@@ -16,8 +16,6 @@ import { TREE_CONFIG, TREE_TOKEN } from './token';
   ]
 })
 export class DataTreeComponent implements OnInit, OnDestroy, ITree {
-
-  // 1. 默认选中的节点
 
   @ViewChild('tree', { static: true }) treeComponent: NzTreeComponent;
 
@@ -34,17 +32,18 @@ export class DataTreeComponent implements OnInit, OnDestroy, ITree {
     const { level, origin } = e.node;
     const entity = Object.entries(expandKeyRoute).find(([k, v]) => v.includes(level));
     if (entity) {
-      this.refreshUrl(e.node.origin.id, entity[0]);
-    } else {
-      const selectedTreeNodeData = [Object.assign(e.node.origin, { level: e.node.level })] as (TreeNodeData | NzTreeNodeOptions)[];
-      let parent = e.node.parentNode;
-      while (parent) {
-        selectedTreeNodeData.unshift(Object.assign(parent.origin, { level: parent.level }));
-        parent = parent.parentNode;
-      }
-      // console.log(selectedTreeNodeData)
-      this.selectedTreeNode.next(selectedTreeNodeData);
+      this.refreshUrl(origin.id, entity[0]);
     }
+    //  else {
+    //   const selectedTreeNodeData = [Object.assign(e.node.origin, { level: e.node.level })] as (TreeNodeData | NzTreeNodeOptions)[];
+    //   let parent = e.node.parentNode;
+    //   while (parent) {
+    //     selectedTreeNodeData.unshift(Object.assign(parent.origin, { level: parent.level }));
+    //     parent = parent.parentNode;
+    //   }
+    //   // console.log(selectedTreeNodeData)
+    //   this.selectedTreeNode.next(selectedTreeNodeData);
+    // }
   }
 
   private refreshUrl(id: number, urlKey: string): void {
