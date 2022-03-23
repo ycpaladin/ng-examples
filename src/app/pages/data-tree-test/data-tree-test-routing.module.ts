@@ -7,8 +7,18 @@ const routes: Routes = [
     path: '',
     component: DataTreeTestComponent,
     children: [
-      { path: 'org-mgmt', loadChildren: () => import('./org-mgmt/org-mgmt.module').then(m => m.OrgMgmtModule) },
-      { path: 'dept-mgmt', loadChildren: () => import('./dept-mgmt/dept-mgmt.module').then(m => m.DeptMgmtModule) },
+      {
+        path: 'empty',
+        loadChildren: () => import('./empty/empty.module').then(m => m.EmptyModule)
+      },
+      {
+        path: 'org-mgmt',
+        loadChildren: () => import('./org-mgmt/org-mgmt.module').then(m => m.OrgMgmtModule)
+      },
+      {
+        path: 'dept-mgmt',
+        loadChildren: () => import('./dept-mgmt/dept-mgmt.module').then(m => m.DeptMgmtModule)
+      },
     ]
   }
 ];

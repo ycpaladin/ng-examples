@@ -1,13 +1,14 @@
 import { Inject, Injectable, Optional, OnDestroy } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { combineLatest, Subject, Observable, BehaviorSubject, isObservable } from 'rxjs';
-import { map, mergeMap, shareReplay, debounceTime, filter, takeUntil, withLatestFrom } from 'rxjs/operators';
-
-import { SEARCH_CATEGORY, TREE_CONFIG } from './token';
-import { IDataItem, ResponseData } from 'data-table';
-import { SelectOption, SelectOptionValue, TreeModuleConfig, TreeNodeData, TreeSearchData } from './interfaces';
+import { combineLatest, Subject, Observable, BehaviorSubject, isObservable, zip } from 'rxjs';
+import { map, mergeMap, shareReplay, debounceTime, filter, takeUntil, withLatestFrom, tap, startWith, retry, delay } from 'rxjs/operators';
 import { NzTreeNodeOptions } from 'ng-zorro-antd/tree';
+
+import { IDataItem, ResponseData } from 'data-table';
+import { SEARCH_CATEGORY, TREE_CONFIG } from './token';
+import { SelectOption, SelectOptionValue, TreeModuleConfig, TreeNodeData, TreeSearchData } from './interfaces';
+import { f, getParams } from './utils';
 
 export abstract class TreeSearchKeywordsObservable extends Observable<TreeSearchData>  {
   abstract onSearchKeywordsChange(keywords: string): void;
@@ -138,6 +139,7 @@ export class SearchCategoryData extends Observable<SelectOption[]>  {
 }
 
 
+
 @Injectable()
 export class SelectdTreeNode extends BehaviorSubject<(TreeNodeData | NzTreeNodeOptions)[]> implements OnDestroy {
 
@@ -145,62 +147,52 @@ export class SelectdTreeNode extends BehaviorSubject<(TreeNodeData | NzTreeNodeO
 
   constructor(
     @Inject(TREE_CONFIG) public config: TreeModuleConfig,
-    data: TreeData,
-    activatedRoute: ActivatedRoute,
     router: Router,
+    activatedRoute: ActivatedRoute,
+    data: TreeData,
   ) {
     super([]);
-    const { href } = window.location;
-    const key = Object.keys(config.expandKeyRoute).find(key => href.indexOf(key) !== -1);
-    if (key) {
-      const level = config.expandKeyRoute[key]; // 有level 说明匹配成功
+    const routerSource$ = router.events.pipe(
+      filter(e => e instanceof NavigationEnd)
+    );
 
-      const find = (data: TreeNodeData[], id: number, array: TreeNodeData[], dataLevel: number = 0, cb?: () => void) => {
-        return data.reduce((prev, curr) => {
-          if (curr.id === id && level.includes(dataLevel)) {
-            array.push({ ...curr, level: dataLevel });
-            if (cb) {
-              cb();
-            }
-          }
-          return find(curr.children, id, prev, dataLevel + 1, () => {
-            array.unshift({ ...curr, level: dataLevel });
-            if (cb) {
-              cb();
-            }
-          })
-        }, array);
-      }
-
-      const sources = (function getParams(ar: ActivatedRoute, array: Observable<Params>[] = []): Observable<Params>[] {
-        return ar.children.reduce((prev, curr) => {
-          prev.push(curr.params);
-          return getParams(curr, prev);
-        }, array);
-      })(activatedRoute)
-
-      const params$ = combineLatest(sources).pipe(
-        map(params => {
-          // console.log('==>', params)
-          return params.find(p => Object.keys(p).length > 0);
-        })
-      )
-
-      // 路由发生变化后，重新监听路由参数变化
-      const paramsSource$ = router.events.pipe(
-        filter(e => e instanceof NavigationEnd),
-        withLatestFrom(params$),
-        map(([, params]) => params)
-      )
-
-      // 只要路由参数发生变化，从数据中查找
-      combineLatest([data, paramsSource$]).pipe(
-        map(([d, { id }]) => find(d, parseInt(id, 10), [])),
-        takeUntil(this.destory$)
-      ).subscribe(result => {
-        this.next(result);
+    const params$ = routerSource$.pipe(
+      mergeMap(() => combineLatest(getParams(activatedRoute))),
+      map((params) => {
+        return params.find(p => Object.keys(p).length > 0);
       })
-    }
+    );
+
+    const level$ = routerSource$.pipe(
+      map(() => {
+        const entity = Object.entries(config.expandKeyRoute).find(([key]) => router.url.indexOf(key) !== -1);
+        if (entity) {
+          // const [, level] = entity; // 有level 说明匹配成功
+          return entity[1];
+        }
+        return null;
+      }),
+      filter(v => !!v)
+    );
+
+    // 路由发生变化后，重新监听路由参数变化
+    const paramsSource$ = routerSource$.pipe(
+      withLatestFrom(params$),
+      map(([, params]) => params)
+    )
+
+    // 只要路由参数发生变化，从数据中查找
+    zip(paramsSource$, level$).pipe(
+      delay(0),
+      withLatestFrom(data),
+    ).pipe(
+      map(([[{ id }, level], d]) => {
+        return f(level, parseInt(id, 10))(d, []);
+      }),
+      takeUntil(this.destory$)
+    ).subscribe(result => {
+      this.next(result);
+    })
   }
 
   ngOnDestroy(): void {

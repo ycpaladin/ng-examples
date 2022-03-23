@@ -19,7 +19,7 @@ import { TreeSelectOptionService } from './tree-select-option.service';
         listDataProviderApi: '/lms/api/v1/organization-management/list',
         searchSelectOptions: TreeSelectOptionService,
         expandKeyRoute: {
-          // company: [1],
+          "empty": [0],
           "org-mgmt": [1],
           "dept-mgmt": [2, 3, 4]
         }
