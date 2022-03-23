@@ -67,10 +67,8 @@ export class TreeDataProviderInner implements TreeDataProvider {
 
   getTreeData(params: { [K: string]: any }): Observable<TreeNodeData[]> {
     return this.http.get<ResponseData<TreeNodeData[]>>(
-      this.config.treeDataProvideApi,
-      {
-        params
-      }
+      this.config.treeDataProvider as string,
+      { params }
     ).pipe(
       map(data => data.data)
     )
@@ -106,8 +104,8 @@ export class ListDataProviderInner implements ListDataProvider {
   }
 
   getListData(keywords: string, category?: SelectOptionValue): Observable<IDataItem[]> {
-    const { api = this.config.listDataProviderApi, searchKey } = category || {};
-    return this.http.get<ResponseData<IDataItem[]>>(api, {
+    const { api = this.config.listDataProvider, searchKey } = category || {};
+    return this.http.get<ResponseData<IDataItem[]>>(api as string, {
       params: {
         [searchKey]: keywords
       }

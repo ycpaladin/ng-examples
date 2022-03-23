@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 import { NzTreeNode } from "ng-zorro-antd/tree";
 import { EventEmitter, Type } from '@angular/core';
+import { ListDataProvider, TreeDataProvider } from './services';
 
 
 
@@ -43,10 +44,10 @@ export interface SearchSelectOptionProvider {
 }
 
 export interface TreeModuleConfig {
-  treeDataProvideApi?: string;
-  listDataProviderApi?: string;
+  treeDataProvider?: string | Type<TreeDataProvider>;
+  listDataProvider?: string | Type<ListDataProvider>;
   moduleName?: string;
-  searchSelectOptions?: SelectOption[] | Observable<SelectOption[]> | Type<SearchSelectOptionProvider>;
+  searchSelectOptionsProvider?: SelectOption[] | Observable<SelectOption[]> | Type<SearchSelectOptionProvider>;
   expandKeyRoute: ExpandKeyRouteConifg;
 }
 

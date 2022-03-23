@@ -26,6 +26,8 @@ import { RouterModule } from '@angular/router';
 
 
 
+
+
 @NgModule({
   declarations: [
     DataTreeComponent,
@@ -58,34 +60,48 @@ import { RouterModule } from '@angular/router';
 export class DataTreeModule {
   static forConfig(config?: TreeModuleConfig): ModuleWithProviders<DataTreeModule> {
     const _providers = [] as Provider[];
-    const { treeDataProvideApi, listDataProviderApi, searchSelectOptions } = config || {};
-    if (treeDataProvideApi) {
-      _providers.push(
-        TreeDataProviderInner,
-        { provide: TreeDataProvider, useExisting: TreeDataProviderInner }
-      );
-    }
-
-    if (listDataProviderApi) {
-      _providers.push(
-        ListDataProviderInner,
-        { provide: ListDataProvider, useExisting: ListDataProviderInner }
-      );
-    }
-
-    if (searchSelectOptions) {
-      if (Array.isArray(searchSelectOptions) || isObservable(searchSelectOptions)) {
+    const { treeDataProvider, listDataProvider, searchSelectOptionsProvider } = config || {};
+    if (treeDataProvider) {
+      if (typeof treeDataProvider === 'string') {
         _providers.push(
-          { provide: SEARCH_CATEGORY, useValue: config.searchSelectOptions }
+          TreeDataProviderInner,
+          { provide: TreeDataProvider, useExisting: TreeDataProviderInner }
         );
       } else {
         _providers.push(
-          searchSelectOptions,
+          treeDataProvider,
+          { provide: TreeDataProvider, useExisting: treeDataProvider }
+        )
+      }
+    }
+
+    if (listDataProvider) {
+      if (typeof listDataProvider === 'string') {
+        _providers.push(
+          ListDataProviderInner,
+          { provide: ListDataProvider, useExisting: ListDataProviderInner }
+        );
+      } else {
+        _providers.push(
+          listDataProvider,
+          { provide: ListDataProvider, useExisting: listDataProvider }
+        )
+      }
+    }
+
+    if (searchSelectOptionsProvider) {
+      if (Array.isArray(searchSelectOptionsProvider) || isObservable(searchSelectOptionsProvider)) {
+        _providers.push(
+          { provide: SEARCH_CATEGORY, useValue: config.searchSelectOptionsProvider }
+        );
+      } else {
+        _providers.push(
+          searchSelectOptionsProvider,
           {
             provide: SEARCH_CATEGORY,
             useFactory(source: SearchSelectOptionProvider) {
               return source.getOptions();
-            }, deps: [searchSelectOptions]
+            }, deps: [searchSelectOptionsProvider]
           }
         )
       }
