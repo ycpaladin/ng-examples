@@ -20,6 +20,10 @@
         "dist/data-tree",
         "projects/data-tree/src/public-api.ts"
       ],
+      "micro-front": [
+        "dist/micro-front/micro-front",
+        "dist/micro-front"
+      ],
       "ngrx-wheel": [
         "dist/ngrx-wheel/ngrx-wheel",
         "dist/ngrx-wheel",
