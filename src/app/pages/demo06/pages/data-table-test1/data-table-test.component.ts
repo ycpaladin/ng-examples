@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IDataItem } from 'data-table';
 
 @Component({
   selector: 'app-data-table-test',
@@ -7,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DataTableTestComponent implements OnInit {
 
+  disabledFn = (item:IDataItem) => item.id % 2 === 0;
   constructor() { }
 
   ngOnInit(): void {

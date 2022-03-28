@@ -1,8 +1,8 @@
 import { Inject, Injectable, OnDestroy } from "@angular/core";
-import { BehaviorSubject, combineLatest, Observable, of } from "rxjs";
-import { catchError, debounceTime, map, mergeMap, tap, shareReplay } from 'rxjs/operators';
-import { PAGED_DATA_SERVICE } from "./token";
-import { IDataItem, ITableDataProvider, IPageIndexChange, IPageSizeChange, IQueryParamsChange, OrderByType, Params, ResponsePagedData } from "./interfaces";
+import { BehaviorSubject, combineLatest, isObservable, Observable, of, Subject, Subscription } from "rxjs";
+import { catchError, debounceTime, map, mergeMap, tap, shareReplay, takeUntil } from 'rxjs/operators';
+import { DISABLED_BY, PAGED_DATA_SERVICE } from "./token";
+import { IDataItem, ITableDataProvider, IPageIndexChange, IPageSizeChange, IQueryParamsChange, OrderByType, Params, ResponsePagedData, IDisabledBy, DisableByFn } from "./interfaces";
 
 
 export abstract class PageIndexChange extends Observable<number> implements IPageIndexChange {
@@ -117,7 +117,7 @@ export class OrderBy implements OrderByChange {
  * 这里可以拆成 `远程数据提供者`，`本地数据提供者`
  */
 @Injectable()
-export class PagedData<T extends IDataItem> extends Observable<ResponsePagedData<T>>{
+export class PagedData<T extends IDataItem = IDataItem> extends Observable<ResponsePagedData<T>>{
   isFetching$ = new BehaviorSubject<boolean>(false);
   pageIndex$ = this.pipe(map(data => data.info.page));
   pageSize$ = this.pipe(map(data => data.info.results));
@@ -152,3 +152,106 @@ export class PagedData<T extends IDataItem> extends Observable<ResponsePagedData
     )
   }
 }
+
+/**
+ * 数据选择策略
+ */
+// @Injectable()
+export abstract class DataCheckStrategy {
+
+  indeterminate = false;
+  allChecked = false;
+  setOfCheckedId = new Map<number, boolean>();
+  destory$ = new Subject<void>();
+  data!: IDataItem[]
+
+  allItemsCheckChange(checked: boolean): void {
+    this.data.forEach(({ id }) => {
+      if (checked) {
+        this.setOfCheckedId.set(id, checked);
+      } else {
+        this.setOfCheckedId.delete(id);
+      }
+    });
+    this.allChecked = checked;
+    this.refreshCheckedStatus();
+  }
+
+  itemCheckedChange(id: number, checked: boolean): void {
+    if (checked) {
+      this.setOfCheckedId.set(id, checked);
+    } else {
+      this.setOfCheckedId.delete(id);
+    }
+    this.refreshCheckedStatus();
+  }
+
+  protected refreshCheckedStatus(): void {
+    this.allChecked = this.data.every(({ id }) => this.setOfCheckedId.has(id));
+    this.indeterminate = this.data.some(({ id }) => this.setOfCheckedId.has(id)) && !this.allChecked;
+  }
+
+  constructor(public data$: Observable<IDataItem[]>, public disabledBy: DisableByFn) {
+    data$.pipe(
+      mergeMap(data => {
+        return new Observable<IDataItem[]>(subscribe => {
+          const subscription = new Subscription();
+          const _data = data.reduce<IDataItem[]>((prev, curr) => {
+            const _item = this.disabledBy(curr)
+            if (isObservable(_item)) {
+              subscription.add(
+                _item.subscribe(v => {
+                  if (!v) {
+                    prev.push(curr);
+                  }
+                })
+              );
+            } else {
+              if (!_item) {
+                prev.push(curr);
+              }
+            }
+            return prev;
+          }, []);
+          subscribe.next(_data);
+          return () => {
+            subscribe.complete();
+            subscription.unsubscribe();
+          }
+        })
+      }),
+      takeUntil(this.destory$)
+    ).subscribe(data => {
+      this.data = data;
+      this.pageDataLoaded();
+    });
+  }
+
+  abstract pageDataLoaded(): void;
+
+}
+
+/**
+ * 默认的数据选中策略
+ */
+@Injectable()
+export class DataCheckDefaultStrategy extends DataCheckStrategy implements OnDestroy {
+  constructor(data$: PagedData, @Inject(DISABLED_BY) disabledBy: IDisabledBy) {
+    super(data$.data$, disabledBy.disabledBy)
+  }
+
+  pageDataLoaded(): void {
+    this.setOfCheckedId.clear();
+    this.refreshCheckedStatus();
+  }
+
+  ngOnDestroy(): void {
+    this.destory$.next();
+    this.destory$.complete();
+  }
+
+}
+
+// 记忆翻页选择策略
+
+// 全选，忽略翻页针对所有符合查询条件的数据策略

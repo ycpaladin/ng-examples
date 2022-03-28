@@ -69,3 +69,23 @@ export interface ITableColumnContentData {
 }
 
 export type OrderByType = 'asc' | 'desc';
+
+
+export interface IDisabledBy {
+  disabledBy: DisableByFn;
+}
+
+
+export interface DisableByFn {
+  (item: IDataItem): boolean | Observable<boolean>;
+}
+
+/**
+ * 数据选中策略
+ * ```
+ * `default`：默认，极小的概率会出现数据不同步的问题
+ * `memory`：翻页记忆，pageIndex或者pageSize发生变化不会清除之前选中的数据, 可能会出现数据不同步的问题
+ * `all`：忽略pageIndex和pageSize, 会选中所有符合查询条件的数据，数据量过大会存在性能问题
+ * ```
+ */
+export type CheckStrategy = 'default' | 'memory' | 'all';
