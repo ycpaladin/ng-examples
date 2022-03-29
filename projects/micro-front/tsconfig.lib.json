@@ -6,8 +6,7 @@
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
-    "types": [],
-    "experimentalDecorators": true
+    "types": []
   },
   "exclude": [
     "src/test.ts",

@@ -22,7 +22,8 @@
       ],
       "micro-front": [
         "dist/micro-front/micro-front",
-        "dist/micro-front"
+        "dist/micro-front",
+        "projects/micro-front/src/public-api.ts"
       ],
       "ngrx-wheel": [
         "dist/ngrx-wheel/ngrx-wheel",

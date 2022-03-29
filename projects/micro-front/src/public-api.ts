@@ -9,3 +9,4 @@ export * from './lib/component/component-loader';
 export * from './lib/component/component-ref';
 export * from './lib/application/application-loader';
 export * from './lib/application/application-ref';
+export * from './lib/empty/empty.component';

@@ -1,11 +1,29 @@
 {
   "/lms": {
-      "target": "http://10.6.3.17:8003/",
-      "secure": false,
-      "changeOrigin": true,
-      "logLevel": "debug",
-      "cookieDomainRewrite": {
-          "*": "localhost:4200"
-      }
+    "target": "http://10.6.3.17:8003/",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "cookieDomainRewrite": {
+      "*": "localhost:4000"
+    }
+  },
+  "/static/app1": {
+    "target": "http://localhost:4001/",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "cookieDomainRewrite": {
+      "*": "localhost:4000"
+    }
+  },
+  "/static/app2": {
+    "target": "http://localhost:4002/",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "cookieDomainRewrite": {
+      "*": "localhost:4000"
+    }
   }
 }
