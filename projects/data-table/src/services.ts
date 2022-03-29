@@ -191,29 +191,33 @@ export abstract class DataCheckStrategy {
     this.indeterminate = this.data.some(({ id }) => this.setOfCheckedId.has(id)) && !this.allChecked;
   }
 
-  constructor(public data$: Observable<IDataItem[]>, public disabledBy: DisableByFn) {
+  constructor(public data$: Observable<IDataItem[]>, public disabledBy?: DisableByFn) {
     data$.pipe(
       mergeMap(data => {
         return new Observable<IDataItem[]>(subscribe => {
           const subscription = new Subscription();
-          const _data = data.reduce<IDataItem[]>((prev, curr) => {
-            const _item = this.disabledBy(curr)
-            if (isObservable(_item)) {
-              subscription.add(
-                _item.subscribe(v => {
-                  if (!v) {
-                    prev.push(curr);
-                  }
-                })
-              );
-            } else {
-              if (!_item) {
-                prev.push(curr);
+          if (!this.disabledBy) {
+            subscribe.next(data);
+          } else {
+            const _data = data.reduce<IDataItem[]>((prev, curr) => {
+              const _item = this.disabledBy(curr)
+              if (isObservable(_item)) {
+                subscription.add(
+                  _item.subscribe(v => {
+                    if (!v) {
+                      prev.push(curr);
+                    }
+                  })
+                );
+              } else {
+                if (!_item) {
+                  prev.push(curr);
+                }
               }
-            }
-            return prev;
-          }, []);
-          subscribe.next(_data);
+              return prev;
+            }, []);
+            subscribe.next(_data);
+          }
           return () => {
             subscribe.complete();
             subscription.unsubscribe();
