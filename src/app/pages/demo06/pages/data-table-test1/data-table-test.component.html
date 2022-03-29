@@ -28,9 +28,12 @@
 </lib-button-group>
 
 <app-data-table [nzSelection]="true" [disabledBy]="disabledFn">
-  <column nzTitle="SN" dataKey="unit_sn">
-  </column>
-  <column nzTitle="操作">
+  <text-column nzTitle="SN" dataKey="unit_sn">
+  </text-column>
+  <date-column nzTitle="Expect End Time" dataKey="expect_end_time" format="yyyy-MM-dd">
+  </date-column>
+  <!--  -->
+  <text-column nzTitle="操作">
     <lib-icon-button-group [data]="data" *columnContent="let data">
       <lib-icon-button-edit [buttonDisabled]="true"></lib-icon-button-edit>
       <lib-icon-button-view [buttonDisabled]="true"></lib-icon-button-view>
@@ -39,5 +42,5 @@
       <lib-icon-button-view></lib-icon-button-view>
       <lib-icon-button-view></lib-icon-button-view>
     </lib-icon-button-group>
-  </column>
+  </text-column>
 </app-data-table>

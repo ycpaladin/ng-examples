@@ -72,6 +72,7 @@ export class DataTableComponent implements OnInit, IDisabledBy {
   }
 
   ngOnInit(): void {
+    // TODO 动态获取 DataCheckStrategy
     this.dataCheck = this.injector.get(DataCheckStrategy);
   }
 

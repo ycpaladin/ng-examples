@@ -7,7 +7,7 @@ import { SearchGroupModule } from 'search-group';
 import { DataTableComponent } from './data-table.component';
 import { MODULE_CONFIG } from './token';
 import { DataTableModuleConfig } from './interfaces';
-import { DataTableColumnDirective, DataTableColumnContentDirective } from './data-table-column.directive';
+import { DataTableColumnDirective, DataTableColumnContentDirective, DateColumnComponent } from './data-table-column.directive';
 
 
 
@@ -15,7 +15,8 @@ import { DataTableColumnDirective, DataTableColumnContentDirective } from './dat
   declarations: [
     DataTableComponent,
     DataTableColumnDirective,
-    DataTableColumnContentDirective
+    DataTableColumnContentDirective,
+    DateColumnComponent
   ],
   imports: [
     CommonModule,
@@ -26,7 +27,8 @@ import { DataTableColumnDirective, DataTableColumnContentDirective } from './dat
   exports: [
     DataTableComponent,
     DataTableColumnDirective,
-    DataTableColumnContentDirective
+    DataTableColumnContentDirective,
+    DateColumnComponent
   ]
 })
 export class DataTableModule {
