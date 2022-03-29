@@ -19,6 +19,8 @@ export class IconButtonGroupComponent extends ButtonGroupBase implements OnInit,
   @Input() data: IDataItem;
   @ContentChildren(ICON_BUTTON, { descendants: true }) listOfButton: QueryList<IButton>;
 
+  // TODO...
+  // 按钮禁用显示策略，1. 默认为灰色，2.不显示
   constructor(@Inject(ButtonGroupBase) @Optional() @SkipSelf() public parent: ButtonGroupBase) {
     super();
   }
