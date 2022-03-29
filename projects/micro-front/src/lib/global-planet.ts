@@ -1,9 +1,9 @@
 // import { PlanetApplicationRef, BootstrapAppModule, BootstrapOptions } from './application/planet-application-ref';
 import { IApplication } from './interfaces';
-import { ApplicationLoader } from './application-loader';
+import { ApplicationLoader } from './application/application-loader';
 import { PlanetApplicationService } from './planet-application.service';
 import { isFunction } from './helpers';
-import { ApplicationRef } from './application-ref';
+import { ApplicationRef } from './application/application-ref';
 
 declare const window: any;
 

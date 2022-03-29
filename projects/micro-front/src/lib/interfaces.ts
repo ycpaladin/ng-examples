@@ -1,3 +1,4 @@
+import { ElementRef } from '@angular/core';
 
 
 export interface IApplication {
@@ -11,8 +12,8 @@ export interface Component<T = any> {
 }
 
 
-export interface ComponentConfig {
-  container: HTMLElement;
+export interface ComponentConfig<T = any> {
+  container: HTMLElement | ElementRef<HTMLElement>;
   wrapperClass?: string;
-  data?: { [K: string]: any };
+  data?: T;
 }

@@ -3,4 +3,4 @@
  */
 
 export * from './lib/interfaces';
-export * from './lib/component-loader';
+export * from './lib/component/component-loader';

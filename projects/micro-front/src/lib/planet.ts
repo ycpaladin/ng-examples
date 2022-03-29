@@ -16,7 +16,7 @@ import {
   getApplicationLoader,
   getApplicationService
 } from './global-planet';
-import { ApplicationLoader } from './application-loader';
+import { ApplicationLoader } from './application/application-loader';
 import { PlanetApplicationService } from './planet-application.service';
 // import { setDebugFactory } from './debug';
 

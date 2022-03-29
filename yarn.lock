@@ -175,6 +175,15 @@
   optionalDependencies:
     parse5 "^5.0.0"
 
+"@angular/cdk@^13.3.1":
+  version "13.3.1"
+  resolved "http://10.6.32.13:4873/@angular%2fcdk/-/cdk-13.3.1.tgz#a0feed1ed08690691c2d443c879a50284cb3f19a"
+  integrity sha512-JUCvhN6XomY5JOMH7Qyj/JodAuAtKgLlJYKs0tPmjCkGcBdR/T3/hOJ9gSRhz8PCOoiEORj+3xCh547oJRyesA==
+  dependencies:
+    tslib "^2.3.0"
+  optionalDependencies:
+    parse5 "^5.0.0"
+
 "@angular/cli@~13.2.6":
   version "13.2.6"
   resolved "https://registry.npmmirror.com/@angular/cli/-/cli-13.2.6.tgz#d532375ac65b7e6204f979756bf12dda8392cd74"

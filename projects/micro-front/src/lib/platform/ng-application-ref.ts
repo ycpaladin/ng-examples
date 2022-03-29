@@ -1,11 +1,11 @@
-import { ComponentLoaderConfig } from '../component-loader';
+import { ComponentRef } from './../component/component-ref';
 import { NgModuleRef, NgZone } from "@angular/core";
 import { Router, NavigationEnd } from "@angular/router";
 import { from, Observable } from "rxjs";
 import { take } from "rxjs/operators";
 import { getTagNameByTemplate } from "../helpers";
-import { IApplication } from "../interfaces";
-import { ApplicationRef } from "../application-ref";
+import { IApplication, ComponentConfig } from "../interfaces";
+import { ApplicationRef, ComponentFactory } from "../application/application-ref";
 
 export interface BootstrapOptions {
   template: string;
@@ -16,18 +16,18 @@ export type BootstrapAppModule = (portalApp: IApplication) => Promise<NgModuleRe
 
 export type PlantComponentFactory = <TData, TComp>(
   componentName: string,
-  config: ComponentLoaderConfig
-) => any; // PlanetComponentRef<TComp>; // TODO
+  config: ComponentConfig<TData>
+) => ComponentRef<TComp>;
 
 
 export class NgApplicationRef extends ApplicationRef {
   public appModuleRef?: NgModuleRef<any>;
-  public template?: string;
+  public template: string;
   private innerSelector?: string;
   private name: string;
   portalApp!: IApplication;
   private appModuleBootstrap?: BootstrapAppModule;
-  private componentFactory?: PlantComponentFactory;
+  private componentFactory?: ComponentFactory;
 
   public get selector() {
     return this.innerSelector;
@@ -112,7 +112,7 @@ export class NgApplicationRef extends ApplicationRef {
     return this.componentFactory;
   }
 
-  registerComponentFactory(componentFactory: PlantComponentFactory) {
+  registerComponentFactory(componentFactory: ComponentFactory) {
     this.componentFactory = componentFactory;
   }
 
