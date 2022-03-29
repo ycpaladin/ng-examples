@@ -1,5 +1,5 @@
 import { DOCUMENT } from "@angular/common";
-import { NgModuleRef, NgZone, Inject, ElementRef, ApplicationRef as _ApplicationRef } from "@angular/core";
+import { NgModuleRef, NgZone, Inject, ElementRef, ApplicationRef as _ApplicationRef, Injectable } from "@angular/core";
 import { DomPortalOutlet, ComponentPortal, PortalInjector } from '@angular/cdk/portal';
 import { Observable, of, timer } from "rxjs";
 import { map, delayWhen, shareReplay } from "rxjs/operators";
@@ -9,11 +9,10 @@ import { getApplicationLoader, getApplicationService, globalPlanet } from "../gl
 import { coerceArray } from "../helpers";
 import { Component, ComponentConfig } from "../interfaces";
 import { ApplicationLoader } from "../application/application-loader";
-import { ApplicationRef } from "../application/application-ref";
 import { NgApplicationRef } from "./ng-application-ref";
 const componentWrapperClass = 'planet-component-wrapper';
 
-
+@Injectable()
 export class NgComponentLoader implements ComponentLoader {
 
   private domPortalOutletCache = new WeakMap<any, DomPortalOutlet>();

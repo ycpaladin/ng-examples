@@ -38,11 +38,11 @@ export class NgApplicationLoader extends ApplicationLoader {
 
   private options: PlanetOptions;
 
+  private portalApp: NgApplication;
+
   private inProgressAppAssetsLoads = new Map<string, Observable<PlanetApplication>>();
 
   private appsStatus = new Map<PlanetApplication, ApplicationStatus>();
-
-  private portalApp = new NgApplication();
 
   private routeChange$ = new Subject<PlanetRouterEvent>();
 
@@ -339,10 +339,11 @@ export class NgApplicationLoader extends ApplicationLoader {
     private planetApplicationService: PlanetApplicationService,
     private ngZone: NgZone,
     router: Router,
-    injector: Injector,
-    applicationRef: ApplicationRef
+    // injector: Injector,
+    // applicationRef: ApplicationRef
   ) {
     super();
+    this.portalApp = new NgApplication(ngZone, router);
   }
 
 }
