@@ -6,6 +6,8 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzIconModule, NZ_ICONS } from 'ng-zorro-antd/icon';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 
 import { ButtonGroupComponent } from './button-group.component';
 import { ButtonContentDirective, ButtonDirective, IconButtonDirective } from './button.directive';
@@ -14,11 +16,15 @@ import { IconButtonGroupComponent } from './icon-button-group.component';
 
 import {
   MoreOutline,
-  EditOutline
+  EditOutline,
+  EyeOutline,
+  DeleteOutline
 } from '@ant-design/icons-angular/icons';
 import { IconButtonEditComponent } from './icon-button-edit.component';
+import { IconButtonViewComponent } from './icon-button-view.component';
+import { IconButtonDeleteComponent } from './icon-button-delete.component';
 
-const icons = [MoreOutline, EditOutline];
+const icons = [MoreOutline, EditOutline, EyeOutline, DeleteOutline];
 
 @NgModule({
   declarations: [
@@ -28,7 +34,9 @@ const icons = [MoreOutline, EditOutline];
     ButtonContentDirective,
     OperatorButtonCreateComponent,
     IconButtonGroupComponent,
-    IconButtonEditComponent
+    IconButtonEditComponent,
+    IconButtonViewComponent,
+    IconButtonDeleteComponent
   ],
   imports: [
     CommonModule,
@@ -37,6 +45,8 @@ const icons = [MoreOutline, EditOutline];
     NzDropDownModule,
     NzSpaceModule,
     NzIconModule,
+    NzDividerModule,
+    NzPopconfirmModule
   ],
   providers: [
     { provide: NZ_ICONS, useValue: icons }
@@ -48,7 +58,9 @@ const icons = [MoreOutline, EditOutline];
     IconButtonDirective,
     OperatorButtonCreateComponent,
     IconButtonGroupComponent,
-    IconButtonEditComponent
+    IconButtonEditComponent,
+    IconButtonViewComponent,
+    IconButtonDeleteComponent
   ]
 })
 export class ButtonGroupModule { }

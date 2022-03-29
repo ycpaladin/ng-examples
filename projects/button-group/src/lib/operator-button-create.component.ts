@@ -5,7 +5,13 @@ import { BUTTON } from './token';
 
 @Component({
   selector: 'lib-operator-button-create',
-  templateUrl: './operator-button-create.component.html',
+  template: `
+  <ng-template #buttomTemplate>
+    <button nz-button nz-tooltip [nzTooltipTitle]="buttonText" [nzType]="buttonType" (click)="onClick()">
+      {{buttonText}}
+    </button>
+  </ng-template>
+  `,
   styleUrls: ['./operator-button-create.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{ provide: BUTTON, useExisting: forwardRef(() => OperatorButtonCreateComponent) }]

@@ -14,3 +14,8 @@ export interface IButton {
 export interface IButtonContent {
   template: TemplateRef<any>;
 }
+
+
+export interface IDataContext<T> {
+  data: T;
+}

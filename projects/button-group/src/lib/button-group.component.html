@@ -5,21 +5,25 @@
         <ng-container *ngTemplateOutlet="button.template"></ng-container>
       </ng-container>
       <ng-template #defaultView>
-        <button nz-button [disabled]="button.buttonDisabled" [nzType]="button.buttonType">
+        <button nz-button nz-tooltip [nzTooltipTitle]="button.buttonText" [disabled]="button.buttonDisabled"
+          [nzType]="button.buttonType">
           {{button.buttonText}}
         </button>
       </ng-template>
     </ng-container>
   </ng-container>
   <ng-container *ngIf="menuItems.length > 0">
-    <button nz-button nzType="primary" nz-dropdown [nzDropdownMenu]="dropdownMenu" *nzSpaceItem>
-      ...
-    </button>
+    <nz-button-group *nzSpaceItem>
+      <button nz-button nzType="primary" nz-dropdown [nzDropdownMenu]="dropdownMenu">
+        <i nz-icon nz-tooltip nzTooltipTitle="更多" nzType="more" nzTheme="outline"></i>
+      </button>
+    </nz-button-group>
     <nz-dropdown-menu #dropdownMenu="nzDropdownMenu">
       <ul nz-menu nzSelectable>
         <li nz-menu-item *ngFor="let button of menuItems">
           <!-- {{button.buttonText}} -->
-          <button nz-button [disabled]="button.buttonDisabled" nzType="text" (click)="button.click.emit()">
+          <button nz-button nz-tooltip [nzTooltipTitle]="button.buttonText" [disabled]="button.buttonDisabled"
+            nzType="text" (click)="button.click.emit()">
             {{button.buttonText}}
           </button>
         </li>

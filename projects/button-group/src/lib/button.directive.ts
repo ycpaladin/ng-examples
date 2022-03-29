@@ -1,6 +1,8 @@
-import { Directive, EventEmitter, Input, Output, forwardRef, TemplateRef, ContentChild } from '@angular/core';
-import { IButton, IButtonContent } from './interfaces';
-import { BUTTON, BUTTON_CONTENT, ICON_BUTTON } from './token';
+import { Directive, EventEmitter, Input, Output, forwardRef, TemplateRef, ContentChild, Inject } from '@angular/core';
+import { IDataItem } from 'data-table';
+
+import { IButton, IButtonContent, IDataContext } from './interfaces';
+import { BUTTON, BUTTON_CONTENT, DATA_CONTEXT, ICON_BUTTON } from './token';
 
 @Directive({
   selector: 'lib-button',
@@ -32,7 +34,7 @@ export class IconButtonDirective implements IButton {
   @Output() click = new EventEmitter<void>();
   @ContentChild(BUTTON_CONTENT, { read: TemplateRef, static: true }) template: TemplateRef<any>;
 
-  constructor() { }
+  constructor(@Inject(DATA_CONTEXT) public dataContext: IDataContext<IDataItem>) { }
 
 }
 

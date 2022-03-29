@@ -9,12 +9,16 @@ import { DataTableModule } from 'projects/data-table/src/data-table.module';
 import { PAGED_DATA_SERVICE } from 'data-table';
 import { PageDataProvider } from './data-provider.service';
 import { CreateComponent } from './create.component';
+import { EditComponent } from './edit.component';
+import { ViewComponent } from './view.component';
 
 
 @NgModule({
   declarations: [
     DataTableTestComponent,
-    CreateComponent
+    CreateComponent,
+    EditComponent,
+    ViewComponent
   ],
   imports: [
     CommonModule,

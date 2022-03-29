@@ -1,20 +1,32 @@
-<nz-space *ngIf="!parent">
+<nz-space [nzSplit]="spaceSplit" *ngIf="!parent">
+  <ng-template #spaceSplit>
+    <nz-divider nzType="vertical"></nz-divider>
+  </ng-template>
   <ng-container *ngFor="let button of buttons">
     <ng-container *nzSpaceItem>
       <ng-container *ngIf="button.template else defaultView">
         <ng-container *ngTemplateOutlet="button.template"></ng-container>
       </ng-container>
       <ng-template #defaultView>
-        <i nz-icon [nzType]="button.buttonType"></i>
+        <i nz-icon nz-tooltip [nzTooltipTitle]="button.buttonText" [nzType]="button.buttonType"
+          *ngIf="!button.buttonDisabled else defaultView2"></i>
+        <ng-template #defaultView2>
+          <i nz-icon [nzType]="button.buttonType"></i>
+        </ng-template>
       </ng-template>
     </ng-container>
   </ng-container>
   <ng-container *ngIf="menuItems.length > 0">
-    <i nz-icon nzType="more" nzTheme="outline" nz-dropdown [nzDropdownMenu]="dropdownMenu" *nzSpaceItem></i>
+    <i nz-icon nz-tooltip nzTooltipTitle="更多" nzType="more" nzTheme="outline" nz-dropdown
+      [nzDropdownMenu]="dropdownMenu" *nzSpaceItem></i>
     <nz-dropdown-menu #dropdownMenu="nzDropdownMenu">
       <ul nz-menu nzSelectable>
         <li nz-menu-item *ngFor="let button of menuItems">
-          <i nz-icon [nzType]="button.buttonType" (click)="button.click.emit()"></i>
+          <i nz-icon nz-tooltip [nzTooltipTitle]="button.buttonText" [nzType]="button.buttonType"
+            (click)="button.click.emit()" *ngIf="!button.buttonDisabled else defaultView"></i>
+          <ng-template #defaultView>
+            <i nz-icon [nzType]="button.buttonType"></i>
+          </ng-template>
         </li>
       </ul>
     </nz-dropdown-menu>
