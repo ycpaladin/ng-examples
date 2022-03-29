@@ -1,4 +1,4 @@
-import { Injector, NgZone } from "@angular/core";
+import { Injectable, NgZone } from "@angular/core";
 import { Router } from "@angular/router";
 import { forkJoin, from, Observable, of, Subject } from "rxjs";
 import { catchError, filter, map, share, switchMap, take, tap } from "rxjs/operators";
@@ -30,7 +30,9 @@ export interface AppsLoadingStartEvent {
   shouldUnloadApps: PlanetApplication[];
 }
 
-
+@Injectable({
+  providedIn: 'root'
+})
 export class NgApplicationLoader extends ApplicationLoader {
   private firstLoad = true;
 

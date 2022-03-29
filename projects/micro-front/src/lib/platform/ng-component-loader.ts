@@ -12,7 +12,9 @@ import { ApplicationLoader } from "../application/application-loader";
 import { NgApplicationRef } from "./ng-application-ref";
 const componentWrapperClass = 'planet-component-wrapper';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class NgComponentLoader implements ComponentLoader {
 
   private domPortalOutletCache = new WeakMap<any, DomPortalOutlet>();
