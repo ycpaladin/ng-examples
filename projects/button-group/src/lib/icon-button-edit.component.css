@@ -1,0 +1,7 @@
+i[nz-icon] {
+  cursor: pointer;
+  color: #f5222d;
+}
+i[nz-icon].disabled {
+  color: inherit;
+}

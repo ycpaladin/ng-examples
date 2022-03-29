@@ -1,0 +1,22 @@
+<nz-space *ngIf="!parent">
+  <ng-container *ngFor="let button of buttons">
+    <ng-container *nzSpaceItem>
+      <ng-container *ngIf="button.template else defaultView">
+        <ng-container *ngTemplateOutlet="button.template"></ng-container>
+      </ng-container>
+      <ng-template #defaultView>
+        <i nz-icon [nzType]="button.buttonType"></i>
+      </ng-template>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="menuItems.length > 0">
+    <i nz-icon nzType="more" nzTheme="outline" nz-dropdown [nzDropdownMenu]="dropdownMenu" *nzSpaceItem></i>
+    <nz-dropdown-menu #dropdownMenu="nzDropdownMenu">
+      <ul nz-menu nzSelectable>
+        <li nz-menu-item *ngFor="let button of menuItems">
+          <i nz-icon [nzType]="button.buttonType" (click)="button.click.emit()"></i>
+        </li>
+      </ul>
+    </nz-dropdown-menu>
+  </ng-container>
+</nz-space>

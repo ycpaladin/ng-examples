@@ -1,7 +1,39 @@
+<lib-button-group>
+  <lib-operator-button-create></lib-operator-button-create>
+  <lib-button buttonText="HI">
+    <ng-template libButtonContent>
+      <button nz-button nzType="primary">
+        HHH
+      </button>
+    </ng-template>
+  </lib-button>
+  <lib-button buttonText="HH"></lib-button>
+  <lib-button buttonText="OO"></lib-button>
+  <lib-button buttonText="OO2"></lib-button>
+  <lib-button buttonText="OO3"></lib-button>
+  <lib-button-group>
+    <lib-operator-button-create></lib-operator-button-create>
+    <lib-button buttonText="HI">
+      <ng-template libButtonContent>
+        <button nz-button nzType="primary">
+          HHH
+        </button>
+      </ng-template>
+    </lib-button>
+    <lib-button buttonText="HH"></lib-button>
+    <lib-button buttonText="OO"></lib-button>
+    <lib-button buttonText="OO2"></lib-button>
+    <lib-button buttonText="OO3"></lib-button>
+  </lib-button-group>
+</lib-button-group>
+
 <app-data-table [nzSelection]="true" [disabledBy]="disabledFn">
   <column nzTitle="SN" dataKey="unit_sn">
-    <!-- <ng-template columnContent>
-      111
-    </ng-template> -->
+  </column>
+  <column nzTitle="操作">
+    <lib-icon-button-group *columnContent>
+      <!-- <lib-icon-button buttonType="edit"></lib-icon-button> -->
+      <lib-icon-button-edit></lib-icon-button-edit>
+    </lib-icon-button-group>
   </column>
 </app-data-table>

@@ -1,0 +1,30 @@
+<nz-space *ngIf="!parent">
+  <ng-container *ngFor="let button of buttons">
+    <ng-container *nzSpaceItem>
+      <ng-container *ngIf="button.template else defaultView">
+        <ng-container *ngTemplateOutlet="button.template"></ng-container>
+      </ng-container>
+      <ng-template #defaultView>
+        <button nz-button [disabled]="button.buttonDisabled" [nzType]="button.buttonType">
+          {{button.buttonText}}
+        </button>
+      </ng-template>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="menuItems.length > 0">
+    <button nz-button nzType="primary" nz-dropdown [nzDropdownMenu]="dropdownMenu" *nzSpaceItem>
+      ...
+    </button>
+    <nz-dropdown-menu #dropdownMenu="nzDropdownMenu">
+      <ul nz-menu nzSelectable>
+        <li nz-menu-item *ngFor="let button of menuItems">
+          <!-- {{button.buttonText}} -->
+          <button nz-button [disabled]="button.buttonDisabled" nzType="text" (click)="button.click.emit()">
+            {{button.buttonText}}
+          </button>
+        </li>
+      </ul>
+    </nz-dropdown-menu>
+  </ng-container>
+</nz-space>
+<!-- {{menuItems.length}} -->
