@@ -10,8 +10,8 @@ if (environment.production) {
 }
 defineApplication('app1', {
   template: '<app1-root></app1-root>',
-  bootstrap: (portalApp: IApplication) => {
-    return platformBrowserDynamic([
+  bootstrap: async (portalApp: IApplication) => {
+    return await platformBrowserDynamic([
       {
         provide: NgApplication,
         useValue: portalApp

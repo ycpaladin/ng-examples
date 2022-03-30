@@ -76,7 +76,8 @@ export class AppComponent {
         resourcePathPrefix: '/static/app2/',
         //   preload: settings.app2.preload,
         //   switchMode: settings.app2.switchMode,
-        sandbox: true,
+        // sandbox: true,
+        loadSerial: true, // 不加这个会出错误
         stylePrefix: 'app2',
         // prettier-ignore
         scripts: [

@@ -18,28 +18,6 @@ export const globalPlanet: GlobalPlanet = (window.planet = window.planet || {
   apps: {}
 });
 
-// export function defineApplication(name: string, options: BootstrapAppModule | BootstrapOptions) {
-//     if (globalPlanet.apps[name]) {
-//         throw new Error(`${name} application has exist.`);
-//     }
-//     if (isFunction(options)) {
-//         options = {
-//             template: '',
-//             bootstrap: options as BootstrapAppModule
-//         };
-//     }
-//     const appRef = new PlanetApplicationRef(name, options as BootstrapOptions);
-//     globalPlanet.apps[name] = appRef;
-// }
-
-
-// export function defineReactApplication(name: string, ) {
-//     if (globalPlanet.apps[name]) {
-//         throw new Error(`${name} application has exist.`);
-//     }
-//     // TODO。。。。
-// }
-
 
 export function getPlanetApplicationRef(appName: string): ApplicationRef | null {
   if (globalPlanet && globalPlanet.apps && globalPlanet.apps[appName]) {

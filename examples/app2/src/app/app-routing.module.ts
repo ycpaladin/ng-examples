@@ -6,7 +6,7 @@ const routes: Routes = [
   {
     path: 'app2',
     children: [
-
+      { path: '', loadChildren: () => import('./pages/page1/page1.module').then(m => m.Page1Module) },
     ]
   },
   { path: '**', component: EmptyComponent }
