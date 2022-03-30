@@ -8,6 +8,7 @@
     "examples:portal": "ng serve --port 5401 --host 0.0.0.0 --proxy-config proxy.config.json",
     "examples:app1": "ng serve app1 --host 0.0.0.0 --port 4001 --proxy-config proxy.config.json",
     "examples:app2": "ng serve app2 --host 0.0.0.0 --port 4002 --proxy-config proxy.config.json",
+    "examples:app3": "cd examples/app3 && npm run start",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
