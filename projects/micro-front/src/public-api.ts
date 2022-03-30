@@ -10,3 +10,6 @@ export * from './lib/component/component-ref';
 export * from './lib/application/application-loader';
 export * from './lib/application/application-ref';
 export * from './lib/empty/empty.component';
+export * from './lib/platform';
+export * from './lib/planet.class';
+export * from './lib/global-event-dispatcher'

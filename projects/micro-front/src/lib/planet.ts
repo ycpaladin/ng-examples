@@ -18,6 +18,7 @@ import {
 } from './global-planet';
 import { ApplicationLoader } from './application/application-loader';
 import { PlanetApplicationService } from './planet-application.service';
+import { NgApplicationLoader } from './platform';
 // import { setDebugFactory } from './debug';
 
 @Injectable({
@@ -53,7 +54,7 @@ export class Planet {
   ) {
     if (!this.planetApplicationLoader) {
       // TODO。。。。
-      // setApplicationLoader(this.injector.get(PlanetApplicationLoader, null, 0));
+      setApplicationLoader(this.injector.get(NgApplicationLoader, null, 0));
     }
     if (!this.planetApplicationService) {
       setApplicationService(this.injector.get(PlanetApplicationService, null, 0));

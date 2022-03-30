@@ -14,4 +14,5 @@ export abstract class ApplicationRef {
   abstract getComponentFactory(): ComponentFactory;
   abstract registerComponentFactory(componentFactory: ComponentFactory): void;
   abstract destroy(): void
+  abstract getCurrentRouterStateUrl(): string;
 }

@@ -1,3 +1,4 @@
+import { NgxPlanetModule } from './../../projects/micro-front/src/lib/module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -15,6 +16,7 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NZ_I18N, zh_CN } from 'ng-zorro-antd/i18n';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 registerLocaleData(zh);
+const appHostClass = 'thy-layout';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,7 @@ registerLocaleData(zh);
     NzMenuModule,
     FormsModule,
     BrowserAnimationsModule,
+    NgxPlanetModule
   ],
   providers: [{ provide: NZ_I18N, useValue: zh_CN }],
   bootstrap: [AppComponent]

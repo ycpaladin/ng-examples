@@ -5,9 +5,9 @@
     "ng": "ng",
     "start": "ng serve --port 5401 --host 0.0.0.0 --proxy-config proxy.config.json",
     "examples": "npm-run-all --parallel examples:*",
-    "examples:portal": "ng serve portal --port 4400 --proxy-config proxy.config.json",
-    "examples:app1": "ng serve app1 --host 0.0.0.0 --port 4401 --proxy-config proxy.config.json",
-    "examples:app2": "ng serve app2 --host 0.0.0.0 --port 4403 --proxy-config proxy.config.json",
+    "examples:portal": "ng serve --port 5401 --host 0.0.0.0 --proxy-config proxy.config.json",
+    "examples:app1": "ng serve app1 --host 0.0.0.0 --port 4001 --proxy-config proxy.config.json",
+    "examples:app2": "ng serve app2 --host 0.0.0.0 --port 4002 --proxy-config proxy.config.json",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -15,6 +15,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-builders/custom-webpack": "^13.1.0",
     "@angular/animations": "~13.2.6",
     "@angular/cdk": "^13.3.1",
     "@angular/common": "~13.2.6",
@@ -52,7 +53,8 @@
     "lint-staged": "^10.0.8",
     "ng-lint-staged": "^0.1.6",
     "ng-packagr": "^13.0.0",
-    "typescript": "~4.5.5"
+    "typescript": "~4.5.5",
+    "webpack-assets-manifest": "^5.1.0"
   },
   "lint-staged": {
     "src/**/*.ts": [

@@ -1,11 +1,11 @@
 import { Injectable, NgZone } from "@angular/core";
 import { Router } from "@angular/router";
 import { forkJoin, from, Observable, of, Subject } from "rxjs";
-import { catchError, filter, map, share, switchMap, take, tap } from "rxjs/operators";
+import { catchError, distinctUntilChanged, filter, map, share, switchMap, take, tap } from "rxjs/operators";
 import { ApplicationLoader } from "../application/application-loader";
 import { ApplicationRef } from "../application/application-ref";
 import { AssetsLoader } from "../assets-loader";
-import { getPlanetApplicationRef } from "../global-planet";
+import { getPlanetApplicationRef, globalPlanet } from "../global-planet";
 import { coerceArray, createElementByTemplate, getHTMLElement } from "../helpers";
 import { PlanetApplicationService } from "../planet-application.service";
 import { PlanetApplication, PlanetOptions, PlanetRouterEvent, SwitchModes } from "../planet.class";
@@ -51,20 +51,175 @@ export class NgApplicationLoader extends ApplicationLoader {
   private appStatusChange$ = new Subject<AppStatusChangeEvent>();
 
   private appsLoadingStart$ = new Subject<AppsLoadingStartEvent>();
-  get loadingDone(): boolean {
-    throw new Error("Method not implemented.");
-  }
+
+  loadingDone = false;
+
   get appStatusChange(): Observable<any> {
-    throw new Error("Method not implemented.");
+    return this.appStatusChange$.asObservable();
   }
   get appsLoadingStart(): Observable<any> {
-    throw new Error("Method not implemented.");
+    return this.appsLoadingStart$.asObservable();
   }
   reroute(url: string): void {
-    throw new Error("Method not implemented.");
+    this.routeChange$.next({ url });
   }
   preload(app: PlanetApplication, immediate?: boolean): Observable<ApplicationRef> {
     return this.preloadInternal(app, immediate);
+  }
+
+  private setLoadingDone() {
+    this.ngZone.run(() => {
+      this.loadingDone = true;
+    });
+  }
+
+  private setupRouteChange() {
+    this.routeChange$
+      .pipe(
+        distinctUntilChanged((x, y) => {
+          return (x && x.url) === (y && y.url);
+        }),
+        // Using switchMap so we cancel executing loading when a new one comes in
+        switchMap(event => {
+          // Return new observable use of and catchError,
+          // in order to prevent routeChange$ completed which never trigger new route change
+          return of(event).pipe(
+            // unload apps and return should load apps
+            map(() => {
+              // debug(`route change, url is: ${event.url}`);
+              this.startRouteChangeEvent = event;
+              const shouldLoadApps = this.planetApplicationService.getAppsByMatchedUrl(event.url);
+              // debug(`should load apps: ${this.getAppNames(shouldLoadApps)}`);
+              const shouldUnloadApps = this.getUnloadApps(shouldLoadApps);
+              this.appsLoadingStart$.next({
+                shouldLoadApps,
+                shouldUnloadApps
+              });
+              this.unloadApps(shouldUnloadApps, event);
+              // debug(`unload apps: ${this.getAppNames(shouldUnloadApps)}`);
+              return shouldLoadApps;
+            }),
+            // Load app assets (static resources)
+            switchMap(shouldLoadApps => {
+              let hasAppsNeedLoadingAssets = false;
+              const loadApps$ = shouldLoadApps.map(app => {
+                const appStatus = this.appsStatus.get(app);
+                if (
+                  !appStatus ||
+                  appStatus === ApplicationStatus.assetsLoading ||
+                  appStatus === ApplicationStatus.loadError
+                ) {
+                  // debug(
+                  //   `app(${app.name}) status is ${ApplicationStatus[appStatus as ApplicationStatus]
+                  //   }, start load assets`
+                  // );
+                  hasAppsNeedLoadingAssets = true;
+                  return this.ngZone.runOutsideAngular(() => {
+                    return this.startLoadAppAssets(app);
+                  });
+                } else {
+                  return of(app);
+                }
+              });
+              if (hasAppsNeedLoadingAssets) {
+                this.loadingDone = false;
+              }
+              return loadApps$.length > 0 ? forkJoin(loadApps$) : of([] as PlanetApplication[]);
+            }),
+            // Bootstrap or show apps
+            map(apps => {
+              const apps$: Observable<PlanetApplication>[] = apps.map(app => {
+                return of(app).pipe(
+                  switchMap(app => {
+                    const appStatus = this.appsStatus.get(app);
+                    if (appStatus === ApplicationStatus.bootstrapped) {
+                      // debug(
+                      //   `[routeChange] app(${app.name}) status is bootstrapped, show app and active`
+                      // );
+                      this.showApp(app);
+                      const appRef = getPlanetApplicationRef(app.name);
+                      appRef?.navigateByUrl(event.url);
+                      this.setAppStatus(app, ApplicationStatus.active);
+                      this.setLoadingDone();
+                      return of(app);
+                    } else if (appStatus === ApplicationStatus.assetsLoaded) {
+                      // debug(
+                      //   `[routeChange] app(${app.name}) status is assetsLoaded, start bootstrapping`
+                      // );
+                      return this.bootstrapApp(app).pipe(
+                        map(() => {
+                          // debug(`app(${app.name}) bootstrapped success, active it`);
+                          this.setAppStatus(app, ApplicationStatus.active);
+                          this.setLoadingDone();
+                          return app;
+                        })
+                      );
+                    } else if (appStatus === ApplicationStatus.active) {
+                      // debug(`[routeChange] app(${app.name}) is active, do nothings`);
+                      const appRef = getPlanetApplicationRef(app.name);
+                      // Backwards compatibility sub app use old version which has not getCurrentRouterStateUrl
+                      const currentUrl = appRef?.getCurrentRouterStateUrl
+                        ? appRef.getCurrentRouterStateUrl()
+                        : '';
+                      if (currentUrl !== event.url) {
+                        appRef?.navigateByUrl(event.url);
+                      }
+                      return of(app);
+                    } else {
+                      // debug(
+                      //   `[routeChange] app(${app.name}) status is ${ApplicationStatus[appStatus as ApplicationStatus]
+                      //   }`
+                      // );
+                      return this.getAppStatusChange$(app).pipe(
+                        take(1),
+                        map(() => {
+                          // debug(
+                          //   `app(${app.name}) status is bootstrapped by subscribe status change, active it`
+                          // );
+                          this.setAppStatus(app, ApplicationStatus.active);
+                          this.showApp(app);
+                          return app;
+                        })
+                      );
+                    }
+                  })
+                );
+              });
+
+              if (apps$.length > 0) {
+                // debug(`start load and active apps: ${this.getAppNames(apps)}`);
+                // 切换到应用后会有闪烁现象，所以使用 setTimeout 后启动应用
+                // example: redirect to app1's dashboard from portal's about page
+                // If app's route has redirect, it doesn't work, it ok just in setTimeout, I don't know why.
+                // TODO:: remove it, it is ok in version Angular 9.x
+                setTimeout(() => {
+                  // 此处判断是因为如果静态资源加载完毕还未启动被取消，还是会启动之前的应用，虽然可能性比较小，但是无法排除这种可能性，所以只有当 Event 是最后一个才会启动
+                  if (this.startRouteChangeEvent === event) {
+                    // runOutsideAngular for fix error: `Expected to not be in Angular Zone, but it is!`
+                    this.ngZone.runOutsideAngular(() => {
+                      forkJoin(apps$).subscribe(() => {
+                        this.setLoadingDone();
+                        this.ensurePreloadApps(apps);
+                      });
+                    });
+                  }
+                });
+              } else {
+                // debug(`no apps need to be loaded, ensure preload apps`);
+                this.ensurePreloadApps(apps);
+                this.setLoadingDone();
+              }
+            }),
+            // Error handler
+            catchError(error => {
+              // debug(`apps loader error: ${error}`);
+              this.errorHandler(error);
+              return [];
+            })
+          );
+        })
+      )
+      .subscribe();
   }
 
 
@@ -345,7 +500,15 @@ export class NgApplicationLoader extends ApplicationLoader {
     // applicationRef: ApplicationRef
   ) {
     super();
+    this.options = {
+      switchMode: SwitchModes.default,
+      errorHandler: (error: Error) => {
+        console.error(error);
+      }
+    };
     this.portalApp = new NgApplication(ngZone, router);
+    globalPlanet.portalApplication = this.portalApp;
+    this.setupRouteChange();
   }
 
 }
