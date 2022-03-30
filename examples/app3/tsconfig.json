@@ -1,5 +1,4 @@
 {
-  "extends": "../../tscofig.json",
   "compilerOptions": {
     "target": "es5",
     "lib": [
@@ -19,7 +18,12 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "paths": {
+      "micro-front": [
+        "../../projects/micro-front/src/public-api.ts"
+      ]
+    }
   },
   "include": [
     "src"
