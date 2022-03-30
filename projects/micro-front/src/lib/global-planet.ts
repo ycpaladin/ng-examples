@@ -10,12 +10,15 @@ declare const window: any;
 export interface GlobalPlanet {
   apps: { [key: string]: ApplicationRef };
   portalApplication?: IApplication;
-  applicationLoader: ApplicationLoader;
+  applicationLoader: {
+    [K: string]: ApplicationLoader
+  };
   applicationService: PlanetApplicationService;
 }
 
 export const globalPlanet: GlobalPlanet = (window.planet = window.planet || {
-  apps: {}
+  apps: {},
+  applicationLoader: {}
 });
 
 
@@ -37,12 +40,12 @@ export function getPlanetApplicationRef(appName: string): ApplicationRef | null 
 //     return globalPlanet.portalApplication?.data as TData;
 // }
 
-export function setApplicationLoader(loader: ApplicationLoader) {
-  globalPlanet.applicationLoader = loader;
+export function setApplicationLoader(key: string, loader: ApplicationLoader) {
+  globalPlanet.applicationLoader[key] = loader;
 }
 
-export function getApplicationLoader() {
-  return globalPlanet.applicationLoader;
+export function getApplicationLoader(key: string) {
+  return globalPlanet.applicationLoader[key];
 }
 
 export function setApplicationService(service: PlanetApplicationService) {
@@ -56,6 +59,6 @@ export function getApplicationService() {
 export function clearGlobalPlanet() {
   window.planet.apps = {};
   window.planet.portalApplication = null;
-  window.planet.applicationLoader = null;
+  window.planet.applicationLoader = {};
   window.planet.applicationService = null;
 }

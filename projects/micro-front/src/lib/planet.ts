@@ -26,7 +26,7 @@ import { NgApplicationLoader } from './platform';
 })
 export class Planet {
   private get planetApplicationLoader(): ApplicationLoader {
-    return getApplicationLoader();
+    return getApplicationLoader('ng');
   }
 
   private get planetApplicationService() {
@@ -53,8 +53,7 @@ export class Planet {
     @Inject(PLANET_APPLICATIONS) @Optional() planetApplications: PlanetApplication[]
   ) {
     if (!this.planetApplicationLoader) {
-      // TODO。。。。
-      setApplicationLoader(this.injector.get(NgApplicationLoader, null, 0));
+      setApplicationLoader('ng', this.injector.get(NgApplicationLoader, null, 0));
     }
     if (!this.planetApplicationService) {
       setApplicationService(this.injector.get(PlanetApplicationService, null, 0));

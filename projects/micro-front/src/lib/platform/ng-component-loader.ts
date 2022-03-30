@@ -15,24 +15,22 @@ const componentWrapperClass = 'planet-component-wrapper';
 @Injectable({
   providedIn: 'root'
 })
-export class NgComponentLoader implements ComponentLoader {
+export class NgComponentLoader extends ComponentLoader {
 
   private domPortalOutletCache = new WeakMap<any, DomPortalOutlet>();
-
-  private get applicationLoader(): ApplicationLoader {
-    return getApplicationLoader();
-  }
-
-  private get applicationService() {
-    return getApplicationService();
-  }
 
   constructor(
     private applicationRef: _ApplicationRef,
     private ngModuleRef: NgModuleRef<any>,
     private ngZone: NgZone,
     @Inject(DOCUMENT) private document: any
-  ) { }
+  ) {
+    super();
+  }
+
+  get loadKey(): string {
+    return 'ng'
+  }
 
   private getPlantAppRef(name: string): Observable<NgApplicationRef> {
     if (globalPlanet.apps[name] && (globalPlanet.apps[name] as unknown as NgApplicationRef).appModuleRef) {
