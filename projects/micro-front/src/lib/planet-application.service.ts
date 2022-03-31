@@ -5,7 +5,7 @@ import { shareReplay, map } from 'rxjs/operators';
 
 import { coerceArray } from './helpers';
 import { PlanetApplication } from './planet.class';
-import { AssetsLoader } from './assets-loader';
+// import { AssetsLoader } from './assets-loader';
 import { getApplicationService } from './global-planet';
 
 @Injectable({
@@ -16,7 +16,7 @@ export class PlanetApplicationService {
 
   private appsMap: { [key: string]: PlanetApplication } = {};
 
-  constructor(private http: HttpClient, private assetsLoader: AssetsLoader) {
+  constructor(private http: HttpClient) {
     if (getApplicationService()) {
       throw new Error(
         'PlanetApplicationService has been injected in the portal, repeated injection is not allowed'

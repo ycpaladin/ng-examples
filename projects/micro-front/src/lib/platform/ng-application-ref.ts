@@ -3,9 +3,10 @@ import { NgModuleRef, NgZone } from "@angular/core";
 import { Router, NavigationEnd } from "@angular/router";
 import { from, Observable } from "rxjs";
 import { take } from "rxjs/operators";
-import { getTagNameByTemplate } from "../helpers";
+import { createElementByTemplate, getTagNameByTemplate } from "../helpers";
 import { IApplication, ComponentConfig } from "../interfaces";
 import { ApplicationRef, ComponentFactory } from "../application/application-ref";
+import { getPlanetApplicationRef } from '../global-planet';
 
 export interface BootstrapOptions {
   template: string;
@@ -21,6 +22,7 @@ export type PlantComponentFactory = <TData, TComp>(
 
 
 export class NgApplicationRef extends ApplicationRef {
+
   public appModuleRef?: NgModuleRef<any>;
   public template: string;
   private innerSelector?: string;
@@ -61,6 +63,11 @@ export class NgApplicationRef extends ApplicationRef {
     };
   }
 
+  createRootElement(): HTMLElement {
+    const appRef = getPlanetApplicationRef(this.name);
+    return createElementByTemplate(appRef.template);
+  }
+
   // 子应用路由变化后同步修改 portal 的 Route
   private syncPortalRouteWhenNavigationEnd() {
     const router = this.appModuleRef?.injector.get(Router);
@@ -78,7 +85,7 @@ export class NgApplicationRef extends ApplicationRef {
     }
   }
 
-  bootstrap(app: IApplication): Observable<this> {
+  bootstrap(app: IApplication): Observable<ApplicationRef> {
     if (!this.appModuleBootstrap) {
       throw new Error(`app(${this.name}) is not defined`);
     }

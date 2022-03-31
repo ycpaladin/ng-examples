@@ -13,10 +13,6 @@ export function defineApplication(name: string, options: BootstrapAppModule | Bo
       bootstrap: options as BootstrapAppModule
     };
   }
-  // if (!getApplicationLoader(loadKey)) {
-  //   // setApplicationLoader(this.injector.get(NgApplicationLoader, null, 0));
-  //   // setApplicationLoader(loadKey, new NgApplicationLoader())
-  // }
   const appRef = new NgApplicationRef(name, options as BootstrapOptions);
   globalPlanet.apps[name] = appRef;
 }

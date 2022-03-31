@@ -63,6 +63,7 @@ export class NgApplicationLoader extends ApplicationLoader {
   reroute(url: string): void {
     this.routeChange$.next({ url });
   }
+
   preload(app: PlanetApplication, immediate?: boolean): Observable<ApplicationRef> {
     return this.preloadInternal(app, immediate);
   }
@@ -222,7 +223,6 @@ export class NgApplicationLoader extends ApplicationLoader {
       .subscribe();
   }
 
-
   private setAppStatus(app: PlanetApplication, status: ApplicationStatus) {
     this.ngZone.run(() => {
       const fromStatus = this.appsStatus.get(app);
@@ -333,11 +333,12 @@ export class NgApplicationLoader extends ApplicationLoader {
       if (container) {
         appRootElement = container.querySelector(appRef.selector || app.selector!)!;
         if (!appRootElement) {
-          if (appRef.template) {
-            appRootElement = createElementByTemplate(appRef.template)!;
-          } else {
-            appRootElement = document.createElement(app.selector!);
-          }
+          // if (appRef.template) {
+          //   appRootElement = createElementByTemplate(appRef.template)!;
+          // } else {
+          //   appRootElement = document.createElement(app.selector!);
+          // }
+          appRootElement = appRef.createRootElement();
           appRootElement.setAttribute('style', 'display:none;');
           if (app.hostClass) {
             appRootElement.classList.add(...coerceArray(app.hostClass));
@@ -348,7 +349,7 @@ export class NgApplicationLoader extends ApplicationLoader {
           container.appendChild(appRootElement);
         }
       }
-      let result = appRef.bootstrap(this.portalApp);
+      let result = appRef.bootstrap(this.portalApp, appRootElement);
       // Backwards compatibility promise for bootstrap
       if ((result as any)['then']) {
         result = from(result) as Observable<ApplicationRef>;
@@ -489,15 +490,11 @@ export class NgApplicationLoader extends ApplicationLoader {
     }
   }
 
-
-
   constructor(
     private assetsLoader: AssetsLoader,
     private planetApplicationService: PlanetApplicationService,
     private ngZone: NgZone,
-    router: Router,
-    // injector: Injector,
-    // applicationRef: ApplicationRef
+    router: Router
   ) {
     super();
     this.options = {

@@ -5,7 +5,7 @@ import { ApplicationRef } from './application-ref';
 
 
 export abstract class ApplicationLoader {
-  abstract loadingDone: boolean; // TODO
+  loadingDone: boolean = false; // TODO
   abstract get appStatusChange(): Observable<any>; // TODO
   abstract get appsLoadingStart(): Observable<any>;  // TODO
   abstract reroute(url: string): void;

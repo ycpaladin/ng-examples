@@ -10,9 +10,11 @@ export abstract class ApplicationRef {
   template: string;
   abstract get selector(): string;
   abstract navigateByUrl(url: string): void;
-  abstract bootstrap(app: IApplication): Observable<this>;
-  abstract getComponentFactory(): ComponentFactory;
-  abstract registerComponentFactory(componentFactory: ComponentFactory): void;
+  abstract bootstrap(app: IApplication, rootElement: HTMLElement): Observable<ApplicationRef>;
+  // abstract getComponentFactory(): ComponentFactory;
+  // abstract registerComponentFactory(componentFactory: ComponentFactory): void;
   abstract destroy(): void
   abstract getCurrentRouterStateUrl(): string;
+
+  abstract createRootElement(): HTMLElement;
 }

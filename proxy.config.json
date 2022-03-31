@@ -25,5 +25,14 @@
     "cookieDomainRewrite": {
       "*": "localhost:5401"
     }
+  },
+  "/static/app3": {
+    "target": "http://localhost:4003/",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "cookieDomainRewrite": {
+      "*": "localhost:5401"
+    }
   }
 }

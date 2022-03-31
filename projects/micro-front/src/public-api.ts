@@ -13,3 +13,4 @@ export * from './lib/empty/empty.component';
 export * from './lib/platform';
 export * from './lib/planet.class';
 export * from './lib/global-event-dispatcher'
+export * from './lib/global-planet';

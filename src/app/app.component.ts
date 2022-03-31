@@ -89,6 +89,28 @@ export class AppComponent {
           name: '应用2',
           color: '#66c060'
         }
+      },
+      {
+        name: 'app3',
+        hostParent: '#app-host-container',
+        hostClass: appHostClass,
+        routerPathPrefix: '/app3',
+        resourcePathPrefix: '', // /static/app3/  # React 的manifest 对应的值不能有前缀
+        //   preload: settings.app2.preload,
+        //   switchMode: settings.app2.switchMode,
+        // sandbox: true,
+        loadSerial: true, // 不加这个会出错误
+        stylePrefix: 'app3',
+        // prettier-ignore
+        scripts: [
+          'main.js'
+        ],
+        styles: ['styles.css'],
+        manifest: '/static/app3/assets-manifest.json',
+        extra: {
+          name: '应用3',
+          color: '#66c060'
+        }
       }
     ]);
 
