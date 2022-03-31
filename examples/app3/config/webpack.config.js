@@ -276,7 +276,7 @@ module.exports = function (webpackEnv) {
         // This is only used in production mode
         new CssMinimizerPlugin(),
       ],
-      runtimeChunk: false // TODO...
+      runtimeChunk: false // <=========================================
     },
     resolve: {
       // This allows you to set a fallback for where webpack should look for modules.
@@ -630,7 +630,6 @@ You can either move it inside src/, or add a symlink to it from project's node_m
         publicPath: paths.publicUrlOrPath,
         generate: (seed, files, entrypoints) => {
           const manifestFiles = files.reduce((manifest, file) => {
-            console.log('==========================>', file)
             manifest[file.name] = file.path;
             return manifest;
           }, seed);
@@ -639,7 +638,7 @@ You can either move it inside src/, or add a symlink to it from project's node_m
           );
 
           return {
-            ...manifestFiles,
+            ...manifestFiles,               // <=========================================
             entrypoints: entrypointFiles,
           };
         },

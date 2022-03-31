@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 // import App from './App';
@@ -6,9 +6,10 @@ import reportWebVitals from './reportWebVitals';
 import { defineApplication } from '../plaform/defineApplication';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Empty } from './pages/Empty';
-import { Page1 } from './pages/page1';
-import { Page2 } from './pages/page2';
-
+// import { Page1 } from './pages/page1';
+// import { Page2 } from './pages/page2';
+const Page1Component = lazy(() => import('./pages/page1'))
+const Page2Component = lazy(() => import('./pages/page2'))
 
 defineApplication('app3', {
   selector: 'app3',
@@ -17,8 +18,16 @@ defineApplication('app3', {
       <React.StrictMode>
         <BrowserRouter basename='/app3'>
           <Routes>
-            <Route path='page1' element={<Page1 />} />
-            <Route path='page2' element={<Page2 />} />
+            <Route path='page1' element={
+              <Suspense fallback={<>...</>}>
+                <Page1Component />
+              </Suspense>
+            } />
+            <Route path='page2' element={
+              <Suspense fallback={<>...</>}>
+                <Page2Component />
+              </Suspense>
+            } />
             <Route path='' element={<Navigate to="page1" />} />
             <Route path='*' element={<Empty />} />
           </Routes>

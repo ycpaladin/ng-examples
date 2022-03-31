@@ -81,7 +81,7 @@ export class AppComponent {
         stylePrefix: 'app2',
         // prettier-ignore
         scripts: [
-          'main.js'
+          'index'
         ],
         styles: ['styles.css'],
         manifest: '/static/app2/assets-manifest.json',
@@ -107,6 +107,28 @@ export class AppComponent {
         ],
         styles: ['styles.css'],
         manifest: '/static/app3/assets-manifest.json',
+        extra: {
+          name: '应用3',
+          color: '#66c060'
+        }
+      },
+      {
+        name: 'app4',
+        hostParent: '#app-host-container',
+        hostClass: appHostClass,
+        routerPathPrefix: '/app4',
+        resourcePathPrefix: '', // /static/app3/  # React 的manifest 对应的值不能有前缀
+        //   preload: settings.app2.preload,
+        //   switchMode: settings.app2.switchMode,
+        // sandbox: true,
+        loadSerial: true, // 不加这个会出错误
+        stylePrefix: 'app4',
+        // prettier-ignore
+        scripts: [
+          'src/main.js'
+        ],
+        styles: ['styles.css'],
+        manifest: '/static/app4/manifest.json',
         extra: {
           name: '应用3',
           color: '#66c060'
