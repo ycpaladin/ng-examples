@@ -11,6 +11,7 @@
     "examples:app3": "cd examples/app3 && npm run start",
     "examples:app4": "cd examples/app4 && npm run dev",
     "examples:app5": "cd examples/app5 && npm run serve",
+    "examples:app6": "cd examples/app6 && npm run serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

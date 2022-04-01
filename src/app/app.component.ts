@@ -155,6 +155,28 @@ export class AppComponent {
           name: '应用5',
           color: '#66c060'
         }
+      },
+      {
+        name: 'app6',
+        hostParent: '#app-host-container',
+        hostClass: appHostClass,
+        routerPathPrefix: '/app6',
+        resourcePathPrefix: '/static/app6/', // /static/app3/  # React 的manifest 对应的值不能有前缀
+        //   preload: settings.app2.preload,
+        //   switchMode: settings.app2.switchMode,
+        // sandbox: true,
+        loadSerial: true, // 不加这个会出错误
+        stylePrefix: 'app6',
+        scripts: [
+          'app.js',
+          'chunk-vendors.js'
+        ],
+        styles: ['app.css'],
+        manifest: '/static/app6/assets-manifest.json',
+        extra: {
+          name: '应用5',
+          color: '#66c060'
+        }
       }
     ]);
 
