@@ -7,11 +7,16 @@ Vue.config.productionTip = false
 
 defineApplication('app6', {
   selector: 'app6',
+  /**
+   *
+   * @param {*} app
+   * @param {HTMLElement} element
+   */
   bootstrap: (app, element) => {
     new Vue({
       router,
       render: h => h(App)
-    }).$mount(element)
+    }).$mount(element.childNodes[0])
   }
 });
 

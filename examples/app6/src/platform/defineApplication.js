@@ -15,6 +15,8 @@ export class VueApplication {
 
   createRootElement() {
     const element = document.createElement(this.selector);
+    const container = document.createElement('div')
+    element.appendChild(container)
     return element;
   }
   /**
