@@ -44,6 +44,13 @@ const routes: Routes = [
     children: [
       { path: '**', component: EmptyComponent }
     ]
+  },
+  {
+    path: 'app5',
+    component: EmptyComponent,
+    children: [
+      { path: '**', component: EmptyComponent }
+    ]
   }
 ];
 

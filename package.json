@@ -10,6 +10,7 @@
     "examples:app2": "ng serve app2 --host 0.0.0.0 --port 4002 --proxy-config proxy.config.json",
     "examples:app3": "cd examples/app3 && npm run start",
     "examples:app4": "cd examples/app4 && npm run dev",
+    "examples:app5": "cd examples/app5 && npm run serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

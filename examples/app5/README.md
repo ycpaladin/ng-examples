@@ -1,0 +1,6 @@
+- [ ] PUBLIC_URL
+- [ ] baseUrl
+- [ ] runtimeChunk
+- [ ] assets-manifest.json
+- [ ] defineApplication
+- [ ] VueApplicationRef
