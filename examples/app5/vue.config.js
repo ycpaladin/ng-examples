@@ -5,6 +5,7 @@ const WebpackAssetsManifest = require('webpack-assets-manifest');
 
 module.exports = defineConfig({
   transpileDependencies: true,
+  productionSourceMap: false,
   publicPath: '/static/app5',
   css: {
     extract: true

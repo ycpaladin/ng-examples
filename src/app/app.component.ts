@@ -146,7 +146,8 @@ export class AppComponent {
         loadSerial: true, // 不加这个会出错误
         stylePrefix: 'app5',
         scripts: [
-          'app.js'
+          'app.js',
+          'chunk-vendors.js'
         ],
         styles: ['app.css'],
         manifest: '/static/app5/assets-manifest.json',

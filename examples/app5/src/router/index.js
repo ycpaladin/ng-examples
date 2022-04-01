@@ -20,7 +20,7 @@ const routes = [
 console.log('=>', process.env.BASE_URL)
 
 const router = createRouter({
-  history: createWebHistory(), // '/app5'
+  history: createWebHistory('/app5'), // '/app5'
   routes
 })
 

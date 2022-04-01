@@ -6,7 +6,6 @@ import { defineApplication } from './platform/defineApplication'
 defineApplication('app5', {
   selector: 'app5',
   bootstrap: (app, element) => {
-    console.log('=====>', element)
     createApp(App).use(router).mount(element)
   }
 })
