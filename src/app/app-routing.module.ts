@@ -1,6 +1,13 @@
 import { EmptyComponent } from 'micro-front';
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
+import { Routes, RouterModule, PreloadAllModules, UrlMatcher, UrlSegment } from '@angular/router';
+
+// const urlForSubAppMatcher: UrlMatcher = (url: UrlSegment[]) => {
+//   console.log(url);
+//   return {
+//     consumed: url
+//   }
+// }
 
 const routes: Routes = [
   { path: 'welcome', loadChildren: () => import('./pages/welcome/welcome.module').then(m => m.WelcomeModule) },
@@ -18,46 +25,12 @@ const routes: Routes = [
   // { path: 'ngrx-test', loadChildren: () => import('./pages/ngrx-test/ngrx-test.module').then(m => m.NgrxTestModule) },
   // { path: 'data-tree-test', loadChildren: () => import('./pages/data-tree-test/data-tree-test.module').then(m => m.DataTreeTestModule) },
   {
-    path: 'app1',
+    path: '**',
     component: EmptyComponent,
-    children: [
-      { path: '**', component: EmptyComponent }
-    ]
-  },
-  {
-    path: 'app2',
-    component: EmptyComponent,
-    children: [
-      { path: '**', component: EmptyComponent }
-    ]
-  },
-  {
-    path: 'app3',
-    component: EmptyComponent,
-    children: [
-      { path: '**', component: EmptyComponent }
-    ]
-  },
-  {
-    path: 'app4',
-    component: EmptyComponent,
-    children: [
-      { path: '**', component: EmptyComponent }
-    ]
-  },
-  {
-    path: 'app5',
-    component: EmptyComponent,
-    children: [
-      { path: '**', component: EmptyComponent }
-    ]
-  },
-  {
-    path: 'app6',
-    component: EmptyComponent,
-    children: [
-      { path: '**', component: EmptyComponent }
-    ]
+    // matcher: urlForSubAppMatcher,
+    // children: [
+    //   { path: '**', component: EmptyComponent }
+    // ]
   }
 ];
 
