@@ -57,3 +57,34 @@ export class DateColumnComponent implements OnInit, ITableColumn {
   }
 
 }
+
+
+
+/**
+ * 自动生成一个链接，点击后跳转到数据详情页面
+ */
+@Component({
+  selector: 'link-view-column',
+  template: `
+    <ng-template #template let-data>
+      <a [routerLink]="[data.id]">{{data[dataKey]}}</a>
+      <!-- TODO 权限判定， 没有权限则不能点击 -->
+    </ng-template>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [{ provide: TABLE_COLUMN, useExisting: forwardRef(() => LinkViewColumnComponent) }]
+})
+export class LinkViewColumnComponent implements OnInit, ITableColumn {
+
+  @Input() nzTitle: string | TemplateRef<void>;
+  @Input() dataKey: string;
+  @Input() sortKey?: string;
+  @Input() searchKey?: string;
+
+  @ViewChild('template', { static: true }) contentFromContentChild!: TemplateRef<void>
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}

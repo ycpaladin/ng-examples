@@ -1,4 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzOutletModule } from 'ng-zorro-antd/core/outlet'
@@ -7,7 +8,7 @@ import { SearchGroupModule } from 'search-group';
 import { DataTableComponent } from './data-table.component';
 import { MODULE_CONFIG } from './token';
 import { DataTableModuleConfig } from './interfaces';
-import { DataTableColumnDirective, DataTableColumnContentDirective, DateColumnComponent } from './data-table-column.directive';
+import { DataTableColumnDirective, DataTableColumnContentDirective, DateColumnComponent, LinkViewColumnComponent } from './data-table-column.directive';
 
 
 
@@ -16,10 +17,12 @@ import { DataTableColumnDirective, DataTableColumnContentDirective, DateColumnCo
     DataTableComponent,
     DataTableColumnDirective,
     DataTableColumnContentDirective,
-    DateColumnComponent
+    DateColumnComponent,
+    LinkViewColumnComponent
   ],
   imports: [
     CommonModule,
+    RouterModule,
     NzTableModule,
     NzOutletModule,
     SearchGroupModule
@@ -28,7 +31,8 @@ import { DataTableColumnDirective, DataTableColumnContentDirective, DateColumnCo
     DataTableComponent,
     DataTableColumnDirective,
     DataTableColumnContentDirective,
-    DateColumnComponent
+    DateColumnComponent,
+    LinkViewColumnComponent
   ]
 })
 export class DataTableModule {
