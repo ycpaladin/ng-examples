@@ -1,11 +1,10 @@
 import { Observable } from 'rxjs';
 
-import { UserModel } from './user-model';
-import { SafeType } from './data-item';
+import { UserModel } from './user_model';
+import { SafeType } from './data_item';
 
 
 export interface IUserService {
-  login(username: string, password: string, extra: SafeType): Observable<UserModel | void>;
+  login(username: string, password: string, extra: SafeType): Observable<UserModel>;
   logout(): Observable<boolean>;
-  getUser(): Observable<UserModel>;
 }

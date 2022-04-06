@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { User as UserSubject } from './service';
+import { User as UserSubject } from './services';
 import { User } from './base';
 import { SafeType } from './interfaces';
 import { USER_SERVICE } from './token';

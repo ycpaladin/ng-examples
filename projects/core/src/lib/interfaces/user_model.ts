@@ -1,4 +1,4 @@
-import { IDataItem, SafeType } from './data-item';
+import { IDataItem, SafeType } from './data_item';
 
 
 export interface UserModel extends IDataItem {

@@ -1,3 +1,4 @@
+import { CoreModule } from './../../projects/core/src/lib/core.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -14,6 +15,7 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NZ_I18N, zh_CN } from 'ng-zorro-antd/i18n';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { UserService } from './services/user.service';
 registerLocaleData(zh);
 
 @NgModule({
@@ -32,6 +34,7 @@ registerLocaleData(zh);
     NzIconModule,
     NzMenuModule,
     FormsModule,
+    CoreModule.forRoot(UserService),
     BrowserAnimationsModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: zh_CN }],
