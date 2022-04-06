@@ -1,3 +1,4 @@
+import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { ButtonGroupModule } from 'button-group';
 import { NgModule } from '@angular/core';
@@ -22,6 +23,7 @@ import { ViewComponent } from './view.component';
   ],
   imports: [
     CommonModule,
+    NzSpaceModule,
     NzButtonModule,
     DataTableModule.forConfig({
       url: '',

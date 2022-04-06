@@ -28,8 +28,26 @@
 </lib-button-group>
 
 <app-data-table [nzSelection]="true" [disabledBy]="disabledFn">
-  <text-column nzTitle="SN" dataKey="unit_sn">
-  </text-column>
+  <link-view-column nzTitle="SN" dataKey="unit_sn">
+  </link-view-column>
+  <open-modal-column nzTitle="打开一个弹窗" dataKey="unit_sn" #column="openModalColumn">
+    <ng-template modalContent let-data>
+      {{data['unit_sn']}}
+    </ng-template>
+    <ng-template modalTitle>
+      我是Title {{data}}=
+    </ng-template>
+    <ng-template modalFooter let-data>
+      <nz-space>
+        <button nz-button (click)="column.close()" *nzSpaceItem>
+          取消
+        </button>
+        <button nz-button nzType="primary" (click)="column.close()" *nzSpaceItem>
+          确定
+        </button>
+      </nz-space>
+    </ng-template>
+  </open-modal-column>
   <date-column nzTitle="Expect End Time" dataKey="expect_end_time" format="yyyy-MM-dd">
   </date-column>
   <!--  -->
