@@ -1,16 +1,19 @@
-import { NgModule } from '@angular/core';
-import { CoreComponent } from './core.component';
+import { NgModule, ModuleWithProviders } from '@angular/core';
+import { User as UserSubject } from './service';
+import { IUserService } from './interfaces';
+import { USER_SERVICE } from './token';
+import { User } from './base';
 
-
-
-@NgModule({
-  declarations: [
-    CoreComponent
-  ],
-  imports: [
-  ],
-  exports: [
-    CoreComponent
-  ]
-})
-export class CoreModule { }
+@NgModule()
+export class CoreModule {
+  static forRoot(userService: IUserService): ModuleWithProviders<CoreModule> {
+    return {
+      ngModule: CoreModule,
+      providers: [
+        UserSubject,
+        { provide: User, useExisting: UserSubject },
+        { provide: USER_SERVICE, useValue: userService }
+      ]
+    }
+  }
+}

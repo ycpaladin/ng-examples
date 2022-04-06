@@ -17,7 +17,8 @@
       ],
       "core": [
         "dist/core/core",
-        "dist/core"
+        "dist/core",
+        "projects/core/src/public-api.ts"
       ],
       "data-table": [
         "dist/data-table/data-table",
