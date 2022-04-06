@@ -15,6 +15,10 @@
         "dist/button-group",
         "projects/button-group/src/public-api.ts"
       ],
+      "core": [
+        "dist/core/core",
+        "dist/core"
+      ],
       "data-table": [
         "dist/data-table/data-table",
         "dist/data-table",
