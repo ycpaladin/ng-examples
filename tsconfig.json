@@ -25,6 +25,11 @@
         "dist/data-tree",
         "projects/data-tree/src/public-api.ts"
       ],
+      "feature": [
+        "dist/feature/feature",
+        "dist/feature",
+        "projects/feature/src/public-api.ts"
+      ],
       "micro-front": [
         "dist/micro-front/micro-front",
         "dist/micro-front"

@@ -1,6 +1,6 @@
 {
   "/lms": {
-      "target": "http://10.6.3.17:8003/",
+      "target": "http://10.6.2.30:8003/",
       "secure": false,
       "changeOrigin": true,
       "logLevel": "debug",
