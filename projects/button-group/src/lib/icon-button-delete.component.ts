@@ -49,7 +49,7 @@ export class IconButtonDeleteComponent implements OnInit, IButton {
 
   constructor(
     @Inject(DATA_CONTEXT) public dataContext: IDataContext<IDataItem>,
-    @Optional() private deleteService: DeleteService
+    @Optional() private deleteService: DeleteService  // TODO 分为2种 一种为远程删除， 还有一种为本地删除（例如在某个本地数组、FormArray中删除）
   ) {
     if (!deleteService) {
       // TODO 警告
