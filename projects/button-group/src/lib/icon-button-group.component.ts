@@ -3,6 +3,7 @@ import { Component, OnInit, ChangeDetectionStrategy, forwardRef, QueryList, Inje
 import { ButtonGroupBase } from './base';
 import { IButton, IDataContext } from './interfaces';
 import { ICON_BUTTON, DATA_CONTEXT } from './token';
+import { DeleteService } from './services';
 
 @Component({
   selector: 'lib-icon-button-group',
@@ -11,7 +12,8 @@ import { ICON_BUTTON, DATA_CONTEXT } from './token';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     { provide: ButtonGroupBase, useExisting: forwardRef(() => IconButtonGroupComponent) },
-    { provide: DATA_CONTEXT, useExisting: forwardRef(() => IconButtonGroupComponent) }
+    { provide: DATA_CONTEXT, useExisting: forwardRef(() => IconButtonGroupComponent) },
+    DeleteService // TODO？放在这里似乎不太合适
   ]
 })
 export class IconButtonGroupComponent extends ButtonGroupBase implements OnInit, IDataContext<IDataItem> {

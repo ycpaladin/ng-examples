@@ -134,6 +134,17 @@ export class PagedData<T extends IDataItem = IDataItem> extends Observable<Respo
     this.source = this.getData().pipe(shareReplay(1));
   }
 
+  refresh(): void {
+    const sub$ = this.subscribe(({ info: { page }, data }) => {
+      if (data.length === 1 && page > 1) {
+        this.page.pageIndexChange(page - 1);
+      } else {
+        this.page.pageIndexChange(page);
+      }
+      Promise.resolve().then(() => sub$.unsubscribe());
+    });
+  }
+
 
   private getData(): Observable<ResponsePagedData<T>> {
     return combineLatest([this.page, this.results, this.queryParams]).pipe(

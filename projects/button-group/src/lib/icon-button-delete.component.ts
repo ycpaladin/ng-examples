@@ -1,6 +1,7 @@
-import { Component, OnInit, ChangeDetectionStrategy, EventEmitter, forwardRef, Inject, Input, Output, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, EventEmitter, forwardRef, Inject, Input, Output, TemplateRef, ViewChild, Optional } from '@angular/core';
 import { IDataItem } from 'data-table';
 import { IButton, IDataContext } from './interfaces';
+import { DeleteService } from './services';
 import { ICON_BUTTON, DATA_CONTEXT } from './token';
 
 @Component({
@@ -41,13 +42,18 @@ export class IconButtonDeleteComponent implements OnInit, IButton {
   @ViewChild('buttonTemplate', { static: true }) template: TemplateRef<any>;
 
   onClick(): void {
-    // TODO...删除
-    // TODO...刷新
+    if (this.deleteService) {
+      this.deleteService.delete(this.dataContext.data.id);
+    }
   }
 
   constructor(
-    @Inject(DATA_CONTEXT) public dataContext: IDataContext<IDataItem>
+    @Inject(DATA_CONTEXT) public dataContext: IDataContext<IDataItem>,
+    @Optional() private deleteService: DeleteService
   ) {
+    if (!deleteService) {
+      // TODO 警告
+    }
     this.click.subscribe(this.onClick.bind(this));
   }
 

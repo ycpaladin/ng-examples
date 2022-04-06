@@ -1,6 +1,6 @@
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { ButtonGroupModule } from 'button-group';
+import { ButtonGroupModule, DELETE_DATA } from 'button-group';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -40,6 +40,7 @@ import { ViewComponent } from './view.component';
   ],
   providers: [
     { provide: PAGED_DATA_SERVICE, useClass: PageDataProvider },
+    { provide: DELETE_DATA, useClass: PageDataProvider },
   ]
 })
 export class DataTableTestModule { }

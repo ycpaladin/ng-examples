@@ -1,3 +1,5 @@
+import { IDataItem } from 'data-table';
+import { Observable } from 'rxjs';
 import { TemplateRef } from '@angular/core';
 // import { Observable } from 'rxjs';
 
@@ -18,4 +20,15 @@ export interface IButtonContent {
 
 export interface IDataContext<T> {
   data: T;
+}
+
+
+export interface IDeleteService {
+  delete(id: number): void;
+  refresh(): void;
+}
+
+
+export interface IDeleteDataItemProvider {
+  deleteById(id: number): Observable<IDataItem | boolean>;
 }

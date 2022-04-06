@@ -8,6 +8,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzIconModule, NZ_ICONS } from 'ng-zorro-antd/icon';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzMessageModule } from 'ng-zorro-antd/message';
 
 import { ButtonGroupComponent } from './button-group.component';
 import { ButtonContentDirective, ButtonDirective, IconButtonDirective } from './button.directive';
@@ -46,7 +47,8 @@ const icons = [MoreOutline, EditOutline, EyeOutline, DeleteOutline];
     NzSpaceModule,
     NzIconModule,
     NzDividerModule,
-    NzPopconfirmModule
+    NzPopconfirmModule,
+    NzMessageModule,
   ],
   providers: [
     { provide: NZ_ICONS, useValue: icons }
