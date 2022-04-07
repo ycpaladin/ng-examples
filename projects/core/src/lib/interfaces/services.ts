@@ -1,10 +1,12 @@
 import { Observable } from 'rxjs';
 
-import { UserModel } from './user_model';
 import { SafeType } from './data_item';
+import { PermList } from './permission';
 
 
-export interface IUserService {
-  login(username: string, password: string, extra: SafeType): Observable<UserModel>;
+export interface IUserService<T = SafeType> {
+  login(username: string, password: string, extra: SafeType): Observable<T>;
   logout(): Observable<boolean>;
+
+  getRoles(): Observable<PermList>;
 }

@@ -1,18 +1,18 @@
 import { Inject, Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, of, Observable } from 'rxjs';
-import { catchError, mergeMap, shareReplay, tap } from 'rxjs/operators';
+import { catchError, mergeMap, shareReplay } from 'rxjs/operators';
 
 import { IUserService, UserModel, SafeType, LoginModel } from './interfaces';
+import { PermList } from './interfaces/permission';
 import { USER_SERVICE } from './token';
 
 @Injectable()
 export class User<T extends UserModel = UserModel> extends Observable<T> implements OnDestroy {
 
   private _inner = new BehaviorSubject<LoginModel>(undefined);
-  constructor(@Inject(USER_SERVICE) public userService: IUserService) {
+  constructor(@Inject(USER_SERVICE) public userService: IUserService<T>) {
     super();
     this.source = this._inner.pipe(
-      // tap((v) => console.log(v, '======')),
       mergeMap((model) => {
         return model ? this.userService.login(model.username, model.password, model.extra).pipe(
           catchError(() => of(null)),
@@ -40,5 +40,21 @@ export class User<T extends UserModel = UserModel> extends Observable<T> impleme
     // super.complete();
   }
 
+
+}
+
+@Injectable()
+export class Role extends Observable<PermList> implements OnDestroy {
+
+  constructor(user: User) {
+    super();
+    this.source = user.pipe(
+      mergeMap(u => u ? user.userService.getRoles() : of(null)),
+      shareReplay()
+    );
+  }
+
+  ngOnDestroy(): void {
+  }
 
 }
