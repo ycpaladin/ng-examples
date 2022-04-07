@@ -1,16 +1,22 @@
 import { NgModule } from '@angular/core';
-import { PageLayoutComponent } from './page-layout.component';
+
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { BasicPageLayoutComponent } from './basic-page-layout.component';
 
 
 
 @NgModule({
   declarations: [
-    PageLayoutComponent
+
+    BasicPageLayoutComponent
   ],
   imports: [
+    NzGridModule,
+    NzCardModule
   ],
   exports: [
-    PageLayoutComponent
+    BasicPageLayoutComponent
   ]
 })
 export class PageLayoutModule { }

@@ -46,7 +46,8 @@
       ],
       "page-layout": [
         "dist/page-layout/page-layout",
-        "dist/page-layout"
+        "dist/page-layout",
+        "projects/page-layout/src/public-api.ts"
       ],
       "search-group": [
         "dist/search-group/search-group",

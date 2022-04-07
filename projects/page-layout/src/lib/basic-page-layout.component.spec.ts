@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PageLayoutComponent } from './page-layout.component';
+import { BasicPageLayoutComponent } from './basic-page-layout.component';
 
-describe('PageLayoutComponent', () => {
-  let component: PageLayoutComponent;
-  let fixture: ComponentFixture<PageLayoutComponent>;
+describe('BasicPageLayoutComponent', () => {
+  let component: BasicPageLayoutComponent;
+  let fixture: ComponentFixture<BasicPageLayoutComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PageLayoutComponent ]
+      declarations: [ BasicPageLayoutComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PageLayoutComponent);
+    fixture = TestBed.createComponent(BasicPageLayoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
