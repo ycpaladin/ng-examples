@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from 'projects/core/src/public-api';
+import { User, Role } from 'core';
 
 @Component({
   selector: 'app-demo06',
@@ -8,17 +8,10 @@ import { User } from 'projects/core/src/public-api';
 })
 export class Demo06Component implements OnInit {
 
-  constructor(public user: User) { }
+  constructor(public user: User, public role: Role) { }
 
   ngOnInit(): void {
-    // this.http.post('/lms/api/v1/login', {
-    //   username: 'admin',
-    //   password: 'password'
-    // }).subscribe();
     this.user.login('admin', 'password');
-    this.user.subscribe(v => {
-      console.log('==>', v)
-    })
   }
 
 }

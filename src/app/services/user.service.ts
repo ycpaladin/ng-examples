@@ -30,8 +30,8 @@ export class UserService implements IUserService<User> {
     );
   }
 
-  getRoles(): Observable<PermList> {
-    return this.http.get<ResponseData<PermList>>('/lms/api/v1/user/role-self-allowed-user').pipe(
+  getPermList(): Observable<PermList> {
+    return this.http.get<ResponseData<PermList>>('/lms/api/v1/user/role-self-allowed-user?org_code=luxshare-ict-JS').pipe(
       map(data => data.data),
     );
   }

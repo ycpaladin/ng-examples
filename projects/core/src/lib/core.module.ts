@@ -1,5 +1,5 @@
 import { NgModule, ModuleWithProviders, Type } from '@angular/core';
-import { User} from './services';
+import { Role, User} from './services';
 import { IUserService } from './interfaces';
 import { USER_SERVICE } from './token';
 // import { User } from './base';
@@ -11,8 +11,8 @@ export class CoreModule {
       ngModule: CoreModule,
       providers: [
         User,
+        Role,
         userService,
-        // { provide: User, useExisting: UserSubject },
         { provide: USER_SERVICE, useExisting: userService }
       ]
     }

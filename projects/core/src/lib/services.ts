@@ -49,7 +49,7 @@ export class Role extends Observable<PermList> implements OnDestroy {
   constructor(user: User) {
     super();
     this.source = user.pipe(
-      mergeMap(u => u ? user.userService.getRoles() : of(null)),
+      mergeMap(u => u ? user.userService.getPermList() : of(null)),
       shareReplay()
     );
   }

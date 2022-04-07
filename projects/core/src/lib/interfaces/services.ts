@@ -9,5 +9,5 @@ export interface IUserService<T = UserModel> {
   login(username: string, password: string, extra: SafeType): Observable<T>;
   logout(): Observable<boolean>;
 
-  getRoles(): Observable<PermList>;
+  getPermList(): Observable<PermList>;
 }
