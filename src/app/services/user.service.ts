@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IUserService, SafeType, PermList, ResponseData } from 'core';
+import { IUserService, SafeType, ResponseData, PermList } from 'core';
 import { Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
-import { Roles, User } from '../interfaces';
+import { User } from '../interfaces';
 // import { IUserService  } from 'core';
 
 @Injectable({

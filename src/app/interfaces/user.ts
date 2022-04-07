@@ -5,6 +5,3 @@ export interface User extends UserModel {
 
 }
 
-export interface Roles {
-
-}

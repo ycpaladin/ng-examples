@@ -1,4 +1,3 @@
-import { ResponseData } from './response_data';
 
 /**
  * 每个功能模块下的4种操作权限
@@ -29,4 +28,3 @@ export type PermList = {
   [key: string]: Perm;
 };
 
-// export type PermListResponseData = ResponseData<PermList>;
