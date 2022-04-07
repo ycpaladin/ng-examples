@@ -17,7 +17,7 @@ export class BreadcrumbUrlPipe implements PipeTransform {
 
   }
 
-  transform(value: TreeNodeData | NzTreeNodeOptions, ...args: unknown[]): unknown {
+  transform(value: TreeNodeData | NzTreeNodeOptions, ...args: unknown[]): string {
     const { level } = value;
     const entity = Object.entries(this.config.expandKeyRoute).find(([k, v]) => v.includes(level));
     if (entity) {

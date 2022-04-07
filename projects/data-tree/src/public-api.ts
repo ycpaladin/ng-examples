@@ -7,3 +7,5 @@ export * from './data-tree.component';
 export * from './data-tree.module';
 export * from './token';
 export * from './interfaces';
+export * from './data-tree-layout.component'
+export * from './data-tree-search.component'
