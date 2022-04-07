@@ -1,9 +1,9 @@
-import { IDataItem } from 'data-table';
 import { Observable } from 'rxjs';
 import { TemplateRef } from '@angular/core';
 // import { Observable } from 'rxjs';
 
 import { EventEmitter } from "@angular/core";
+import { IDataItem } from 'core';
 
 export interface IButton {
   buttonText: string;

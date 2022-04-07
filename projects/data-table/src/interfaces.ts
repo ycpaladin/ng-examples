@@ -1,14 +1,6 @@
 import { TemplateRef } from '@angular/core';
-import { SearchGroupConfig } from "projects/search-group/src/interfaces";
+import { IDataItem, ResponseData, SafeType } from 'core';
 import { Observable } from "rxjs";
-
-export interface IDataItem {
-  id: number;
-}
-
-export interface ResponseData<T> {
-  data: T
-}
 
 export interface PagedInfo {
   page: number;
@@ -16,7 +8,7 @@ export interface PagedInfo {
   total: number;
 }
 
-export type Params = { [K: string]: any };
+export type Params = SafeType;
 
 export type ResponsePagedData<T extends IDataItem> = ResponseData<T[]> & { info: PagedInfo };
 
@@ -25,13 +17,6 @@ export type ResponsePagedData<T extends IDataItem> = ResponseData<T[]> & { info:
  */
 export interface ITableDataProvider<T extends IDataItem> {
   getData(page: number, result: number, queryParams: Params): Observable<ResponsePagedData<T>>;
-}
-
-
-export interface DataTableModuleConfig {
-  url: string;
-  moduleName: string;
-  searchConfig: SearchGroupConfig;
 }
 
 
@@ -48,8 +33,8 @@ export interface IPageSizeChange extends IRestoreData {
 }
 
 export interface IQueryParamsChange extends IRestoreData {
-  queryParamsChange(queryParams: { [K: string]: any }): void;
-  getValue(): { [K: string]: any };
+  queryParamsChange(queryParams: Params): void;
+  getValue(): Params;
 }
 
 export interface ITableColumn {

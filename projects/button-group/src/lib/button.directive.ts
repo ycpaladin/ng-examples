@@ -1,5 +1,5 @@
 import { Directive, EventEmitter, Input, Output, forwardRef, TemplateRef, ContentChild, Inject } from '@angular/core';
-import { IDataItem } from 'data-table';
+import { IDataItem } from 'core';
 
 import { IButton, IButtonContent, IDataContext } from './interfaces';
 import { BUTTON, BUTTON_CONTENT, DATA_CONTEXT, ICON_BUTTON } from './token';

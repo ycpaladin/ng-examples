@@ -1,8 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy, ContentChildren, QueryList, Input, forwardRef, Injector } from '@angular/core';
+import { IDataItem } from 'core';
 import { InputBoolean } from 'ng-zorro-antd/core/util';
 import { Observable } from 'rxjs';
 
-import { IDisabledBy, IDataItem, ITableColumn } from './interfaces';
+import { IDisabledBy, ITableColumn } from './interfaces';
 import { DataCheckDefaultStrategy, DataCheckStrategy, OrderBy, OrderByChange, PagedData, PageIndex, PageIndexChange, PageSize, PageSizeChange, QueryParams, QueryParamsChange } from './services';
 import { DISABLED_BY, TABLE_COLUMN } from './token';
 

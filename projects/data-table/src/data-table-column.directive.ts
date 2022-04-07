@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, ContentChild, Directive, EventEmitter, forwardRef, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { IDataItem } from 'core';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
-import { IDataItem, ITableColumn, ITableColumnContent, ITableColumnContentData } from './interfaces';
+import { ITableColumn, ITableColumnContent, ITableColumnContentData } from './interfaces';
 import { MODAL_COLUMN_CONTENT, MODAL_COLUMN_FOOTER, MODAL_COLUMN_TITLE, TABLE_COLUMN, TABLE_COLUMN_CONTENT } from './token';
 
 

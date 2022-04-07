@@ -1,8 +1,8 @@
-import { DATA_CONTEXT, ICON_BUTTON } from './token';
 import { Component, OnInit, ChangeDetectionStrategy, forwardRef, EventEmitter, TemplateRef, Input, Output, ViewChild, Inject } from '@angular/core';
-import { IButton, IDataContext } from './interfaces';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IDataItem } from 'data-table';
+import { DATA_CONTEXT, ICON_BUTTON } from './token';
+import { IButton, IDataContext } from './interfaces';
+import { IDataItem } from 'core';
 
 @Component({
   selector: 'lib-icon-button-edit',

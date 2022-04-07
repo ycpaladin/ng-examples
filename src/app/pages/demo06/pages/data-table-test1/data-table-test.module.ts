@@ -25,16 +25,17 @@ import { ViewComponent } from './view.component';
     CommonModule,
     NzSpaceModule,
     NzButtonModule,
-    DataTableModule.forConfig({
-      url: '',
-      moduleName: '',
-      searchConfig: [
-        { label: 'SN', type: 'text', fieldName: 'test_schedule_id__unit_sn__icontains' },
-        { label: 'Config', type: 'text', fieldName: 'test_schedule_id__config__icontains' },
-        { label: 'RADAR_LINK', type: 'text', fieldName: 'test_schedule_id__radar_link__icontains' },
-        { label: 'AllcocationDate', type: 'date', format: 'yyyy-MM-dd', fieldName: 'test_schedule_id__start_wf_date__icontains' },
-      ]
-    }),
+    DataTableModule,
+    // DataTableModule.forConfig({
+    //   url: '',
+    //   moduleName: '',
+    //   searchConfig: [
+    //     { label: 'SN', type: 'text', fieldName: 'test_schedule_id__unit_sn__icontains' },
+    //     { label: 'Config', type: 'text', fieldName: 'test_schedule_id__config__icontains' },
+    //     { label: 'RADAR_LINK', type: 'text', fieldName: 'test_schedule_id__radar_link__icontains' },
+    //     { label: 'AllcocationDate', type: 'date', format: 'yyyy-MM-dd', fieldName: 'test_schedule_id__start_wf_date__icontains' },
+    //   ]
+    // }),
     ButtonGroupModule,
     DataTableTestRoutingModule
   ],

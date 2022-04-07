@@ -1,5 +1,5 @@
-import { IDataItem } from 'data-table';
 import { Component, OnInit, ChangeDetectionStrategy, forwardRef, QueryList, Inject, Optional, SkipSelf, Input, ContentChild, ContentChildren } from '@angular/core';
+import { IDataItem } from 'core';
 import { ButtonGroupBase } from './base';
 import { IButton, IDataContext } from './interfaces';
 import { ICON_BUTTON, DATA_CONTEXT } from './token';

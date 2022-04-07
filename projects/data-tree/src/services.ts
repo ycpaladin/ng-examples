@@ -5,10 +5,10 @@ import { combineLatest, Subject, Observable, BehaviorSubject, isObservable, zip 
 import { map, mergeMap, shareReplay, debounceTime, filter, takeUntil, withLatestFrom, delay } from 'rxjs/operators';
 import { NzTreeNodeOptions } from 'ng-zorro-antd/tree';
 
-import { IDataItem, ResponseData } from 'data-table';
 import { SEARCH_CATEGORY, TREE_CONFIG } from './token';
 import { SelectOption, SelectOptionValue, TreeModuleConfig, TreeNodeData, TreeSearchData } from './interfaces';
 import { f, getParams } from './utils';
+import { IDataItem, ResponseData } from 'core';
 
 export abstract class TreeSearchKeywordsObservable extends Observable<TreeSearchData>  {
   abstract onSearchKeywordsChange(keywords: string): void;

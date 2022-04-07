@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IDataItem, ITableDataProvider, Params, ResponsePagedData } from 'projects/data-table/src/interfaces';
+import { IDataItem } from 'core';
+import { ITableDataProvider, Params, ResponsePagedData } from 'data-table';
 import { Observable } from 'rxjs';
 
 
@@ -8,7 +9,6 @@ import { Observable } from 'rxjs';
 export class PageDataProvider<T extends IDataItem> implements ITableDataProvider<T> {
 
   constructor(
-    // @Inject(MODULE_CONFIG) @Optional() public config: DataTableModuleConfig,
     public http: HttpClient,
   ) {
   }

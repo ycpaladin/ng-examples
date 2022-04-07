@@ -1,4 +1,5 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
+import { FeatureConfig } from './interfaces';
 
 
 
@@ -10,4 +11,13 @@ import { NgModule } from '@angular/core';
   exports: [
   ]
 })
-export class FeatureModule { }
+export class FeatureModule {
+  forFeature(moduleName: string, config: FeatureConfig): ModuleWithProviders<FeatureModule> {
+    return {
+      ngModule: FeatureModule,
+      providers: [
+
+      ]
+    }
+  }
+}

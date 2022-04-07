@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IDataItem, ResponseData } from 'data-table';
+import { IDataItem, ResponseData } from 'core';
 import { ListDataProvider, SearchSelectOptionProvider, SelectOption, SelectOptionValue, TreeDataProvider, TreeNodeData } from 'data-tree';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';

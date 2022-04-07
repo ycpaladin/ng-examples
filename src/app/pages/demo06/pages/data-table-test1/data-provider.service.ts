@@ -1,15 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IDeleteDataItemProvider } from 'button-group';
-import { IDataItem, ITableDataProvider, Params, ResponsePagedData } from 'projects/data-table/src/interfaces';
 import { Observable, of } from 'rxjs';
+
+import { IDataItem } from 'core';
+import { ITableDataProvider, Params, ResponsePagedData } from 'data-table';
 
 
 @Injectable()
 export class PageDataProvider<T extends IDataItem> implements ITableDataProvider<T>, IDeleteDataItemProvider {
 
   constructor(
-    // @Inject(MODULE_CONFIG) @Optional() public config: DataTableModuleConfig,
     public http: HttpClient,
   ) {
   }

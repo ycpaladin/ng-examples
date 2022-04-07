@@ -14,11 +14,12 @@ import { PageDataProvider } from './data-provider.service';
   ],
   imports: [
     CommonModule,
-    DataTableModule.forConfig({
-      url: '/lms/api/v1/test_task/data-report/test-allocation?assume_user=admin&bitmap=1111111111',
-      moduleName: '',
-      searchConfig: []
-    }),
+    DataTableModule,
+    // DataTableModule.forConfig({
+    //   url: '/lms/api/v1/test_task/data-report/test-allocation?assume_user=admin&bitmap=1111111111',
+    //   moduleName: '',
+    //   searchConfig: []
+    // }),
     DataTableTest2RoutingModule
   ],
   providers: [

@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, EventEmitter, forwardRef, Inject, Input, Output, TemplateRef, ViewChild, Optional } from '@angular/core';
-import { IDataItem } from 'data-table';
+import { IDataItem } from 'core';
 import { IButton, IDataContext } from './interfaces';
 import { DeleteService } from './services';
 import { ICON_BUTTON, DATA_CONTEXT } from './token';

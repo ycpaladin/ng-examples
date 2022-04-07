@@ -2,7 +2,8 @@ import { Inject, Injectable, OnDestroy } from "@angular/core";
 import { BehaviorSubject, combineLatest, isObservable, Observable, of, Subject, Subscription } from "rxjs";
 import { catchError, debounceTime, map, mergeMap, tap, shareReplay, takeUntil } from 'rxjs/operators';
 import { DISABLED_BY, PAGED_DATA_SERVICE } from "./token";
-import { IDataItem, ITableDataProvider, IPageIndexChange, IPageSizeChange, IQueryParamsChange, OrderByType, Params, ResponsePagedData, IDisabledBy, DisableByFn } from "./interfaces";
+import { ITableDataProvider, IPageIndexChange, IPageSizeChange, IQueryParamsChange, OrderByType, Params, ResponsePagedData, IDisabledBy, DisableByFn } from "./interfaces";
+import { IDataItem } from "core";
 
 
 export abstract class PageIndexChange extends Observable<number> implements IPageIndexChange {
@@ -154,9 +155,7 @@ export class PagedData<T extends IDataItem = IDataItem> extends Observable<Respo
       }),
       mergeMap(
         ([page, results, queryParams]) => this.pageDataService.getData(page, results, queryParams).pipe(
-          catchError(
-            () => of({ info: { page: 1, results: 10, total: 9 }, data: [] })
-          ),
+          catchError(() => of({ info: { page: 1, results: 10, total: 9 }, data: [] } as ResponsePagedData<T>)),
           tap(() => this.isFetching$.next(false))
         )
       )

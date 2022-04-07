@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, EventEmitter, TemplateRef, Input, Output, Inject, ViewChild, forwardRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IDataItem } from 'data-table';
+import { IDataItem } from 'core';
 import { IButton, IDataContext } from './interfaces';
 import { DATA_CONTEXT, ICON_BUTTON } from './token';
 
