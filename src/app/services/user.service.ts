@@ -18,10 +18,11 @@ export class UserService implements IUserService {
     );
   }
   logout(): Observable<boolean> {
+    // /lms/api/v1/logout
     throw new Error('Method not implemented.');
   }
   getUser(): Observable<UserModel> {
-    return this.http.get<ResponseData<UserModel>>('/lms/api/v1/user').pipe(
+    return this.http.get<ResponseData<UserModel>>('/lms/api/v1/user/info-self').pipe(
       map(data => data.data),
     );
   }
