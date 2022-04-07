@@ -44,6 +44,10 @@
         "dist/ngrx-wheel",
         "projects/ngrx-wheel/src/public-api.ts"
       ],
+      "page-layout": [
+        "dist/page-layout/page-layout",
+        "dist/page-layout"
+      ],
       "search-group": [
         "dist/search-group/search-group",
         "dist/search-group",
