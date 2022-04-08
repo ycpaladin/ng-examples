@@ -18,7 +18,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let item of nzTable.data; let rowIndex=index">
-      <td [nzChecked]="dataCheck.setOfCheckedId.has(item.id)" [nzDisabled]="disabledBy(item)"
+      <td [nzChecked]="dataCheck.setOfCheckedId.has(item.id)" [nzDisabled]="item|disabledBy|async"
         (nzCheckedChange)="dataCheck.itemCheckedChange(item.id, $event)" *ngIf="nzSelection">
 
       </td>

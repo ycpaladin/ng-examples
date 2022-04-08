@@ -17,11 +17,13 @@ import {
   DataTableModalColumnContentDirective,
   DataTableModalColumnFooterDirective
 } from './data-table-column.directive';
+import { DisabledByPipe } from './disabled-by.pipe';
 
 
 
 @NgModule({
   declarations: [
+    DisabledByPipe,
     DataTableComponent,
     DataTableColumnDirective,
     DataTableColumnContentDirective,
