@@ -32,18 +32,27 @@ const loop = () => false;
 })
 export class DataTableComponent implements OnInit, IDisabledBy {
 
+  private _dataCheck: DataCheckStrategy = this.injector.get(DataCheckStrategy);
+
   /**
    * 是否启用单选
    */
   @Input() @InputBoolean() nzSelection = false;
   @Input() disabledBy: (item: IDataItem) => boolean | Observable<boolean> = loop;
+  @Input() set dataCheck(value: 'default' | 'memory') {
+    if (value === 'memory') {
+      // TODO...
+    } else {
+      this._dataCheck = this.injector.get(DataCheckStrategy);
+    }
+  }
 
   pageIndex$!: Observable<number>;
   pageSize$!: Observable<number>;
   total$!: Observable<number>;
   data$!: Observable<IDataItem[]>;
   isFetching$!: Observable<boolean>;
-  dataCheck: DataCheckStrategy;
+  // dataCheck: DataCheckStrategy;
 
 
   @ContentChildren(TABLE_COLUMN) listOfColumns!: QueryList<ITableColumn>;
@@ -74,7 +83,7 @@ export class DataTableComponent implements OnInit, IDisabledBy {
 
   ngOnInit(): void {
     // TODO 动态获取 DataCheckStrategy
-    this.dataCheck = this.injector.get(DataCheckStrategy);
+    // this.dataCheck = this.injector.get(DataCheckStrategy);
   }
 
 }
