@@ -1,46 +1,59 @@
-import { Component, OnInit, ChangeDetectionStrategy, ContentChildren, QueryList, Input, forwardRef, Injector } from '@angular/core';
-import { IDataItem } from 'core';
-import { InputBoolean } from 'ng-zorro-antd/core/util';
-import { Observable } from 'rxjs';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  ContentChildren,
+  QueryList,
+  Input,
+  forwardRef,
+  Injector,
+} from "@angular/core";
+import { IDataItem } from "core";
+import { InputBoolean } from "ng-zorro-antd/core/util";
+import { Observable } from "rxjs";
 
-import { IDisabledBy, ITableColumn } from './interfaces';
-import { DataCheckDefaultStrategy, DataCheckStrategy, OrderBy, OrderByChange, PagedData, PageIndex, PageIndexChange, PageSize, PageSizeChange, QueryParams, QueryParamsChange } from './services';
-import { DISABLED_BY, TABLE_COLUMN } from './token';
-
+import { IDisabledBy, ITableColumn } from "./interfaces";
+import {
+  DataCheckStrategy,
+  DataCheckStrategyProvider,
+  OrderByProvider,
+  PagedData,
+  PageIndexChange,
+  PageIndexProvider,
+  PageSizeChange,
+  PageSizeProvider,
+  QueryParamsProvider,
+} from "./services";
+import { DISABLED_BY, TABLE_COLUMN } from "./token";
 
 const loop = () => false;
 @Component({
-  selector: 'app-data-table',
-  templateUrl: './data-table.component.html',
-  styleUrls: ['./data-table.component.less'],
+  selector: "app-data-table",
+  templateUrl: "./data-table.component.html",
+  styleUrls: ["./data-table.component.less"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     // 配置在此处，不会缓存查询条件
-    PageIndex,
-    PageSize,
-    QueryParams,
-    OrderBy,
     PagedData,
-    DataCheckDefaultStrategy,
-    { provide: PageIndexChange, useExisting: PageIndex },
-    { provide: PageSizeChange, useExisting: PageSize },
-    { provide: QueryParamsChange, useExisting: QueryParams },
-    { provide: OrderByChange, useExisting: OrderBy },
-    { provide: DataCheckStrategy, useExisting: DataCheckDefaultStrategy },
-    { provide: DISABLED_BY, useExisting: forwardRef(() => DataTableComponent) }
-  ]
+    DataCheckStrategyProvider,
+    PageIndexProvider,
+    PageSizeProvider,
+    OrderByProvider,
+    QueryParamsProvider,
+    { provide: DISABLED_BY, useExisting: forwardRef(() => DataTableComponent) },
+  ],
 })
 export class DataTableComponent implements OnInit, IDisabledBy {
-
-   _dataCheck: DataCheckStrategy = this.injector.get(DataCheckStrategy);
+  _dataCheck: DataCheckStrategy;
 
   /**
    * 是否启用单选
    */
   @Input() @InputBoolean() nzSelection = false;
-  @Input() disabledBy: (item: IDataItem) => boolean | Observable<boolean> = loop;
-  @Input() set dataCheck(value: 'default' | 'memory') {
-    if (value === 'memory') {
+  @Input() disabledBy: (item: IDataItem) => boolean | Observable<boolean> =
+    loop;
+  @Input() set dataCheck(value: "default" | "memory") {
+    if (value === "memory") {
       // TODO...
     } else {
       this._dataCheck = this.injector.get(DataCheckStrategy);
@@ -53,7 +66,6 @@ export class DataTableComponent implements OnInit, IDisabledBy {
   data$!: Observable<IDataItem[]>;
   isFetching$!: Observable<boolean>;
   // dataCheck: DataCheckStrategy;
-
 
   @ContentChildren(TABLE_COLUMN) listOfColumns!: QueryList<ITableColumn>;
 
@@ -69,8 +81,8 @@ export class DataTableComponent implements OnInit, IDisabledBy {
     private injector: Injector,
     private page: PageIndexChange,
     private results: PageSizeChange,
-    private orderBy: OrderByChange,
-    pageData: PagedData<IDataItem>,
+    // private orderBy: OrderByChange,
+    pageData: PagedData<IDataItem>
   ) {
     // console.log(dataCheck);
     this.pageIndex$ = pageData.pageIndex$;
@@ -78,12 +90,11 @@ export class DataTableComponent implements OnInit, IDisabledBy {
     this.total$ = pageData.total$;
     this.data$ = pageData.data$;
     this.isFetching$ = pageData.isFetching$;
-
+    // this._dataCheck = this.injector.get(DataCheckStrategy);
   }
 
   ngOnInit(): void {
     // TODO 动态获取 DataCheckStrategy
-    // this.dataCheck = this.injector.get(DataCheckStrategy);
+    this._dataCheck = this.injector.get(DataCheckStrategy);
   }
-
 }

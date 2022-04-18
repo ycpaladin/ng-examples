@@ -1,21 +1,52 @@
-import { Inject, Injectable, OnDestroy } from "@angular/core";
-import { BehaviorSubject, combineLatest, isObservable, Observable, of, Subject, Subscription } from "rxjs";
-import { catchError, debounceTime, map, mergeMap, tap, shareReplay, takeUntil } from 'rxjs/operators';
+import { Inject, Injectable, OnDestroy, Optional, Provider } from "@angular/core";
+import {
+  BehaviorSubject,
+  combineLatest,
+  isObservable,
+  Observable,
+  of,
+  Subject,
+  Subscription,
+} from "rxjs";
+import {
+  catchError,
+  debounceTime,
+  map,
+  mergeMap,
+  tap,
+  shareReplay,
+  takeUntil,
+} from "rxjs/operators";
 import { DISABLED_BY, PAGED_DATA_SERVICE } from "./token";
-import { ITableDataProvider, IPageIndexChange, IPageSizeChange, IQueryParamsChange, OrderByType, Params, ResponsePagedData, IDisabledBy, DisableByFn } from "./interfaces";
+import {
+  ITableDataProvider,
+  IPageIndexChange,
+  IPageSizeChange,
+  IQueryParamsChange,
+  OrderByType,
+  Params,
+  ResponsePagedData,
+  IDisabledBy,
+  DisableByFn,
+} from "./interfaces";
 import { IDataItem } from "core";
 
-
-export abstract class PageIndexChange extends Observable<number> implements IPageIndexChange {
+export abstract class PageIndexChange
+  extends Observable<number>
+  implements IPageIndexChange
+{
   abstract pageIndexChange(pageIndex: number): void;
   abstract restore(): void;
 }
 
 @Injectable()
-export class PageIndex extends BehaviorSubject<number> implements PageIndexChange, OnDestroy {
+export class PageIndex
+  extends BehaviorSubject<number>
+  implements PageIndexChange, OnDestroy
+{
   // TODO 可以从全局配置中获取默认值
   constructor() {
-    super(1)
+    super(1);
   }
   pageIndexChange(pageIndex: number): void {
     this.next(pageIndex);
@@ -27,20 +58,31 @@ export class PageIndex extends BehaviorSubject<number> implements PageIndexChang
   ngOnDestroy(): void {
     this.complete();
   }
-
 }
 
-
-export abstract class PageSizeChange extends Observable<number> implements IPageSizeChange {
+export const PageIndexProvider: Provider[] = [
+  PageIndex,
+  {
+    provide: PageIndexChange,
+    useExisting: PageIndex,
+  },
+];
+export abstract class PageSizeChange
+  extends Observable<number>
+  implements IPageSizeChange
+{
   abstract pageSizeChange(pageIndex: number): void;
   abstract restore(): void;
 }
 
 @Injectable()
-export class PageSize extends BehaviorSubject<number> implements PageSizeChange, OnDestroy {
+export class PageSize
+  extends BehaviorSubject<number>
+  implements PageSizeChange, OnDestroy
+{
   // TODO 可以从全局配置中获取默认值
   constructor(private pageIndex: PageIndexChange) {
-    super(10)
+    super(10);
   }
 
   pageSizeChange(pageSize: number): void {
@@ -58,39 +100,60 @@ export class PageSize extends BehaviorSubject<number> implements PageSizeChange,
   }
 }
 
-export abstract class QueryParamsChange extends Observable<Params> implements IQueryParamsChange {
+export const PageSizeProvider: Provider[] = [
+  PageSize,
+  {
+    provide: PageSizeChange,
+    useExisting: PageSize,
+  },
+];
+export abstract class QueryParamsChange
+  extends Observable<Params>
+  implements IQueryParamsChange
+{
   abstract getValue(): Params;
   abstract queryParamsChange(queryParams: Params): void;
   abstract restore(): void;
 }
 
 @Injectable()
-export class QueryParams extends BehaviorSubject<Params> implements QueryParamsChange, OnDestroy {
+export class QueryParams
+  extends BehaviorSubject<Params>
+  implements QueryParamsChange, OnDestroy
+{
   constructor(private pageIndex: PageIndexChange) {
-    super({})
+    super({});
   }
 
   getValue() {
     return this.value;
   }
 
-  queryParamsChange(queryParams: { [K: string]: any; }): void {
+  queryParamsChange(queryParams: { [K: string]: any }): void {
     this.pageIndex.restore();
     this.next({
       ...this.value,
-      ...queryParams
+      ...queryParams,
     });
   }
 
   restore(): void {
     this.pageIndex.restore();
-    this.next({})
+    this.next({});
   }
 
   ngOnDestroy(): void {
     this.complete();
   }
 }
+
+export const QueryParamsProvider: Provider[] = [
+  QueryParams,
+  {
+    provide: QueryParamsChange,
+    useExisting: QueryParams,
+  },
+];
 
 export abstract class OrderByChange {
   abstract orderByFieldName: string;
@@ -100,11 +163,10 @@ export abstract class OrderByChange {
 
 @Injectable()
 export class OrderBy implements OrderByChange {
-  constructor(private service: QueryParams) {
-  }
+  constructor(private service: QueryParams) {}
   // TODO 可以从全局config中获取初始值
-  orderByFieldName: string = 'order_context';
-  orderByTypeName: string = 'order_sequence';
+  orderByFieldName: string = "order_context";
+  orderByTypeName: string = "order_sequence";
   orderByChange(fieldName: string, orderByType: OrderByType): void {
     this.service.next({
       [this.orderByFieldName]: fieldName,
@@ -113,17 +175,27 @@ export class OrderBy implements OrderByChange {
   }
 }
 
+export const OrderByProvider: Provider[] = [
+  OrderBy,
+  {
+    provide: OrderByChange,
+    useExisting: OrderBy,
+  },
+];
+
 /**
  * 表格数据提供者
  * 这里可以拆成 `远程数据提供者`，`本地数据提供者`
  */
 @Injectable()
-export class PagedData<T extends IDataItem = IDataItem> extends Observable<ResponsePagedData<T>>{
+export class PagedData<T extends IDataItem = IDataItem> extends Observable<
+  ResponsePagedData<T>
+> {
   isFetching$ = new BehaviorSubject<boolean>(false);
-  pageIndex$ = this.pipe(map(data => data.info.page));
-  pageSize$ = this.pipe(map(data => data.info.results));
-  total$ = this.pipe(map(data => data.info.total));
-  data$ = this.pipe(map(data => data.data));
+  pageIndex$ = this.pipe(map((data) => data.info.page));
+  pageSize$ = this.pipe(map((data) => data.info.results));
+  total$ = this.pipe(map((data) => data.info.total));
+  data$ = this.pipe(map((data) => data.data));
 
   constructor(
     @Inject(PAGED_DATA_SERVICE) public pageDataService: ITableDataProvider<T>,
@@ -146,20 +218,24 @@ export class PagedData<T extends IDataItem = IDataItem> extends Observable<Respo
     });
   }
 
-
   private getData(): Observable<ResponsePagedData<T>> {
     return combineLatest([this.page, this.results, this.queryParams]).pipe(
       debounceTime(0),
       tap(() => {
-        this.isFetching$.next(true)
+        this.isFetching$.next(true);
       }),
-      mergeMap(
-        ([page, results, queryParams]) => this.pageDataService.getData(page, results, queryParams).pipe(
-          catchError(() => of({ info: { page: 1, results: 10, total: 9 }, data: [] } as ResponsePagedData<T>)),
+      mergeMap(([page, results, queryParams]) =>
+        this.pageDataService.getData(page, results, queryParams).pipe(
+          catchError(() =>
+            of({
+              info: { page: 1, results: 10, total: 9 },
+              data: [],
+            } as ResponsePagedData<T>)
+          ),
           tap(() => this.isFetching$.next(false))
         )
       )
-    )
+    );
   }
 }
 
@@ -168,12 +244,11 @@ export class PagedData<T extends IDataItem = IDataItem> extends Observable<Respo
  */
 // @Injectable()
 export abstract class DataCheckStrategy {
-
   indeterminate = false;
   allChecked = false;
   setOfCheckedId = new Map<number, boolean>();
   destory$ = new Subject<void>();
-  data!: IDataItem[]
+  data!: IDataItem[];
 
   allItemsCheckChange(checked: boolean): void {
     this.data.forEach(({ id }) => {
@@ -198,60 +273,69 @@ export abstract class DataCheckStrategy {
 
   protected refreshCheckedStatus(): void {
     this.allChecked = this.data.every(({ id }) => this.setOfCheckedId.has(id));
-    this.indeterminate = this.data.some(({ id }) => this.setOfCheckedId.has(id)) && !this.allChecked;
+    this.indeterminate =
+      this.data.some(({ id }) => this.setOfCheckedId.has(id)) &&
+      !this.allChecked;
   }
 
-  constructor(public data$: Observable<IDataItem[]>, public disabledBy?: DisableByFn) {
-    data$.pipe(
-      mergeMap(data => {
-        return new Observable<IDataItem[]>(subscribe => {
-          const subscription = new Subscription();
-          if (!this.disabledBy) {
-            subscribe.next(data);
-          } else {
-            const _data = data.reduce<IDataItem[]>((prev, curr) => {
-              const _item = this.disabledBy(curr)
-              if (isObservable(_item)) {
-                subscription.add(
-                  _item.subscribe(v => {
-                    if (!v) {
-                      prev.push(curr);
-                    }
-                  })
-                );
-              } else {
-                if (!_item) {
-                  prev.push(curr);
+  constructor(
+    public data$: Observable<IDataItem[]>,
+    public disabledBy?: DisableByFn
+  ) {
+    data$
+      .pipe(
+        mergeMap((data) => {
+          return new Observable<IDataItem[]>((subscribe) => {
+            const subscription = new Subscription();
+            if (!this.disabledBy) {
+              subscribe.next(data);
+            } else {
+              const _data = data.reduce<IDataItem[]>((prev, curr) => {
+                const _item = this.disabledBy(curr);
+                if (isObservable(_item)) {
+                  subscription.add(
+                    _item.subscribe((v) => {
+                      if (!v) {
+                        prev.push(curr);
+                      }
+                    })
+                  );
+                } else {
+                  if (!_item) {
+                    prev.push(curr);
+                  }
                 }
-              }
-              return prev;
-            }, []);
-            subscribe.next(_data);
-          }
-          return () => {
-            subscribe.complete();
-            subscription.unsubscribe();
-          }
-        })
-      }),
-      takeUntil(this.destory$)
-    ).subscribe(data => {
-      this.data = data;
-      this.pageDataLoaded();
-    });
+                return prev;
+              }, []);
+              subscribe.next(_data);
+            }
+            return () => {
+              subscribe.complete();
+              subscription.unsubscribe();
+            };
+          });
+        }),
+        takeUntil(this.destory$)
+      )
+      .subscribe((data) => {
+        this.data = data;
+        this.pageDataLoaded();
+      });
   }
 
   abstract pageDataLoaded(): void;
-
 }
 
 /**
  * 默认的数据选中策略
  */
 @Injectable()
-export class DataCheckDefaultStrategy extends DataCheckStrategy implements OnDestroy {
-  constructor(data$: PagedData, @Inject(DISABLED_BY) disabledBy: IDisabledBy) {
-    super(data$.data$, disabledBy.disabledBy)
+export class DataCheckDefaultStrategy
+  extends DataCheckStrategy
+  implements OnDestroy
+{
+  constructor(data$: PagedData, @Inject(DISABLED_BY) @Optional() disabledBy: IDisabledBy) {
+    super(data$.data$, disabledBy.disabledBy);
   }
 
   pageDataLoaded(): void {
@@ -263,8 +347,15 @@ export class DataCheckDefaultStrategy extends DataCheckStrategy implements OnDes
     this.destory$.next();
     this.destory$.complete();
   }
-
 }
+
+export const DataCheckStrategyProvider: Provider[] = [
+  DataCheckDefaultStrategy,
+  {
+    provide: DataCheckStrategy,
+    useExisting: DataCheckDefaultStrategy,
+  },
+];
 
 // 记忆翻页选择策略
 
