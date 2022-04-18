@@ -32,7 +32,7 @@ const loop = () => false;
 })
 export class DataTableComponent implements OnInit, IDisabledBy {
 
-  private _dataCheck: DataCheckStrategy = this.injector.get(DataCheckStrategy);
+   _dataCheck: DataCheckStrategy = this.injector.get(DataCheckStrategy);
 
   /**
    * 是否启用单选

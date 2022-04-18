@@ -6,8 +6,8 @@
   (nzPageSizeChange)="onPageSizeChange($event)">
   <thead>
     <tr>
-      <th *ngIf="nzSelection" nzWidth="50px" [nzChecked]="dataCheck.allChecked"
-        [nzIndeterminate]="dataCheck.indeterminate" (nzCheckedChange)="dataCheck.allItemsCheckChange($event)">
+      <th *ngIf="nzSelection" nzWidth="50px" [nzChecked]="_dataCheck.allChecked"
+        [nzIndeterminate]="_dataCheck.indeterminate" (nzCheckedChange)="_dataCheck.allItemsCheckChange($event)">
       </th>
       <th *ngFor="let col of listOfColumns">
         <ng-container *nzStringTemplateOutlet="col.nzTitle">
@@ -18,8 +18,8 @@
   </thead>
   <tbody>
     <tr *ngFor="let item of nzTable.data; let rowIndex=index">
-      <td [nzChecked]="dataCheck.setOfCheckedId.has(item.id)" [nzDisabled]="item|disabledBy|async"
-        (nzCheckedChange)="dataCheck.itemCheckedChange(item.id, $event)" *ngIf="nzSelection">
+      <td [nzChecked]="_dataCheck.setOfCheckedId.has(item.id)" [nzDisabled]="item|disabledBy|async"
+        (nzCheckedChange)="_dataCheck.itemCheckedChange(item.id, $event)" *ngIf="nzSelection">
 
       </td>
       <td *ngFor="let col of listOfColumns; let columnIndex=index">
