@@ -1,0 +1,46 @@
+<nz-table #nzTable [nzData]="data" [nzPageSize]="10">
+  <thead>
+    <tr>
+      <th>Field1</th>
+      <th>Field2</th>
+      <th>Field3</th>
+      <th>Field4</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let i of nzTable.data; let index=index">
+      <td>
+        <input-cell
+          editable-cell
+          [cellValue]="i['field_1']"
+          modalTitle="Field1"
+          (valueChange)="onCellValueChange($event, index, 'field_1')"
+        ></input-cell>
+      </td>
+      <td>
+        <date-cell
+          editable-cell
+          [cellValue]="i['field_2']"
+          modalTitle="Field2"
+          (valueChange)="onCellValueChange($event, index, 'field_2')"
+        ></date-cell>
+      </td>
+      <td>
+        <select-cell
+          editable-cell
+          [cellValue]="i['field_3']"
+          modalTitle="Field3"
+          (valueChange)="onCellValueChange($event, index, 'field_3')"
+        ></select-cell>
+      </td>
+       <td>
+        <split-cell
+          editable-cell
+          [cellValue]="i['field_4']"
+          modalTitle="Field4"
+          (valueChange)="onCellValueChange($event, index, 'field_4')"
+        ></split-cell>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
